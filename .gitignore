@@ -1,0 +1,5 @@
+# data used to create used data set
+chess_data/data/old
+
+# node modules
+chess_server/node_modules
