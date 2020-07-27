@@ -26,15 +26,8 @@ function cleanData() {
                 line.indexOf('White \"') < 0 &&
                 line.indexOf('Black \"') < 0 &&
                 line.indexOf('Diff \"') < 0 &&
-                line.indexOf('Result') < 0) {
-                for (let i = 0; i < 500; i++)
-                    line = line.replace(parseInt(i) + ".", "");
-                line = line.replace("1-0", "");
-                line = line.replace("1/2-1/2", "");
-                line = line.replace("0-1", "");
-                line = line.replace("#", "");
-                line = line.replace("+", "");
-                line = line.replace(".", " ");
+                line.indexOf('Elo \"') < 0 &&
+                line.indexOf('Result') < 0)  {
                 console.log(line);
             }
         });

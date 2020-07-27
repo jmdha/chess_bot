@@ -132,6 +132,8 @@ void Board::importPGN(std::string moves)
                 // do move
                 doMove(&move);
                 switchTurn();
+                if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
+                    break;
             }
             if (waitingForMove == 0 || waitingForMove == 1)
             {
