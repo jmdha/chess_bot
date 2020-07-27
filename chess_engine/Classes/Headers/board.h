@@ -30,6 +30,7 @@ class Board
 public:
     bool kingAlive[2] = {true, true};
     bool castlingValid[2][2] = {{true, true}, {true, true}};
+    Zobrist *zobrist;
 
     Board();
     Board(Color turn);
@@ -56,7 +57,7 @@ public:
 private:
     Piece *board[WIDTH][HEIGHT];
     Color turn;
-    Zobrist *zobrist;
+    
     
 
     Move getValidMove(Point endPos);

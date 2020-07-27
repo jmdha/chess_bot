@@ -14,6 +14,7 @@
                 "${workspaceFolder}\\Classes\\move.cpp",
                 "${workspaceFolder}\\Classes\\point.cpp",
                 "${workspaceFolder}\\Classes\\zobrist.cpp",
+                "${workspaceFolder}\\Classes\\generic_helper_functions.cpp",
                 "${workspaceFolder}\\Classes\\Pieces\\bishop.cpp",
                 "${workspaceFolder}\\Classes\\Pieces\\king.cpp",
                 "${workspaceFolder}\\Classes\\Pieces\\knight.cpp",

@@ -19,11 +19,11 @@ app.post('/move', async function (req, res) {
         const output = await getAIMove(req.body.fen, req.body.moves);
 
         res.end(output);
-    } catch(error) {
+    } catch (error) {
         console.error(error.toString());
         res.end();
     }
-    
+
 });
 
 app.listen(port, () => console.log('Listening on port: ' + port));
@@ -31,14 +31,14 @@ app.listen(port, () => console.log('Listening on port: ' + port));
 
 function getAIMove(fen, moves) {
     let depth = 3;
-    
 
-    return new Promise(function(resolve, reject) {
+
+    return new Promise(function (resolve, reject) {
         console.log(fen);
-    console.log(moves);
+        console.log(moves);
         let optionals;
 
-        if (moves.length > 0) 
+        if (moves.length > 0)
             optionals = new Array(`${depth}`, fen, moves);
         else
             optionals = new Array(`${depth}`, fen);
@@ -51,8 +51,8 @@ function getAIMove(fen, moves) {
                 let outcome = output.split("\n")[2].trim();
                 console.log(outcome);
                 resolve(outcome);
-            } else 
-            resolve(move);
+            } else
+                resolve(move);
         });
     });
 }

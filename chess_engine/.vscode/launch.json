@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "args": ["3", "3bk3/P7/8/8/8/8/4P3/4K3 w - - 0 1", "1. d4 e5 2. dxe5 f6 3. e3 fxe5"],
+            "args": ["1. d4 e5 2. dxe5 f6 3. e3 fxe5"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

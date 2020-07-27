@@ -14,7 +14,7 @@ function cleanData() {
         let rd = readline.createInterface({
             input: fs.createReadStream("./data/old/" + dirent.name)
         });
-        rd.on('line', function(line) {
+        rd.on('line', function (line) {
             if (
                 line.indexOf('Event') < 0 &&
                 line.indexOf('Site') < 0 &&
@@ -26,7 +26,7 @@ function cleanData() {
                 line.indexOf('White \"') < 0 &&
                 line.indexOf('Black \"') < 0 &&
                 line.indexOf('Diff \"') < 0 &&
-                line.indexOf('Result') < 0 ) {
+                line.indexOf('Result') < 0) {
                 for (let i = 0; i < 500; i++)
                     line = line.replace(parseInt(i) + ".", "");
                 line = line.replace("1-0", "");
