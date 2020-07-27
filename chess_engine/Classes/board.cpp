@@ -18,6 +18,9 @@
 // used for random moves
 #include <chrono>
 
+// used for import of PGN
+#include "Headers/generic_helper_functions.h"
+
 Board::Board()
 {
 }
@@ -116,6 +119,75 @@ std::string Board::getFEN()
 
 void Board::importPGN(std::string moves)
 {
+    this->zobrist->priorInstanceCount.clear();
+    this->zobrist->incrementCurrentHash();
+    Move move;
+    int waitingForMove = 0;
+    for (int i = 0; i < static_cast<int>(moves.length()); i++)
+    {
+        if (moves[i] == ' ')
+        {
+            if (waitingForMove == 1 || waitingForMove == 2)
+            {
+                // do move
+                doMove(&move);
+                switchTurn();
+            }
+            if (waitingForMove == 0 || waitingForMove == 1)
+            {
+                // get move
+                if (!isNumber(moves[i + 2]))
+                {
+                    if (moves[i + 1] != 'O')
+                    {
+                        // Normal move
+                        char pieceChar = moves[i + 1];
+                        if (isLowercase(pieceChar))
+                            pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
+                        else
+                            pieceChar += 32;
+                        if (moves[i + 2] == 'x')
+                        {
+                            move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                        }
+                        else
+                            move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
+                    }
+
+                    else
+                    {
+                        //castle
+                        int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
+                        int startX = 4;
+                        int endX;
+                        if (moves[i] + 4 == ' ')
+                            endX = 6;
+                        else
+                            endX = 2;
+                        move = Move(startX, y, endX, y);
+                    }
+                }
+
+                else
+                {
+                    // pawn move (not take)
+                    move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+                }
+            }
+            waitingForMove++;
+            if (waitingForMove == 3)
+                waitingForMove = 0;
+        }
+        else if (i == static_cast<int>(moves.length()) - 1)
+        {
+            // do move
+            doMove(&move);
+            switchTurn();
+        }
+    }
+}
+
+void Board::importFakePGN(std::string moves) {
     this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
     std::string move = "";
@@ -333,6 +405,60 @@ PieceChar Board::getPieceCharFromChar(char piece)
     }
 }
 
+Move Board::getValidMove(Point endPos)
+{
+    std::vector<Move> moves = getAllMoves();
+    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    {
+        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
+        if (piece->getIndex() == PAWNINDEX)
+        {
+            if (piece->color == turn && piece->x == endPos.x && moves[i].endY == endPos.y)
+            {
+                return moves[i];
+            }
+        }
+    }
+    // Ehm, trying to do a move which doesn't exist
+    throw std::invalid_argument("received negative value");
+}
+
+Move Board::getValidMove(Point endPos, char pieceChar)
+{
+    std::vector<Move> moves = getAllMoves();
+    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    {
+        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
+        if (piece->getPieceChar() == pieceChar)
+        {
+            if (piece->color == turn && moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+            {
+                return moves[i];
+            }
+        }
+    }
+    // Ehm, trying to do a move which doesn't exist
+    throw std::invalid_argument("received negative value");
+}
+
+Move Board::getValidMove(Point endPos, char pieceChar, int column)
+{
+    std::vector<Move> moves = getAllMoves();
+    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    {
+        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
+        if (piece->getPieceChar() == pieceChar)
+        {
+            if (piece->color == turn && moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column)
+            {
+                return moves[i];
+            }
+        }
+    }
+    // Ehm, trying to do a move which doesn't exist
+    throw std::invalid_argument("received negative value");
+}
+
 std::vector<Move> Board::getAllMoves()
 {
     return getAllMoves(turn);
@@ -416,9 +542,11 @@ void Board::doMove(Move *move)
         else if (piece->x == 7)
             castlingValid[side][1] = false;
     }
-    else if (piece->getIndex() == PAWNINDEX) {
+    else if (piece->getIndex() == PAWNINDEX)
+    {
         int backRow = ((piece->color == WHITE) ? BACKROWBLACK : BACKROWWHITE);
-        if (move->endY == backRow) {
+        if (move->endY == backRow)
+        {
             move->promotion = true;
             piece = new Queen(piece->color);
             piece->x = move->endX;
@@ -435,7 +563,8 @@ void Board::undoMove(Move *move)
 {
     this->zobrist->decrementCurrentHash();
     Piece *piece = getPiece(move->endX, move->endY);
-    if (move->promotion) {
+    if (move->promotion)
+    {
         piece = new Pawn(piece->color);
         piece->x = move->startX;
         piece->y = move->startX;

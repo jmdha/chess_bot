@@ -17,10 +17,13 @@ class Move;
 #include "constants.h"
 #include "move.h"
 #include "zobrist.h"
+#include "point.h"
 
 // used for random taking move
 #include <algorithm>
 #include <random>
+
+
 
 class Board
 {
@@ -35,6 +38,7 @@ public:
     void clearBoard();
     void importFEN(std::string FEN);
     void importPGN(std::string moves);
+    void importFakePGN(std::string moves);
     void printBoard();
     bool isSquareEmpty(int x, int y);
     bool isSquareEnemy(Color color, int x, int y);
@@ -55,6 +59,9 @@ private:
     Zobrist *zobrist;
     
 
+    Move getValidMove(Point endPos);
+    Move getValidMove(Point endPos, char pieceChar);
+    Move getValidMove(Point endPos, char pieceChar, int column);
     void setTurn(Color turn);
 
     void placePiece(Piece *piece, int x, int y);

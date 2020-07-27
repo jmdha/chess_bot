@@ -7,6 +7,7 @@
 #include "Classes/Headers/board.h"
 #include "Classes/Headers/move.h"
 #include "Classes/Pieces/Headers/knight.h"
+#include "Classes/Headers/generic_helper_functions.h"
 
 
 int main(int argc, char *argv[])
@@ -27,7 +28,10 @@ int main(int argc, char *argv[])
             remove(moves.begin(), moves.end(), '\"'),
             moves.end()
         );
-        board.importPGN(moves);
+        if (isNumber(moves[0]))
+            board.importPGN(moves);
+        else
+            board.importFakePGN(moves);
     } else if (argc > 2) {
         std::string fen = argv[2];
         fen.erase(
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
         );
         board.importFEN(fen);
     }
-    //board.printBoard();
+    board.printBoard();
     
     
     Move bestMove = board.getBestMove(depth);
