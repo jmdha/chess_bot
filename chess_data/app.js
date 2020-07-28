@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
+var exec = require('child_process').execFile;
 
 
 cleanData();
@@ -27,11 +28,29 @@ function cleanData() {
                 line.indexOf('Black \"') < 0 &&
                 line.indexOf('Diff \"') < 0 &&
                 line.indexOf('Elo \"') < 0 &&
-                line.indexOf('Result') < 0)  {
-                console.log(line);
+                line.indexOf('Result') < 0) {
+
+                incrementByPGN(line);
             }
         });
     }
     oldDir.closeSync();
     newDir.closeSync();
+}
+
+async function incrementByPGN(PGN) {
+    const hash = await getHash(PGN);
+    //console.log(hash);
+}
+
+function getHash(PGN) {
+    return new Promise(function (resolve, reject) {
+        let optionals = new Array(PGN);
+        console.log("Running " + PGN);
+        exec(path.resolve(__dirname, './chess_engine/chess_engine.exe'), optionals, function (error, output) {
+            let hash = output.split("\n")[0].trim();
+            console.log("Done " + output[0]);
+            resolve(hash);
+        });
+    });
 }

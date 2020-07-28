@@ -45,7 +45,7 @@ function getAIMove(fen, moves) {
         console.log("Getting Move...");
         exec(path.resolve(__dirname, './chess_engine/chess_engine.exe'), optionals, function (error, output) {
             console.log("Done.");
-            let move = output.split("\n")[1].trim();
+            
             console.log(move);
             if (output.split("\n").length > 3) {
                 let outcome = output.split("\n")[2].trim();

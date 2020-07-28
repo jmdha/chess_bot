@@ -127,6 +127,17 @@ void Board::importPGN(std::string moves)
     {
         if (moves[i] == ' ')
         {
+            char da[7];
+            if (i > 10)
+            {
+                da[0] = moves[i - 3];
+                da[1] = moves[i - 2];
+                da[2] = moves[i - 1];
+                da[3] = moves[i + 0];
+                da[4] = moves[i + 1];
+                da[5] = moves[i + 2];
+                da[6] = moves[i + 3];
+            }
             if (waitingForMove == 1 || waitingForMove == 2)
             {
                 // do move
@@ -146,11 +157,23 @@ void Board::importPGN(std::string moves)
                         char pieceChar = moves[i + 1];
                         if (isLowercase(pieceChar))
                             pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
-                        else
+                        else if (turn == BLACK)
                             pieceChar += 32;
-                        if (moves[i + 2] == 'x')
+                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#')
                         {
-                            move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                            if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#')
+                            {
+                                if (moves[i + 2] == 'x')
+                                {
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                                }
+                                else
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                            }
+                            else
+                            {
+                                move = Move(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49, getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49);
+                            }
                         }
                         else
                             move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
@@ -162,11 +185,12 @@ void Board::importPGN(std::string moves)
                         int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
                         int startX = 4;
                         int endX;
-                        if (moves[i] + 4 == ' ')
+                        if (moves[i + 4] == ' ')
                             endX = 6;
                         else
                             endX = 2;
                         move = Move(startX, y, endX, y);
+                        move.castling = true;
                     }
                 }
 
@@ -185,11 +209,14 @@ void Board::importPGN(std::string moves)
             // do move
             doMove(&move);
             switchTurn();
+            if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
+                break;
         }
     }
 }
 
-void Board::importFakePGN(std::string moves) {
+void Board::importFakePGN(std::string moves)
+{
     this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
     std::string move = "";
@@ -415,14 +442,12 @@ Move Board::getValidMove(Point endPos)
         Piece *piece = getPiece(moves[i].startX, moves[i].startY);
         if (piece->getIndex() == PAWNINDEX)
         {
-            if (piece->color == turn && piece->x == endPos.x && moves[i].endY == endPos.y)
+            if (piece->color == turn && moves[i].startX == endPos.x && moves[i].endX == endPos.x && moves[i].endY == endPos.y)
             {
                 return moves[i];
             }
         }
     }
-    // Ehm, trying to do a move which doesn't exist
-    throw std::invalid_argument("received negative value");
 }
 
 Move Board::getValidMove(Point endPos, char pieceChar)
@@ -431,16 +456,15 @@ Move Board::getValidMove(Point endPos, char pieceChar)
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        if (piece->getPieceChar() == pieceChar)
+        char piecePieceChar = piece->getPieceChar();
+        if (piecePieceChar == pieceChar)
         {
-            if (piece->color == turn && moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
             {
                 return moves[i];
             }
         }
     }
-    // Ehm, trying to do a move which doesn't exist
-    throw std::invalid_argument("received negative value");
 }
 
 Move Board::getValidMove(Point endPos, char pieceChar, int column)
@@ -449,16 +473,15 @@ Move Board::getValidMove(Point endPos, char pieceChar, int column)
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        if (piece->getPieceChar() == pieceChar)
+        char piecePieceChar = piece->getPieceChar();
+        if (piecePieceChar == pieceChar)
         {
-            if (piece->color == turn && moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column)
+            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column)
             {
                 return moves[i];
             }
         }
     }
-    // Ehm, trying to do a move which doesn't exist
-    throw std::invalid_argument("received negative value");
 }
 
 std::vector<Move> Board::getAllMoves()

@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "args": ["1. d4 e5 2. dxe5 f6 3. e3 fxe5"],
+            "args": ["1. e4 e5 2. d3 Nf6 3. Nf3 d5 4. Nc3 Nc6 5. exd5 Nxd5 6. Nxd5 Qxd5 7. c4 Bb4+ 8. Bd2 Bxd2+ 9. Qxd2 Qd7 10. Be2 Qd6 11. O-O Bf5 12. Rfe1 O-O-O 13. b3 f6 14. Qe3 Bxd3 15. Bxd3 Qxd3 16. Qxd3 Rxd3 17. Nh4 Rhd8 18. Nf5 Rd8d7 19. Kh1 Nb4 20. Rec1 Rd3d2 21. a3 Nd3 22. Rcd1 Nxf2+ 23. Kg1 Nxd1 24. h3 Nc3 25. Rf1 Ne4 26. b4 Rd2d1 27. Ne7+ Rxe7 28. Rxd1 Rd7 29. Rxd7 1-0"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
