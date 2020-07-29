@@ -140,6 +140,7 @@ void Board::importPGN(std::string moves)
             }
             if (waitingForMove == 1 || waitingForMove == 2)
             {
+                
                 // do move
                 doMove(&move);
                 switchTurn();
@@ -172,7 +173,7 @@ void Board::importPGN(std::string moves)
                             }
                             else
                             {
-                                move = Move(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49, getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49);
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
                         }
                         else

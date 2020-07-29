@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "args": ["1. e4 e5 2. d3 Nf6 3. Nf3 d5 4. Nc3 Nc6 5. exd5 Nxd5 6. Nxd5 Qxd5 7. c4 Bb4+ 8. Bd2 Bxd2+ 9. Qxd2 Qd7 10. Be2 Qd6 11. O-O Bf5 12. Rfe1 O-O-O 13. b3 f6 14. Qe3 Bxd3 15. Bxd3 Qxd3 16. Qxd3 Rxd3 17. Nh4 Rhd8 18. Nf5 Rd8d7 19. Kh1 Nb4 20. Rec1 Rd3d2 21. a3 Nd3 22. Rcd1 Nxf2+ 23. Kg1 Nxd1 24. h3 Nc3 25. Rf1 Ne4 26. b4 Rd2d1 27. Ne7+ Rxe7 28. Rxd1 Rd7 29. Rxd7 1-0"],
+            "args": ["1. e4 b6 2. Bd3 Bb7 3. Nf3 Nc6 4. Bb5 a6 5. Bxc6 dxc6 6. O-O c5 7. d3 b5 8. c4 bxc4 9. dxc4 Bxe4 10. Qe2 f5 11. Nfd2 Qd3 12. Qxd3 Bxd3 13. Rfe1 e6 14. Na3 O-O-O 15. Rxe6 Bxc4 16. Naxc4 Ne7 17. Rexa6 Nd5 18. Ra6a8+ Kd7 19. Rxd8+ Kxd8 20. Nf3 h6 21. Ne3 Bd6 22. Nxd5 Re8 23. Bf4 g5 24. Bxd6 cxd6 25. Re1 Rxe1+ 26. Nxe1 Kd7 27. Nf6+ Ke6 28. Ng8 h5 29. f3 Kf7 30. Nh6+ Kg6 31. Ng8 Kf7 32. h4 Kxg8 33. hxg5 d5 34. Nd3 c4 35. Ne5 Kg7 36. f4 1-0"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

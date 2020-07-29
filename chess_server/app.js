@@ -43,7 +43,7 @@ function getAIMove(fen, moves) {
         else
             optionals = new Array(`${depth}`, fen);
         console.log("Getting Move...");
-        exec(path.resolve(__dirname, './chess_engine/chess_engine.exe'), optionals, function (error, output) {
+        exec(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, function (error, output) {
             console.log("Done.");
             
             console.log(move);

@@ -28,7 +28,8 @@ function cleanData() {
                 line.indexOf('Black \"') < 0 &&
                 line.indexOf('Diff \"') < 0 &&
                 line.indexOf('Elo \"') < 0 &&
-                line.indexOf('Result') < 0) {
+                line.indexOf('Result') < 0 &&
+                line.length > 0) {
 
                 incrementByPGN(line);
             }
@@ -44,13 +45,15 @@ async function incrementByPGN(PGN) {
 }
 
 function getHash(PGN) {
+    let optionals = new Array(JSON.stringify(PGN));
     return new Promise(function (resolve, reject) {
-        let optionals = new Array(PGN);
-        console.log("Running " + PGN);
-        exec(path.resolve(__dirname, './chess_engine/chess_engine.exe'), optionals, function (error, output) {
+        exec(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, function (error, output, eh) {
+            if (error)
+                throw error;
             let hash = output.split("\n")[0].trim();
-            console.log("Done " + output[0]);
+            console.log("Done " + output);
             resolve(hash);
         });
-    });
+    })
+    
 }
