@@ -122,13 +122,16 @@ void Board::importPGN(std::string moves)
     this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
     Move move;
-    int waitingForMove = 0;
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
-        if (moves[i] == ' ')
+        if (moves[i] == ' ' && isNumber(moves[i + 1]))
+        {
+            break;
+        }
+        else if (moves[i] == ' ' && moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#') && moves[i + 1] != '{')))
         {
             char da[7];
-            if (i > 10)
+            if (i > 3)
             {
                 da[0] = moves[i - 3];
                 da[1] = moves[i - 2];
@@ -138,80 +141,68 @@ void Board::importPGN(std::string moves)
                 da[5] = moves[i + 2];
                 da[6] = moves[i + 3];
             }
-            if (waitingForMove == 1 || waitingForMove == 2)
+            // get move
+            if (!isNumber(moves[i + 2]))
             {
-                
-                // do move
-                doMove(&move);
-                switchTurn();
-                if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
-                    break;
-            }
-            if (waitingForMove == 0 || waitingForMove == 1)
-            {
-                // get move
-                if (!isNumber(moves[i + 2]))
+                if (moves[i + 1] != 'O')
                 {
-                    if (moves[i + 1] != 'O')
+                    // Normal move
+                    char pieceChar = moves[i + 1];
+                    if (isLowercase(pieceChar))
+                        pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
+                    else if (turn == BLACK)
+                        pieceChar += 32;
+                    if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#')
                     {
-                        // Normal move
-                        char pieceChar = moves[i + 1];
-                        if (isLowercase(pieceChar))
-                            pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
-                        else if (turn == BLACK)
-                            pieceChar += 32;
-                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#')
+                        if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#')
                         {
-                            if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#')
+                            if (moves[i + 2] == 'x')
                             {
-                                if (moves[i + 2] == 'x')
-                                {
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
-                                }
-                                else
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
                             }
                             else
-                            {
-                                move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
-                            }
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                         }
                         else
-                            move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
+                        {
+                            move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                        }
                     }
-
                     else
-                    {
-                        //castle
-                        int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
-                        int startX = 4;
-                        int endX;
-                        if (moves[i + 4] == ' ')
-                            endX = 6;
-                        else
-                            endX = 2;
-                        move = Move(startX, y, endX, y);
-                        move.castling = true;
-                    }
+                        move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
                 }
 
                 else
                 {
-                    // pawn move (not take)
-                    move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+                    //castle
+                    int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
+                    int startX = 4;
+                    int endX;
+                    if (moves[i + 4] == ' ')
+                        endX = 6;
+                    else
+                        endX = 2;
+                    move = Move(startX, y, endX, y);
+                    move.castling = true;
                 }
             }
-            waitingForMove++;
-            if (waitingForMove == 3)
-                waitingForMove = 0;
+            else
+            {
+                // pawn move (not take)
+                move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+            }
+
+            // do move
+            doMove(&move);
+            switchTurn();
+            if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
+                break;
         }
         else if (i == static_cast<int>(moves.length()) - 1)
         {
             // do move
             doMove(&move);
             switchTurn();
-            if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
-                break;
         }
     }
 }
