@@ -20,6 +20,7 @@ function cleanData() {
                 line.indexOf('Event') < 0 &&
                 line.indexOf('Site') < 0 &&
                 line.indexOf('UTC') < 0 &&
+                line.indexOf('Title') < 0 &&
                 line.indexOf('Termination') < 0 &&
                 line.indexOf('TimeControl') < 0 &&
                 line.indexOf('ECO') < 0 &&
