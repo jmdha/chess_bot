@@ -124,7 +124,13 @@ void Board::importPGN(std::string moves)
     Move move;
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
-        if (moves[i] == ' ' && isNumber(moves[i + 1]))
+        if (i == static_cast<int>(moves.length()) - 1)
+        {
+            // do move
+            doMove(&move);
+            switchTurn();
+        }
+        else if (moves[i] == ' ' && isNumber(moves[i + 1]))
         {
             break;
         }
@@ -198,12 +204,7 @@ void Board::importPGN(std::string moves)
             if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
                 break;
         }
-        else if (i == static_cast<int>(moves.length()) - 1)
-        {
-            // do move
-            doMove(&move);
-            switchTurn();
-        }
+        
     }
 }
 
