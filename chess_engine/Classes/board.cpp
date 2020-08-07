@@ -126,102 +126,114 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
     Move move;
     std::string moveString;
     enPassant = -1;
+    bool inComment = false;
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
-        if (moves[i] == ' ' && moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#') && moves[i + 1] != '{')))
-        {
-            // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
-            char da[7];
-            if (i > 3)
+        if (moves[i] == ' ') {
+            if (moves[i + 1] == '{') 
+                inComment = true;
+            else if (moves[i - 1] == '}')
+                inComment = false;
+            
+            if (inComment)
+                continue;
+
+            if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#')/* && moves[i + 1] != '{'*/)))
             {
-                da[0] = moves[i - 3];
-                da[1] = moves[i - 2];
-                da[2] = moves[i - 1];
-                da[3] = moves[i + 0];
-                da[4] = moves[i + 1];
-                da[5] = moves[i + 2];
-                da[6] = moves[i + 3];
-            }
-            // get move
-            if (!isNumber(moves[i + 2]))
-            {
-                if (moves[i + 1] != 'O')
+                // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
+                char da[7];
+                if (i > 3)
                 {
-                    // Normal move
-                    char pieceChar = moves[i + 1];
-                    if (isLowercase(pieceChar))
-                        pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
-                    else if (turn == BLACK)
-                        pieceChar += 32;
-                    if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#')
+                    da[0] = moves[i - 3];
+                    da[1] = moves[i - 2];
+                    da[2] = moves[i - 1];
+                    da[3] = moves[i + 0];
+                    da[4] = moves[i + 1];
+                    da[5] = moves[i + 2];
+                    da[6] = moves[i + 3];
+                }
+                // get move
+                if (!isNumber(moves[i + 2]))
+                {
+                    if (moves[i + 1] != 'O')
                     {
-                        if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#')
+                        // Normal move
+                        char pieceChar = moves[i + 1];
+                        if (isLowercase(pieceChar))
+                            pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
+                        else if (turn == BLACK)
+                            pieceChar += 32;
+                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#')
                         {
-                            if (moves[i + 2] == 'x')
+                            if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#')
                             {
-                                // if pawn take
-                                if (isLowercase(moves[i + 1]))
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]));
+                                if (moves[i + 2] == 'x')
+                                {
+                                    // if pawn take
+                                    if (isLowercase(moves[i + 1]))
+                                        move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]));
+                                    else
+                                        move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                                }
                                 else
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
                             else
-                                move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                            {
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                            }
                         }
                         else
-                        {
-                            move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
-                        }
+                            move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
                     }
-                    else
-                        move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
-                }
 
+                    else
+                    {
+                        //castle
+                        int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
+                        int startX = 4;
+                        int endX;
+                        if (moves[i + 4] == ' ')
+                            endX = 6;
+                        else
+                            endX = 2;
+                        move = Move(startX, y, endX, y);
+                        move.castling = true;
+                    }
+                }
                 else
                 {
-                    //castle
-                    int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
-                    int startX = 4;
-                    int endX;
-                    if (moves[i + 4] == ' ')
-                        endX = 6;
-                    else
-                        endX = 2;
-                    move = Move(startX, y, endX, y);
-                    move.castling = true;
+                    // pawn move (not take)
+                    move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
                 }
-            }
-            else
-            {
-                // pawn move (not take)
-                move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
-            }
 
-            if (exportMovePerHash)
-            {
-                // get move as string
-                moveString = "";
-                int i2 = 1;
-                while (moves[i + i2] != ' ')
+                if (exportMovePerHash)
                 {
-                    moveString += moves[i + i2];
-                    i2++;
-                };
-                //printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
-                printf("turnnumber: %d move: %s\n", this->turnNumber, moveString.c_str());
+                    // get move as string
+                    moveString = "";
+                    int i2 = 1;
+                    while (moves[i + i2] != ' ')
+                    {
+                        moveString += moves[i + i2];
+                        i2++;
+                    };
+                    //printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
+                    printf("turnnumber: %d move: %s\n", this->turnNumber, moveString.c_str());
+                }
+
+
+                // commit move
+                commitMove(&move);
+                if (move.pawnDoubleMove)
+                    enPassant = move.startX;
+                else
+                    enPassant = -1;
+                printBoard();
+                if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
+                    break;
             }
-
-
-            // commit move
-            commitMove(&move);
-            if (move.pawnDoubleMove)
-                enPassant = move.startX;
-            else
-                enPassant = -1;
-            printBoard();
-            if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
-                break;
         }
+
     }
 }
 
@@ -594,7 +606,8 @@ void Board::doMove(Move *move)
             piece = new Queen(piece->color);
             piece->x = move->endX;
             piece->y = move->endY;
-        } else if (move->enPassantTake) {
+        }
+        else if (move->enPassantTake) {
             int passedPawnYPosition = ((piece->color == WHITE) ? 4 : 3);
             removePiece(move->endX, passedPawnYPosition);
         }
