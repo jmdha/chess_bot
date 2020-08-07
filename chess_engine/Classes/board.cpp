@@ -127,6 +127,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
     std::string moveString;
     enPassant = -1;
     bool inComment = false;
+    bool nestedComment = false;
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
         if (moves[i] == ' ') {
@@ -142,19 +143,36 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                 da[5] = moves[i + 2];
                 da[6] = moves[i + 3];
             }
-            if (moves[i + 1] == '{')
-                inComment = true;
-            else if (moves[i + 1] == '}')
-                inComment = false;
+            if (moves[i + 1] == '{' || moves[i + 1] == '(') {
+                if (inComment)
+                    nestedComment = true;
+                else
+                    inComment = true;
+            }
 
-            else if (inComment)
+            if (moves[i - 1] == '}' || moves[i - 1] == ')') {
+                if (nestedComment)
+                    nestedComment = false;
+                else
+                    inComment = false;
+            }
+
+
+            if (inComment)
                 continue;
 
-            else if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}'))))
+            if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}'))))
             {
 
+                if (da[6] == '?') {
+                    printf("wa\n");
+                }
+
                 // get move
-                if (!isNumber(moves[i + 2]) || (!isLowercase(moves[i + 1]) && isNumber(moves[i + 2])))
+                if (!isNumber(moves[i + 2])
+
+
+                    || (!isLowercase(moves[i + 1]) && isNumber(moves[i + 2])))
                 {
                     if (moves[i + 1] != 'O')
                     {
@@ -164,9 +182,9 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                             pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
                         else if (turn == BLACK)
                             pieceChar += 32;
-                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#')
+                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#' && moves[i + 4] != '?' && moves[i + 4] != '!')
                         {
-                            if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#')
+                            if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#' || moves[i + 5] == '?' || moves[i + 5] == '!')
                             {
                                 if (moves[i + 2] == 'x')
                                 {
@@ -185,7 +203,8 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                             else if (isNumber(moves[i + 2]))
                             {
                                 move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
-                            } else {
+                            }
+                            else {
                                 move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
                         }
@@ -224,7 +243,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                         i2++;
                     };
                     //printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
-                    printf("turnnumber: %d move: %s\n", this->turnNumber, moveString.c_str());
+                    printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
                 }
 
 
@@ -234,7 +253,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                     enPassant = move.startX;
                 else
                     enPassant = -1;
-                printBoard();
+                //printBoard();
                 if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
                     break;
             }

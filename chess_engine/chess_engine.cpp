@@ -66,14 +66,16 @@ int getHash(int argc, char *argv[])
 {
     Board board(WHITE);
     std::string moves = argv[1];
+    bool printPerMove = true;
     moves.erase(
         remove(moves.begin(), moves.end(), '\"'),
         moves.end());
     if (isNumber(moves[0]))
-        board.importPGN(moves, true);
+        board.importPGN(moves, printPerMove);
     else
         board.importFakePGN(moves);
-    printf("%lu\n", board.zobrist->getHash());
+    if (!printPerMove)
+        printf("%lu\n", board.zobrist->getHash());
     return 0;
 }
 
@@ -83,19 +85,19 @@ int main(int argc, char *argv[])
     returnValue = getHash(argc, argv);
     return returnValue;
 
-/*
-    Board board = Board();
-    board.clearBoard();
-    board.importFEN("8/8/8/8/1Pp5/8/8/8 w - - 0 1");
-    board.enPassant = 1;
-    board.turn = BLACK;
-    std::vector<Move> moves = board.getAllMoves(board.turn);
-    board.printBoard();
-    printf("-----------------\n");
-    board.doMove(&moves[0]);
-    board.printBoard();
+    /*
+        Board board = Board();
+        board.clearBoard();
+        board.importFEN("8/8/8/8/1Pp5/8/8/8 w - - 0 1");
+        board.enPassant = 1;
+        board.turn = BLACK;
+        std::vector<Move> moves = board.getAllMoves(board.turn);
+        board.printBoard();
+        printf("-----------------\n");
+        board.doMove(&moves[0]);
+        board.printBoard();
 
-*/
+    */
     return 0;
 }
 
