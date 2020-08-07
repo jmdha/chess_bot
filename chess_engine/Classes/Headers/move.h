@@ -20,6 +20,8 @@ public:
     Piece *target;
     bool castling = false;
     bool promotion = false;
+    bool pawnDoubleMove = false;
+    bool enPassantTake = false;
     Move();
     Move(int startX, int startY, int endX, int endY);
     Move(std::string move);

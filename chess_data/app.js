@@ -1,7 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
-const { execSync, execFile, execFileSync } = require('child_process');
+const {
+    execSync,
+    execFile,
+    execFileSync
+} = require('child_process');
 
 var exec = require('child_process').execFile;
 
@@ -9,6 +13,7 @@ var exec = require('child_process').execFile;
 cleanData();
 
 let gameCount = 0;
+let lineCount = 0;
 
 function cleanData() {
     let oldDir = fs.opendirSync("./data/old");
@@ -33,9 +38,18 @@ function cleanData() {
                 line.indexOf('Diff \"') < 0 &&
                 line.indexOf('Elo \"') < 0 &&
                 line.indexOf('Result') < 0 &&
-                line.length > 0) {
-                    line = line.replace("…", "...");
+                line.length > 4) {
+                line = line.replace("…", "...");
+                
+                for (let i = 0; i < line.length; i++) {
+                    if (line[i] === ' ') {
 
+                    }
+                }
+
+                lineCount++;
+                if (lineCount % 100 == 0)
+                    console.log(lineCount);
                 incrementByPGN(line);
             }
         });
@@ -45,13 +59,14 @@ function cleanData() {
 }
 
 async function incrementByPGN(PGN) {
-    console.log(gameCount + ": " + PGN + "\n");
     const hash = getHash(PGN);
     gameCount++;
-    
+
 }
 
 function getHash(PGN) {
     let optionals = new Array(JSON.stringify(PGN));
-    return execFileSync(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, {"timeout": 5000})
+    return execFileSync(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, {
+        "timeout": 5000
+    })
 }

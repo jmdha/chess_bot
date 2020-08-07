@@ -30,7 +30,7 @@ int getChessMove(int argc, char *argv[])
             remove(moves.begin(), moves.end(), '\"'),
             moves.end());
         if (isNumber(moves[0]))
-            board.importPGN(moves);
+            board.importPGN(moves, false);
         else
             board.importFakePGN(moves);
     }
@@ -45,11 +45,10 @@ int getChessMove(int argc, char *argv[])
     board.printBoard();
 
     Move bestMove = board.getBestMove(depth);
-    board.doMove(&bestMove);
+    board.commitMove(&bestMove);
 
     printf("%s\n", bestMove.getMoveAsString().c_str());
-    board.switchTurn();
-    if (static_cast<int>(board.getAllMoves().size()) == 0)
+    if (static_cast<int>(board.getAllMoves(board.turn).size()) == 0)
     {
         printf("draw\n");
     }
@@ -71,7 +70,7 @@ int getHash(int argc, char *argv[])
         remove(moves.begin(), moves.end(), '\"'),
         moves.end());
     if (isNumber(moves[0]))
-        board.importPGN(moves);
+        board.importPGN(moves, true);
     else
         board.importFakePGN(moves);
     printf("%lu\n", board.zobrist->getHash());
@@ -83,5 +82,20 @@ int main(int argc, char *argv[])
     int returnValue;
     returnValue = getHash(argc, argv);
     return returnValue;
+
+/*
+    Board board = Board();
+    board.clearBoard();
+    board.importFEN("8/8/8/8/1Pp5/8/8/8 w - - 0 1");
+    board.enPassant = 1;
+    board.turn = BLACK;
+    std::vector<Move> moves = board.getAllMoves(board.turn);
+    board.printBoard();
+    printf("-----------------\n");
+    board.doMove(&moves[0]);
+    board.printBoard();
+
+*/
+    return 0;
 }
 

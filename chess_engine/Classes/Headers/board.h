@@ -28,9 +28,12 @@ class Move;
 class Board
 {
 public:
+    int turnNumber = 0;
     bool kingAlive[2] = {true, true};
     bool castlingValid[2][2] = {{true, true}, {true, true}};
     Zobrist *zobrist;
+    int enPassant;
+    Color turn;
 
     Board();
     Board(Color turn);
@@ -38,25 +41,24 @@ public:
     void setStartPos();
     void clearBoard();
     void importFEN(std::string FEN);
-    void importPGN(std::string moves);
+    void importPGN(std::string moves, bool exportMovePerHash);
     void importFakePGN(std::string moves);
     void printBoard();
     bool isSquareEmpty(int x, int y);
     bool isSquareEnemy(Color color, int x, int y);
     void placePiece(Piece *piece);
     Piece *getPiece(int x, int y);
-    std::vector<Move> getAllMoves();
     std::vector<Move> getAllMoves(Color side);
     Move getBestMove(int depth);
     int evaluateBoard();
     int evaluateBoard(Color side);
+    void commitMove(Move *move);
     void doMove(Move *move);
     void switchTurn();
     std::string getFEN();
 
 private:
     Piece *board[WIDTH][HEIGHT];
-    Color turn;
     
     
 

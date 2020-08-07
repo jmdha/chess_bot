@@ -10,7 +10,10 @@ bool isNumber(char charToCheck)
 
 int getColumnAsNumber(char column)
 {
-    return int(column) - 97;
+    if (isLowercase(column))
+        return int(column) - 97;
+    else
+        return int(column) - 65;
 }
 
 bool isLowercase(char charToCheck)

@@ -31,6 +31,10 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
         moveLength = 2;
 
     tempMoveList = this->getPossibleMovesInDirection(board, dir, moveLength, false);
+    // look if there are two moves i.e. it can both move one square forth and two
+    if (tempMoveList.size() == 2) {
+        tempMoveList[1].pawnDoubleMove = true;
+    }
     moves.insert(it, tempMoveList.begin(), tempMoveList.end());
     it = moves.begin();
 
@@ -43,6 +47,24 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
     tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHWEST : SOUTHWEST, 1, true);
     moves.insert(it, tempMoveList.begin(), tempMoveList.end());
     it = moves.begin();
+
+    // get en passant move
+    if (board.enPassant != -1) {
+        if (board.enPassant == x - 1) {
+            tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHWEST : SOUTHWEST, 1, false);
+            if (tempMoveList.size() == 1)
+                tempMoveList[0].enPassantTake = true;
+            moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+            it = moves.begin();
+        }
+        else if (board.enPassant == x + 1) {
+            tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHEAST : SOUTHEAST, 1, false);
+            if (tempMoveList.size() == 1)
+                tempMoveList[0].enPassantTake = true;
+            moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+            it = moves.begin();
+        }
+    }
     return moves;
 }
 

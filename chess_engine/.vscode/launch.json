@@ -8,7 +8,7 @@
             "name": "g++.exe - Build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "program": "${workspaceFolder}\\${fileBasenameNoExtension}.exe",
             "args": ["1. Nf3 d5 2. d4 Nc6 3. c3 Nf6 4. Bg5 e6 5. e3 Be7 6. Bb5 Bd7 7. O-O a6 8. Ba4 h6 9. Bh4 g5 10. Bg3 Ne4 11. Nbd2 f5 12. h3 h5 13. Ne5 g4 14. Nxc6 Bxc6 15. Bxc6+ bxc6 16. Nxe4 dxe4 17. Be5 Bf6 18. Qa4 Bxe5 19. Qxc6+ Ke7 20. dxe5 Qd7 21. Qc5+ Kf7 22. Rfd1 Qe7 23. Qc6 Rad8 24. Qxa6 h4 25. hxg4 fxg4 26. Qe2 Rhg8 27. Rxd8 Qxd8 28. Rd1 Qe7 29. a4 h3 30. g3 Qg5 31. Rd7+ Kg6 32. Rxc7 Qf5 33. f4 gxf3 34. Qf2 Kh5 35. Kh2 Rg6 36. Rh7+ Rh6 37. Rxh6+ Kxh6 38. b4 Qxe5 39. a5 Kg5 40. c4 Kg4 41. b5 Qc3 42. b6 Qd3 43. c5 Qe2 44. Kg1 Qd1+ 45. Kh2 Qe2 46. Kg1 Qd1+ 47. Qf1 h2+ 48. Kf2 Qxf1+ 49. Kxf1 h1=Q+ 50. Kf2 Qg2+ 51. Ke1 f2+ 52. Kd2 f1=Q+ 53. Kc3 Qc1+ 54. Kd4 Qgd2+ 55. Ke5 Qdxe3 56. b7 Qcxc5+ 57. Kf6 Qb3 58. a6 Qa5 0-1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

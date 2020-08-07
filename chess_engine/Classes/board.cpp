@@ -35,6 +35,7 @@ Board::Board(Color turn)
 void Board::importFEN(std::string FEN)
 {
     clearBoard();
+    this->turnNumber = 1;
 
     // import position
 
@@ -117,25 +118,19 @@ std::string Board::getFEN()
     return FEN;
 }
 
-void Board::importPGN(std::string moves)
+void Board::importPGN(std::string moves, bool exportMovePerHash)
 {
+    this->turnNumber = 1;
     this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
     Move move;
+    std::string moveString;
+    enPassant = -1;
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
-        if (i == static_cast<int>(moves.length()) - 1)
+        if (moves[i] == ' ' && moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#') && moves[i + 1] != '{')))
         {
-            // do move
-            doMove(&move);
-            switchTurn();
-        }
-        else if (moves[i] == ' ' && isNumber(moves[i + 1]))
-        {
-            break;
-        }
-        else if (moves[i] == ' ' && moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#') && moves[i + 1] != '{')))
-        {
+            // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
             char da[7];
             if (i > 3)
             {
@@ -164,7 +159,11 @@ void Board::importPGN(std::string moves)
                         {
                             if (moves[i + 2] == 'x')
                             {
-                                move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                                // if pawn take
+                                if (isLowercase(moves[i + 1]))
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]));
+                                else
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
                             }
                             else
                                 move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
@@ -198,18 +197,37 @@ void Board::importPGN(std::string moves)
                 move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
             }
 
-            // do move
-            doMove(&move);
-            switchTurn();
+            if (exportMovePerHash)
+            {
+                // get move as string
+                moveString = "";
+                int i2 = 1;
+                while (moves[i + i2] != ' ')
+                {
+                    moveString += moves[i + i2];
+                    i2++;
+                };
+                //printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
+                printf("turnnumber: %d move: %s\n", this->turnNumber, moveString.c_str());
+            }
+
+
+            // commit move
+            commitMove(&move);
+            if (move.pawnDoubleMove)
+                enPassant = move.startX;
+            else
+                enPassant = -1;
+            printBoard();
             if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
                 break;
         }
-        
     }
 }
 
 void Board::importFakePGN(std::string moves)
 {
+    this->turnNumber = 1;
     this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
     std::string move = "";
@@ -249,7 +267,7 @@ void Board::printBoard()
         for (int x = 0; x < WIDTH; x++)
         {
             if (isSquareEmpty(x, y))
-                printf(" ");
+                printf(".");
             else
                 printf("%c", getPiece(x, y)->getPieceChar());
         }
@@ -279,7 +297,9 @@ void Board::clearBoard()
     for (int y = 0; y < HEIGHT; y++)
         for (int x = 0; x < WIDTH; x++)
             this->board[x][y] = NULL;
+    this->zobrist = new Zobrist(this);
 }
+
 
 void Board::setTurn(Color turn)
 {
@@ -290,8 +310,10 @@ void Board::switchTurn()
 {
     if (turn == WHITE)
         turn = BLACK;
-    else
+    else {
         turn = WHITE;
+        this->turnNumber++;
+    }
 }
 
 void Board::placePiece(Piece *piece)
@@ -429,7 +451,7 @@ PieceChar Board::getPieceCharFromChar(char piece)
 
 Move Board::getValidMove(Point endPos)
 {
-    std::vector<Move> moves = getAllMoves();
+    std::vector<Move> moves = getAllMoves(turn);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = getPiece(moves[i].startX, moves[i].startY);
@@ -441,11 +463,12 @@ Move Board::getValidMove(Point endPos)
             }
         }
     }
+    throw std::invalid_argument("Found no move");
 }
 
 Move Board::getValidMove(Point endPos, char pieceChar)
 {
-    std::vector<Move> moves = getAllMoves();
+    std::vector<Move> moves = getAllMoves(turn);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = getPiece(moves[i].startX, moves[i].startY);
@@ -458,11 +481,12 @@ Move Board::getValidMove(Point endPos, char pieceChar)
             }
         }
     }
+    throw std::invalid_argument("Found no move");
 }
 
 Move Board::getValidMove(Point endPos, char pieceChar, int column)
 {
-    std::vector<Move> moves = getAllMoves();
+    std::vector<Move> moves = getAllMoves(turn);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = getPiece(moves[i].startX, moves[i].startY);
@@ -475,13 +499,8 @@ Move Board::getValidMove(Point endPos, char pieceChar, int column)
             }
         }
     }
+    throw std::invalid_argument("Found no move");
 }
-
-std::vector<Move> Board::getAllMoves()
-{
-    return getAllMoves(turn);
-}
-
 std::vector<Move> Board::getAllMoves(Color side)
 {
 
@@ -505,6 +524,12 @@ std::vector<Move> Board::getAllMoves(Color side)
     }
 
     return moves;
+}
+
+void Board::commitMove(Move *move)
+{
+    doMove(move);
+    switchTurn();
 }
 
 // assumed valid move
@@ -569,6 +594,9 @@ void Board::doMove(Move *move)
             piece = new Queen(piece->color);
             piece->x = move->endX;
             piece->y = move->endY;
+        } else if (move->enPassantTake) {
+            int passedPawnYPosition = ((piece->color == WHITE) ? 4 : 3);
+            removePiece(move->endX, passedPawnYPosition);
         }
     }
     placePiece(piece, move->endX, move->endY);
@@ -676,6 +704,9 @@ Move Board::minimax(int depth, bool isMax, Color currentTurn, int a, int b, bool
         return bestMove;
     }
 
+
+
+
     std::vector<Move> moves = getAllMoves(currentTurn);
     std::shuffle(moves.begin(), moves.end(), e);
 
@@ -688,11 +719,15 @@ Move Board::minimax(int depth, bool isMax, Color currentTurn, int a, int b, bool
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Move move;
-        bool castlingLegality[2][2] = {{false, false}, {false, false}};
+        bool castlingLegality[2][2] ={ { false, false }, { false, false } };
         for (int j = 0; j < 2; j++)
             for (int j2 = 0; j2 < 2; j2++)
                 castlingLegality[j][j2] = castlingValid[j][j2];
+
         doMove(&(moves[i]));
+        // get enpassant
+        if (move.pawnDoubleMove)
+            enPassant = move.startX;
 
         if (depth == 1 && !doingHE && moves[i].target != NULL)
         {
@@ -715,19 +750,9 @@ Move Board::minimax(int depth, bool isMax, Color currentTurn, int a, int b, bool
         }
         undoMove(&(moves[i]));
 
-        /*
-        if (depth == 3 && !doingHE) {
-            std::string string = moves[i].getMoveAsString();
-            printf("%s - %d\n", string.c_str(), move.value);
-        }
-        */
-
         for (int j = 0; j < 2; j++)
             for (int j2 = 0; j2 < 2; j2++)
                 castlingValid[j][j2] = castlingLegality[j][j2];
-
-        //if (depth == 4)
-        //  printf("%s - %d\n", moves[i].getMoveAsString().c_str(), move.value);
 
         if (isMax && move.value > bestMove.value)
         {
