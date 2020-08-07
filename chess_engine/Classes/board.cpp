@@ -130,30 +130,31 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
         if (moves[i] == ' ') {
-            if (moves[i + 1] == '{') 
+            // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
+            char da[7];
+            if (i > 3)
+            {
+                da[0] = moves[i - 3];
+                da[1] = moves[i - 2];
+                da[2] = moves[i - 1];
+                da[3] = moves[i + 0];
+                da[4] = moves[i + 1];
+                da[5] = moves[i + 2];
+                da[6] = moves[i + 3];
+            }
+            if (moves[i + 1] == '{')
                 inComment = true;
-            else if (moves[i - 1] == '}')
+            else if (moves[i + 1] == '}')
                 inComment = false;
-            
-            if (inComment)
+
+            else if (inComment)
                 continue;
 
-            if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#')/* && moves[i + 1] != '{'*/)))
+            else if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}'))))
             {
-                // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
-                char da[7];
-                if (i > 3)
-                {
-                    da[0] = moves[i - 3];
-                    da[1] = moves[i - 2];
-                    da[2] = moves[i - 1];
-                    da[3] = moves[i + 0];
-                    da[4] = moves[i + 1];
-                    da[5] = moves[i + 2];
-                    da[6] = moves[i + 3];
-                }
+
                 // get move
-                if (!isNumber(moves[i + 2]))
+                if (!isNumber(moves[i + 2]) || (!isLowercase(moves[i + 1]) && isNumber(moves[i + 2])))
                 {
                     if (moves[i + 1] != 'O')
                     {
@@ -175,11 +176,16 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                                     else
                                         move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
                                 }
+                                else if (isNumber(moves[i + 2])) {
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
+                                }
                                 else
                                     move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
-                            else
+                            else if (isNumber(moves[i + 2]))
                             {
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
+                            } else {
                                 move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
                         }
@@ -513,6 +519,25 @@ Move Board::getValidMove(Point endPos, char pieceChar, int column)
     }
     throw std::invalid_argument("Found no move");
 }
+
+Move Board::getValidMove(Point endPos, int row, char pieceChar)
+{
+    std::vector<Move> moves = getAllMoves(turn);
+    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    {
+        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
+        char piecePieceChar = piece->getPieceChar();
+        if (piecePieceChar == pieceChar)
+        {
+            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->y == row)
+            {
+                return moves[i];
+            }
+        }
+    }
+    throw std::invalid_argument("Found no move");
+}
+
 std::vector<Move> Board::getAllMoves(Color side)
 {
 

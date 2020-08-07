@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}\\${fileBasenameNoExtension}.exe",
-            "args": ["1. Nf3 e5 { A04 Zukertort Opening: Ross Gambit } 2. Nxe5 d6 3. Nf3 g6 4. Nc3 Bg7 5. e4 Nf6 6. d4 O-O 7. Bd3 Re8 8. O-O Nc6 9. d5 Nb4 10. h3 Nxd3 11. cxd3 c6 12. dxc6 bxc6 13. Re1 Nd7 14. d4 Nb6 15. Bg5 Qd7 16. Rc1 h6 17. Bf4 Qe6 18. d5 cxd5 19. Nxd5 Qd7 20. Nc7 Bb7 21. Nxa8 Bxa8 22. Qxd6 Qb5 23. Rc7 Bxe4 24. Rxa7 Nc4 25. Qd7 Qxd7 26. Rxd7 Nxb2 27. Rd2 Nc4 28. Rde2 f5 29. Nd2 Nxd2 30. Bxd2 Ra8 31. Be3 g5 32. g4 Bd3 33. gxf5 Bxe2 34. Rxe2 Rf8 35. h4 Rxf5 36. hxg5 hxg5 37. Rc2 Ra5 38. Kg2 Kh7 39. Bd2 Kg6 40. Bxa5 { Black resigns. } 1-0"],
+            "args": ["1. e4 c5 2. c4 { B20 Sicilian Defense: Staunton-Cochrane Variation } Nc6 3. Nc3 e5 4. g3 d6 5. Bg2 g6 6. Nge2 Bg7 7. d3 h5 8. h4 Nge7 9. Bg5 f6 10. Be3 Bg4 11. Qd2 Qd7 12. f3 Be6 13. O-O-O f5 14. f4 O-O-O 15. fxe5 Nxe5 16. Bg5 Rde8 17. Nf4 Bf7 18. Rhe1 Rhf8 19. Qc2 Kb8 20. Qb3 N7c6 21. Ncd5 Nd4 22. Qc3 Bxd5 23. Nxd5 Ng4 24. exf5 Ne2+ 25. Rxe2 Bxc3 26. Rxe8+ Rxe8 27. Nxc3 gxf5 28. Nd5 a6 29. Bf4 Ka7 30. Bf3 Ne5 31. Bxh5 Rh8 32. Be2 Qe6 33. Re1 Nxd3+ 34. Bxd3 Qxe1+ 35. Kc2 Re8 36. Bxf5 Re2+ 37. Kb3 Qd1+ 38. Ka3 b5 39. Bxd6 Qa4# { Black wins by checkmate. } 0-1"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

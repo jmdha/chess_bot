@@ -5,6 +5,8 @@
 
     int getColumnAsNumber(char column);
 
+    int getRowAsNumber(char row);
+
     bool isLowercase(char charToCheck);
 
 #endif

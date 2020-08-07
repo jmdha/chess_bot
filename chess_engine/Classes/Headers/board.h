@@ -65,6 +65,7 @@ private:
     Move getValidMove(Point endPos);
     Move getValidMove(Point endPos, char pieceChar);
     Move getValidMove(Point endPos, char pieceChar, int column);
+    Move getValidMove(Point endPos, int row, char pieceChar);
     void setTurn(Color turn);
 
     void placePiece(Piece *piece, int x, int y);

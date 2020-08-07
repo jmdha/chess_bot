@@ -16,6 +16,10 @@ int getColumnAsNumber(char column)
         return int(column) - 65;
 }
 
+int getRowAsNumber(char row) {
+    return int(row) - 49;
+}
+
 bool isLowercase(char charToCheck)
 {
     if (int(charToCheck) > 64 && int(charToCheck) < 91)
