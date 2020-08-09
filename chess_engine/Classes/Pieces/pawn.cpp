@@ -35,12 +35,14 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
     if (tempMoveList.size() == 2) {
         tempMoveList[1].pawnDoubleMove = true;
     } else if (tempMoveList.size() == 1) {
-        if (tempMoveList[0].endY == (this->color == WHITE) ? BACKROWBLACK : BACKROWWHITE) {
+        if (tempMoveList[0].endY == ((this->color == WHITE) ? static_cast<int>(BACKROWBLACK) : static_cast<int>(BACKROWWHITE))) {
             Move tempMove = tempMoveList[0];
-            for (int i = 0; i < 3; i++)
-                tempMoveList.push_back(Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY));
-            for (int i = 0; i < tempMoveList.size(); i++)
-                tempMoveList[i].promotion = true;
+            for (int i = 0; i < 3; i++) {
+                Move newMove = Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY);
+                newMove.promotion = true;
+                tempMoveList.push_back(newMove);
+            }
+                
             tempMoveList[0].promotionType = ROOKINDEX;
             tempMoveList[1].promotionType = KNIGHTINDEX;
             tempMoveList[2].promotionType = BISHOPINDEX;
@@ -52,7 +54,37 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
 
     // check capture to the right
     tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHEAST : SOUTHEAST, 1, true);
+    if (tempMoveList.size() == 1) {
+        if (tempMoveList[0].endY == ((this->color == WHITE) ? static_cast<int>(BACKROWBLACK) : static_cast<int>(BACKROWWHITE))) {
+            Move tempMove = tempMoveList[0];
+            for (int i = 0; i < 3; i++) {
+                Move newMove = Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY);
+                newMove.promotion = true;
+                tempMoveList.push_back(newMove);
+            }
+                
+            tempMoveList[0].promotionType = ROOKINDEX;
+            tempMoveList[1].promotionType = KNIGHTINDEX;
+            tempMoveList[2].promotionType = BISHOPINDEX;
+            tempMoveList[3].promotionType = QUEENINDEX;
+        }
+    }
     moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+    if (tempMoveList.size() == 1) {
+        if (tempMoveList[0].endY == ((this->color == WHITE) ? static_cast<int>(BACKROWBLACK) : static_cast<int>(BACKROWWHITE))) {
+            Move tempMove = tempMoveList[0];
+            for (int i = 0; i < 3; i++) {
+                Move newMove = Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY);
+                newMove.promotion = true;
+                tempMoveList.push_back(newMove);
+            }
+                
+            tempMoveList[0].promotionType = ROOKINDEX;
+            tempMoveList[1].promotionType = KNIGHTINDEX;
+            tempMoveList[2].promotionType = BISHOPINDEX;
+            tempMoveList[3].promotionType = QUEENINDEX;
+        }
+    }
     it = moves.begin();
 
     // check capture to the left

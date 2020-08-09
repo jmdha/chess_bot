@@ -161,7 +161,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
             if (inComment)
                 continue;
 
-            if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}'))))
+            if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}' || moves[i - 1] == 'R' || moves[i - 1] == 'K' || moves[i - 1] == 'B' || moves[i - 1] == 'Q'))))
             {
 
                 if (da[6] == '?') {
@@ -205,11 +205,20 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                                 move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
                             }
                             else {
+                                // if pawn-promotion-capture(... a little unwieldly)
+                                if (moves[i + 5] == '=') 
+                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]), getPieceIndexFromChar(moves[i + 6]));
+                                else
                                 move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
                         }
-                        else
-                            move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
+                        else {
+                            if (moves[i + 5] == '=')
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getPieceIndexFromChar(moves[i + 6]));
+                            else 
+                                move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
+                        }
+                            
                     }
 
                     else
@@ -229,7 +238,12 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                 else
                 {
                     // pawn move (not take)
-                    move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+                    if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!')
+                        move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+
+                    // same but with promotion
+                    else 
+                        move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), getPieceIndexFromChar(moves[i + 4]));
                 }
 
                 if (exportMovePerHash)
@@ -486,6 +500,39 @@ PieceChar Board::getPieceCharFromChar(char piece)
     }
 }
 
+PieceIndex Board::getPieceIndexFromChar(char piece)
+{
+    switch (piece)
+    {
+    case 'P':
+    case 'p':
+        return PAWNINDEX;
+
+    case 'R':
+    case 'r':
+        return ROOKINDEX;
+
+    case 'N':
+    case 'n':
+        return KNIGHTINDEX;
+
+    case 'B':
+    case 'b':
+        return BISHOPINDEX;
+
+    case 'Q':
+    case 'q':
+        return QUEENINDEX;
+
+    case 'K':
+    case 'k':
+        return KINGINDEX;
+
+    default:
+        return NONEINDEX;
+    }
+}
+
 Move Board::getValidMove(Point endPos)
 {
     std::vector<Move> moves = getAllMoves(turn);
@@ -495,6 +542,23 @@ Move Board::getValidMove(Point endPos)
         if (piece->getIndex() == PAWNINDEX)
         {
             if (piece->color == turn && moves[i].startX == endPos.x && moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+            {
+                return moves[i];
+            }
+        }
+    }
+    throw std::invalid_argument("Found no move");
+}
+
+Move Board::getValidMove(Point endPos, PieceIndex promotionType)
+{
+    std::vector<Move> moves = getAllMoves(turn);
+    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    {
+        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
+        if (piece->getIndex() == PAWNINDEX)
+        {
+            if (piece->color == turn && moves[i].startX == endPos.x && moves[i].endX == endPos.x && moves[i].endY == endPos.y && moves[i].promotionType == promotionType)
             {
                 return moves[i];
             }
@@ -531,6 +595,24 @@ Move Board::getValidMove(Point endPos, char pieceChar, int column)
         if (piecePieceChar == pieceChar)
         {
             if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column)
+            {
+                return moves[i];
+            }
+        }
+    }
+    throw std::invalid_argument("Found no move");
+}
+
+Move Board::getValidMove(Point endPos, char pieceChar, int column, PieceIndex promotionType)
+{
+    std::vector<Move> moves = getAllMoves(turn);
+    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    {
+        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
+        char piecePieceChar = piece->getPieceChar();
+        if (piecePieceChar == pieceChar)
+        {
+            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column && moves[i].promotionType == promotionType)
             {
                 return moves[i];
             }

@@ -63,8 +63,10 @@ private:
     
 
     Move getValidMove(Point endPos);
+    Move getValidMove(Point endPos, PieceIndex promotionType);
     Move getValidMove(Point endPos, char pieceChar);
     Move getValidMove(Point endPos, char pieceChar, int column);
+    Move getValidMove(Point endPos, char pieceChar, int column, PieceIndex promotionType);
     Move getValidMove(Point endPos, int row, char pieceChar);
     void setTurn(Color turn);
 
@@ -76,6 +78,7 @@ private:
 
     Piece *getPieceFromChar(PieceChar piece);
     PieceChar getPieceCharFromChar(char piece);
+    PieceIndex getPieceIndexFromChar(char piece);
     Move minimax(int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int *totalMoves, std::default_random_engine e);
 };
 

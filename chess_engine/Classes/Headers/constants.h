@@ -57,7 +57,8 @@ enum PieceIndex {
     KNIGHTINDEX,
     BISHOPINDEX,
     QUEENINDEX,
-    KINGINDEX
+    KINGINDEX,
+    NONEINDEX
 };
 
 // Must be 1-9 - as the king/queen getpossiblemoves is dependent on it
