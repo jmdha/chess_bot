@@ -34,6 +34,18 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
     // look if there are two moves i.e. it can both move one square forth and two
     if (tempMoveList.size() == 2) {
         tempMoveList[1].pawnDoubleMove = true;
+    } else if (tempMoveList.size() == 1) {
+        if (tempMoveList[0].endY == (this->color == WHITE) ? BACKROWBLACK : BACKROWWHITE) {
+            Move tempMove = tempMoveList[0];
+            for (int i = 0; i < 3; i++)
+                tempMoveList.push_back(Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY));
+            for (int i = 0; i < tempMoveList.size(); i++)
+                tempMoveList[i].promotion = true;
+            tempMoveList[0].promotionType = ROOKINDEX;
+            tempMoveList[1].promotionType = KNIGHTINDEX;
+            tempMoveList[2].promotionType = BISHOPINDEX;
+            tempMoveList[3].promotionType = QUEENINDEX;
+        }
     }
     moves.insert(it, tempMoveList.begin(), tempMoveList.end());
     it = moves.begin();

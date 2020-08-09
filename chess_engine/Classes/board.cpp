@@ -643,10 +643,23 @@ void Board::doMove(Move *move)
     }
     else if (piece->getIndex() == PAWNINDEX)
     {
-        int backRow = ((piece->color == WHITE) ? BACKROWBLACK : BACKROWWHITE);
-        if (move->endY == backRow)
+        if (move->promotion)
         {
-            move->promotion = true;
+            switch (move->promotionType) {
+            case ROOKINDEX:
+                piece = new Rook(piece->color);
+                break;
+            case KNIGHTINDEX:
+                piece = new Knight(piece->color);
+                break;
+            case BISHOPINDEX:
+                piece = new Bishop(piece->color);
+                break;
+            case QUEENINDEX:
+            default:
+                piece = new Queen(piece->color);
+                break;
+            }
             piece = new Queen(piece->color);
             piece->x = move->endX;
             piece->y = move->endY;

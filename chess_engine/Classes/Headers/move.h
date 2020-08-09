@@ -20,6 +20,7 @@ public:
     Piece *target;
     bool castling = false;
     bool promotion = false;
+    PieceIndex promotionType;
     bool pawnDoubleMove = false;
     bool enPassantTake = false;
     Move();
