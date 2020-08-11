@@ -39,9 +39,11 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
             Move tempMove = tempMoveList[0];
             for (int i = 0; i < 3; i++) {
                 Move newMove = Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY);
-                newMove.promotion = true;
                 tempMoveList.push_back(newMove);
             }
+
+            for (int i = 0; i < static_cast<int>(tempMoveList.size()); i++) 
+                tempMoveList[i].promotion = true;
                 
             tempMoveList[0].promotionType = ROOKINDEX;
             tempMoveList[1].promotionType = KNIGHTINDEX;
@@ -59,9 +61,11 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
             Move tempMove = tempMoveList[0];
             for (int i = 0; i < 3; i++) {
                 Move newMove = Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY);
-                newMove.promotion = true;
                 tempMoveList.push_back(newMove);
             }
+
+            for (int i = 0; i < static_cast<int>(tempMoveList.size()); i++) 
+                tempMoveList[i].promotion = true;
                 
             tempMoveList[0].promotionType = ROOKINDEX;
             tempMoveList[1].promotionType = KNIGHTINDEX;
@@ -70,14 +74,20 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
         }
     }
     moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+    it = moves.begin();
+
+    // check capture to the left
+    tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHWEST : SOUTHWEST, 1, true);
     if (tempMoveList.size() == 1) {
         if (tempMoveList[0].endY == ((this->color == WHITE) ? static_cast<int>(BACKROWBLACK) : static_cast<int>(BACKROWWHITE))) {
             Move tempMove = tempMoveList[0];
             for (int i = 0; i < 3; i++) {
                 Move newMove = Move(tempMove.startX, tempMove.startY, tempMove.endX, tempMove.endY);
-                newMove.promotion = true;
                 tempMoveList.push_back(newMove);
             }
+
+            for (int i = 0; i < static_cast<int>(tempMoveList.size()); i++) 
+                tempMoveList[i].promotion = true;
                 
             tempMoveList[0].promotionType = ROOKINDEX;
             tempMoveList[1].promotionType = KNIGHTINDEX;
@@ -85,10 +95,6 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
             tempMoveList[3].promotionType = QUEENINDEX;
         }
     }
-    it = moves.begin();
-
-    // check capture to the left
-    tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHWEST : SOUTHWEST, 1, true);
     moves.insert(it, tempMoveList.begin(), tempMoveList.end());
     it = moves.begin();
 
