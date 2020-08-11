@@ -212,8 +212,13 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                                     // this case happens when two pieces of the same type, can capture the same piece
                                     if (moves[i + 3] == 'x')
                                     move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
-                                    else 
+                                    else {
+                                        if (moves[i + 4] == 'x')
+                                            move = getValidMove(Point(getColumnAsNumber(moves[i + 5]), moves[i + 6] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                        else 
                                         move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                    }
+                                        
                                 }
                                 
                             }
@@ -766,7 +771,6 @@ void Board::doMove(Move *move)
                 piece = new Queen(piece->color);
                 break;
             }
-            piece = new Queen(piece->color);
             piece->x = move->endX;
             piece->y = move->endY;
         }
