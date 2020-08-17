@@ -164,10 +164,6 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
             if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}' || moves[i - 1] == 'R' || moves[i - 1] == 'N' || moves[i - 1] == 'B' || moves[i - 1] == 'Q'))))
             {
 
-                if (da[6] == '?') {
-                    printf("wa\n");
-                }
-
                 // get move
                 if (!isNumber(moves[i + 2])
 
@@ -280,6 +276,16 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                     enPassant = -1;
                 //printBoard();
                 if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
+                    break;
+            } else if (isNumber(moves[i + 1])) {
+                // if the following is a turn number
+                int t = i;
+                std::string turnString = "";
+                while (isNumber(moves[t += 1])) {
+                    turnString += moves[t];
+                }
+                int turnStringAsNumber = atoi(turnString.c_str());
+                if (turnStringAsNumber != turnNumber && turnStringAsNumber != turnNumber + 1)
                     break;
             }
         }
