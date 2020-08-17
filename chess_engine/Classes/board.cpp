@@ -234,7 +234,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                         int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
                         int startX = 4;
                         int endX;
-                        if (moves[i + 4] == ' ')
+                        if (moves[i + 4] != '-')
                             endX = 6;
                         else
                             endX = 2;
@@ -258,7 +258,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                     // get move as string
                     moveString = "";
                     int i2 = 1;
-                    while (moves[i + i2] != ' ')
+                    while (moves[i + i2] != ' ' && moves[i + i2] != '+' && moves[i + i2] != '?' && moves[i + i2] != '!')
                     {
                         moveString += moves[i + i2];
                         i2++;
