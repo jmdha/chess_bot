@@ -40,7 +40,7 @@ function cleanData() {
                 line.indexOf('Result') < 0 &&
                 line.length > 4) {
                 line = line.replace("…", "...");
-                
+
                 for (let i = 0; i < line.length; i++) {
                     if (line[i] === ' ') {
 
@@ -58,11 +58,99 @@ function cleanData() {
     newDir.closeSync();
 }
 
-async function incrementByPGN(PGN) {
-    const hash = getHash(PGN);
+function incrementByPGN(PGN) {
+    let hashMovePairArray = getHash(PGN).toString().split('\r\n').map((hashMovePair) => hashMovePair.split(' ')).filter((element) => element.length == 2);
+
+    // Should be noted that the following code does exactly the same as the code above
+    /*
+    let hashMovePairString = getHash(PGN).toString();
+    let hashMovePairArray = [];
+
+    let index = 0;
+    let occuranceStartIndex;
+
+    let currentLabel = 2;
+    let runningHashMovePair = "";
+
+
+    while (true) {
+        let goto = null;
+        switch (currentLabel) {
+            case 1:
+                if (occuranceStartIndex >= hashMovePairArray.length)
+                    break;
+                else if (hashMovePairArray[occuranceStartIndex][index] == ' ') {
+                    let hash = runningHashMovePair;
+                    runningHashMovePair = "";
+                    goto = 1;
+                    index++;
+                    while (goto != -1) {
+                        switch (goto) {
+                            case 0:
+                                hashMovePairArray[occuranceStartIndex] = [];
+                                hashMovePairArray[occuranceStartIndex].push(hash);
+                                hashMovePairArray[occuranceStartIndex].push(runningHashMovePair);
+                                goto = -1;
+                                break;
+                            case 1:
+                                if (index >= hashMovePairArray[occuranceStartIndex].length)
+                                    goto = 0;
+                                else {
+                                    runningHashMovePair += hashMovePairArray[occuranceStartIndex][index];
+                                    index++;
+                                    goto = 1;
+                                }
+                        }
+                    }
+                    occuranceStartIndex++;
+                    goto = 1;
+                    index = 0;
+                    runningHashMovePair = "";
+                    break;
+                } else {
+                    runningHashMovePair += hashMovePairArray[occuranceStartIndex][index];
+                    index++;
+                    goto = 1;
+                    break;
+                }
+                case 2:
+                    occuranceStartIndex = index;
+                case 3:
+                    if (index >= hashMovePairString.length) {
+                        index = 0;
+                        occuranceStartIndex = 0;
+                        runningHashMovePair = "";
+                        goto = 1;
+                    } else if (hashMovePairString[index] == '\r') {
+                        hashMovePairArray.push(runningHashMovePair);
+                        runningHashMovePair = "";
+                        index += 4;
+                        goto = 2;
+                    } else {
+                        runningHashMovePair += hashMovePairString[index];
+                        index++;
+                        goto = 3;
+                    }
+        }
+        if (goto == null) break;
+        currentLabel = goto;
+    }
+
+*/
+    
+        for (let i = 0; i < hashMovePairArray.length; i++) {
+            incrementHashByMove(hashMovePairArray[i][0], hashMovePairArray[i][1]);
+        }
+    
     gameCount++;
 
 }
+
+function incrementHashByMove(hash, move) {
+
+}
+
+
 
 function getHash(PGN) {
     let optionals = new Array(JSON.stringify(PGN));
