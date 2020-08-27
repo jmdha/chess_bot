@@ -7,21 +7,44 @@ const {
     execFileSync
 } = require('child_process');
 
-var exec = require('child_process').execFile;
+const exec = require('child_process').execFile;
 
-
-cleanData();
+const mysql = require('mysql');
+const pool = mysql.createPool({
+    connectionLimit: 100,
+    host: "localhost",
+    user: "root",
+    password: "password",
+    database: "chessData"
+});
 
 let gameCount = 0;
 let lineCount = 0;
+let incrementCount = 0;
 
-function cleanData() {
-    let oldDir = fs.opendirSync("./data/old");
-    let newDir = fs.opendirSync("./data/new");
-    let dirent;
-    while ((dirent = oldDir.readSync()) !== null) {
+//cleanData();
+//incrementHashByMove(1, 'd4');
+
+
+
+async function cleanData() {
+    return new Promise(async (resolve) => {
+        let oldDir = fs.opendirSync("./data/old");
+        let newDir = fs.opendirSync("./data/new");
+        let dirent;
+        while ((dirent = oldDir.readSync()) !== null) {
+            await passFile("./data/old/" + dirent.name)
+        }
+        oldDir.closeSync();
+        newDir.closeSync();
+        resolve();
+    });
+}
+
+async function passFile(fileName) { 
+    return new Promise(resolve => {
         let rd = readline.createInterface({
-            input: fs.createReadStream("./data/old/" + dirent.name)
+            input: fs.createReadStream(fileName)
         });
         rd.on('line', function (line) {
             if (
@@ -40,22 +63,16 @@ function cleanData() {
                 line.indexOf('Result') < 0 &&
                 line.length > 4) {
                 line = line.replace("…", "...");
-
-                for (let i = 0; i < line.length; i++) {
-                    if (line[i] === ' ') {
-
-                    }
-                }
-
+    
                 lineCount++;
-                if (lineCount % 100 == 0)
-                    console.log(lineCount);
                 incrementByPGN(line);
+                //console.log(incrementCount);
             }
         });
-    }
-    oldDir.closeSync();
-    newDir.closeSync();
+        rd.on('close', () => {
+            resolve();
+        })
+    })
 }
 
 function incrementByPGN(PGN) {
@@ -137,20 +154,47 @@ function incrementByPGN(PGN) {
     }
 
 */
-    
-        for (let i = 0; i < hashMovePairArray.length; i++) {
-            incrementHashByMove(hashMovePairArray[i][0], hashMovePairArray[i][1]);
-        }
-    
+
+    for (let i = 0; i < hashMovePairArray.length; i++) {
+        incrementHashByMove(hashMovePairArray[i][0], hashMovePairArray[i][1]);
+    }
+
     gameCount++;
 
 }
 
-function incrementHashByMove(hash, move) {
+let hashMovePairBuffer = [];
+
+async function incrementHashByMove(hash, move) {
+
+    if (hashMovePairBuffer.length > 1) {
+        var sql = `INSERT INTO move_count (hash, move, count) VALUES ? ON DUPLICATE KEY UPDATE count = count + 1;`;
+        let values = hashMovePairBuffer;
+        hashMovePairBuffer = [];
+
+        await sqlAsync(sql, values);
+        
+    } else {
+        incrementCount++;
+        hashMovePairBuffer.push([hash, move, 1]);
+    }
+
 
 }
 
-
+async function sqlAsync(sql, values) {
+    return new Promise((resolve, reject) => {
+        pool.query(sql, [values], (err, data) => {
+            if(err) {
+                throw (err);
+                reject(err, data);
+            }
+            else {
+                resolve(data);
+            }
+        });
+    })
+}
 
 function getHash(PGN) {
     let optionals = new Array(JSON.stringify(PGN));
@@ -158,3 +202,11 @@ function getHash(PGN) {
         "timeout": 5000
     })
 }
+
+async function asyncMain() {
+    await cleanData();
+    pool.end();
+}
+
+asyncMain();
+
