@@ -9,17 +9,21 @@ const {
 
 const exec = require('child_process').execFile;
 
-const mysql = require('mysql');
-const pool = mysql.createPool({
-    connectionLimit: 100,
-    host: "localhost",
-    user: "root",
-    password: "password",
-    database: "chessData"
+const sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('./data/new/data.db', (err) => {
+    if (err) {
+        return console.error(err.message);
+    }
+    console.log('Connected to the data.db SQlite database.');
 });
+db.run(`CREATE TABLE IF NOT EXISTS move_count (
+    hash UNSIGNED INTEGER,
+    move TEXT,
+    count UNSIGNED INTEGER,
+    PRIMARY KEY (hash, move)
+)`);
 
 let gameCount = 0;
-let lineCount = 0;
 let incrementCount = 0;
 
 //cleanData();
@@ -41,7 +45,7 @@ async function cleanData() {
     });
 }
 
-async function passFile(fileName) { 
+async function passFile(fileName) {
     return new Promise(resolve => {
         let rd = readline.createInterface({
             input: fs.createReadStream(fileName)
@@ -63,9 +67,10 @@ async function passFile(fileName) {
                 line.indexOf('Result') < 0 &&
                 line.length > 4) {
                 line = line.replace("…", "...");
-    
-                lineCount++;
+
                 incrementByPGN(line);
+                if (gameCount % 100 == 0)
+                    printProgress();
                 //console.log(incrementCount);
             }
         });
@@ -77,83 +82,6 @@ async function passFile(fileName) {
 
 function incrementByPGN(PGN) {
     let hashMovePairArray = getHash(PGN).toString().split('\r\n').map((hashMovePair) => hashMovePair.split(' ')).filter((element) => element.length == 2);
-
-    // Should be noted that the following code does exactly the same as the code above
-    /*
-    let hashMovePairString = getHash(PGN).toString();
-    let hashMovePairArray = [];
-
-    let index = 0;
-    let occuranceStartIndex;
-
-    let currentLabel = 2;
-    let runningHashMovePair = "";
-
-
-    while (true) {
-        let goto = null;
-        switch (currentLabel) {
-            case 1:
-                if (occuranceStartIndex >= hashMovePairArray.length)
-                    break;
-                else if (hashMovePairArray[occuranceStartIndex][index] == ' ') {
-                    let hash = runningHashMovePair;
-                    runningHashMovePair = "";
-                    goto = 1;
-                    index++;
-                    while (goto != -1) {
-                        switch (goto) {
-                            case 0:
-                                hashMovePairArray[occuranceStartIndex] = [];
-                                hashMovePairArray[occuranceStartIndex].push(hash);
-                                hashMovePairArray[occuranceStartIndex].push(runningHashMovePair);
-                                goto = -1;
-                                break;
-                            case 1:
-                                if (index >= hashMovePairArray[occuranceStartIndex].length)
-                                    goto = 0;
-                                else {
-                                    runningHashMovePair += hashMovePairArray[occuranceStartIndex][index];
-                                    index++;
-                                    goto = 1;
-                                }
-                        }
-                    }
-                    occuranceStartIndex++;
-                    goto = 1;
-                    index = 0;
-                    runningHashMovePair = "";
-                    break;
-                } else {
-                    runningHashMovePair += hashMovePairArray[occuranceStartIndex][index];
-                    index++;
-                    goto = 1;
-                    break;
-                }
-                case 2:
-                    occuranceStartIndex = index;
-                case 3:
-                    if (index >= hashMovePairString.length) {
-                        index = 0;
-                        occuranceStartIndex = 0;
-                        runningHashMovePair = "";
-                        goto = 1;
-                    } else if (hashMovePairString[index] == '\r') {
-                        hashMovePairArray.push(runningHashMovePair);
-                        runningHashMovePair = "";
-                        index += 4;
-                        goto = 2;
-                    } else {
-                        runningHashMovePair += hashMovePairString[index];
-                        index++;
-                        goto = 3;
-                    }
-        }
-        if (goto == null) break;
-        currentLabel = goto;
-    }
-
-*/
 
     for (let i = 0; i < hashMovePairArray.length; i++) {
         incrementHashByMove(hashMovePairArray[i][0], hashMovePairArray[i][1]);
@@ -167,33 +95,24 @@ let hashMovePairBuffer = [];
 
 async function incrementHashByMove(hash, move) {
 
-    if (hashMovePairBuffer.length > 1) {
-        var sql = `INSERT INTO move_count (hash, move, count) VALUES ? ON DUPLICATE KEY UPDATE count = count + 1;`;
+    if (hashMovePairBuffer.length >= 5) {
+        //var sql = `INSERT INTO move_count(hash, move, count) VALUES (?, ?, ?) ON CONFLICT(hash, move) DO UPDATE SET count = count + 1`;
+        
         let values = hashMovePairBuffer;
+        let sql = `INSERT INTO move_count VALUES (?, ?, ?) ON CONFLICT(hash, move) DO UPDATE SET count = count + 1`;
         hashMovePairBuffer = [];
 
-        await sqlAsync(sql, values);
-        
+        db.run(sql, ...values, (err) => {
+            if (err)
+                console.log("Damn ", err);
+        })
+
     } else {
         incrementCount++;
         hashMovePairBuffer.push([hash, move, 1]);
     }
 
 
-}
-
-async function sqlAsync(sql, values) {
-    return new Promise((resolve, reject) => {
-        pool.query(sql, [values], (err, data) => {
-            if(err) {
-                throw (err);
-                reject(err, data);
-            }
-            else {
-                resolve(data);
-            }
-        });
-    })
 }
 
 function getHash(PGN) {
@@ -203,10 +122,31 @@ function getHash(PGN) {
     })
 }
 
-async function asyncMain() {
-    await cleanData();
-    pool.end();
+function printProgress() {
+    let maxGameCount = 697600;
+    console.clear();
+    console.log((gameCount / maxGameCount * 100).toFixed(3) + '%', gameCount, "/", maxGameCount);
 }
 
-asyncMain();
+async function asyncMain() {
+    await cleanData();
+    db.close((err) => {
+        if (err) {
+          return console.error(err.message);
+        }
+        console.log('Close the database connection.');
+      });
+}
 
+function printMostCommonMoves(rowCount) {
+    db.all(`SELECT Sum(count) FROM move_count`, (err, rows) => {
+        if (err)
+            throw new Error("");
+        rows.forEach(element => {
+            console.log(element.name)
+        });
+    })
+}
+
+//asyncMain();
+printMostCommonMoves(10);
