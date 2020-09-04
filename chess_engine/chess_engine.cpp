@@ -82,7 +82,12 @@ int getHash(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
     int returnValue;
-    returnValue = getHash(argc, argv);
+    try {
+        returnValue = getHash(argc, argv);
+    } catch (const std::exception& e) {
+        return -1;
+    }
+    
     return returnValue;
 
     /*

@@ -26,6 +26,8 @@ db.run(`CREATE TABLE IF NOT EXISTS move_count (
 let gameCount = 0;
 let incrementCount = 0;
 
+let startDate = new Date().getTime();
+
 //cleanData();
 //incrementHashByMove(1, 'd4');
 
@@ -95,17 +97,15 @@ let hashMovePairBuffer = [];
 
 async function incrementHashByMove(hash, move) {
 
-    if (hashMovePairBuffer.length >= 5) {
+    if (hashMovePairBuffer.length >= 1) {
         //var sql = `INSERT INTO move_count(hash, move, count) VALUES (?, ?, ?) ON CONFLICT(hash, move) DO UPDATE SET count = count + 1`;
-        
+
         let values = hashMovePairBuffer;
         let sql = `INSERT INTO move_count VALUES (?, ?, ?) ON CONFLICT(hash, move) DO UPDATE SET count = count + 1`;
         hashMovePairBuffer = [];
 
-        db.run(sql, ...values, (err) => {
-            if (err)
-                console.log("Damn ", err);
-        })
+        insertValue(sql, values);
+
 
     } else {
         incrementCount++;
@@ -115,6 +115,17 @@ async function incrementHashByMove(hash, move) {
 
 }
 
+async function insertValue(sql, values) {
+    return new Promise((resolve, reject) => {
+        db.run(sql, ...values, (err) => {
+            if (err)
+                reject(err);
+            else
+                resolve();
+        })
+    })
+}
+
 function getHash(PGN) {
     let optionals = new Array(JSON.stringify(PGN));
     return execFileSync(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, {
@@ -122,20 +133,40 @@ function getHash(PGN) {
     })
 }
 
-function printProgress() {
+async function printProgress() {
     let maxGameCount = 697600;
+
+    let result = (await getSumOfCount())[0]['SUM(count)'];
     console.clear();
-    console.log((gameCount / maxGameCount * 100).toFixed(3) + '%', gameCount, "/", maxGameCount);
+    let timePassed = ((new Date()).getTime() - startDate) / 1000;
+    console.log("Time passed:", timePassed, "s");
+    console.log("Entry success rate:", (result / incrementCount * 100).toFixed(3) + '%', result + "/" + incrementCount);
+    console.log("Entry rate:", (result / timePassed).toFixed(3), "entries/s");
+    console.log("Progress:", (gameCount / maxGameCount * 100).toFixed(3) + '%', gameCount + "/" + maxGameCount);
+
+
+}
+
+async function getSumOfCount() {
+    return new Promise((resolve, reject) => {
+        db.all('SELECT SUM(count) from move_count', (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
 }
 
 async function asyncMain() {
     await cleanData();
     db.close((err) => {
         if (err) {
-          return console.error(err.message);
+            return console.error(err.message);
         }
         console.log('Close the database connection.');
-      });
+    });
 }
 
 function printMostCommonMoves(rowCount) {
@@ -148,5 +179,5 @@ function printMostCommonMoves(rowCount) {
     })
 }
 
-//asyncMain();
-printMostCommonMoves(10);
+asyncMain();
+//printMostCommonMoves(10);
