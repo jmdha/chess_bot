@@ -8,6 +8,7 @@
 #include "Classes/Headers/move.h"
 #include "Classes/Pieces/Headers/knight.h"
 #include "Classes/Headers/generic_helper_functions.h"
+#include "Classes/Headers/ai.h"
 
 int getChessMove(int argc, char *argv[])
 {
@@ -44,11 +45,11 @@ int getChessMove(int argc, char *argv[])
     }
     board.printBoard();
 
-    Move bestMove = board.getBestMove(depth);
+    Move bestMove = getBestMove(&board, depth);
     board.commitMove(&bestMove);
 
     printf("%s\n", bestMove.getMoveAsString().c_str());
-    if (static_cast<int>(board.getAllMoves(board.turn).size()) == 0)
+    if (static_cast<int>(getAllMoves(board, board.turn).size()) == 0)
     {
         printf("draw\n");
     }

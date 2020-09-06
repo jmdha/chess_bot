@@ -48,39 +48,33 @@ public:
     bool isSquareEnemy(Color color, int x, int y);
     void placePiece(Piece *piece);
     Piece *getPiece(int x, int y);
-    std::vector<Move> getAllMoves(Color side);
-    Move getBestMove(int depth);
     int evaluateBoard();
-    int evaluateBoard(Color side);
+int evaluateBoard(Color side);
+    
     void commitMove(Move *move);
     void doMove(Move *move);
     void switchTurn();
     std::string getFEN();
+    void undoMove(Move *move);
 
 private:
     Piece *board[WIDTH][HEIGHT];
     
     
 
-    Move getValidMove(Point endPos);
-    Move getValidMove(Point endPos, PieceIndex promotionType);
-    Move getValidMove(Point endPos, char pieceChar);
-    Move getValidMove(Point endPos, char pieceChar, int column);
-    Move getValidMove(Point endPos, char pieceChar, int column, PieceIndex promotionType);
-    Move getValidMove(Point endPos, int row, char pieceChar);
-    Move getValidMove(Point endPos, int row, char pieceChar, int column);
+    
     void setTurn(Color turn);
 
     void placePiece(Piece *piece, int x, int y);
     void placePiece(PieceChar piece, int x, int y);
     void removePiece(int x, int y);
 
-    void undoMove(Move *move);
+    
 
     Piece *getPieceFromChar(PieceChar piece);
     PieceChar getPieceCharFromChar(char piece);
     PieceIndex getPieceIndexFromChar(char piece);
-    Move minimax(int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int *totalMoves, std::default_random_engine e);
+    
 };
 
 #endif

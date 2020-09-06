@@ -6,9 +6,9 @@
 #include "Pieces/Headers/king.h"
 #include "Pieces/Headers/queen.h"
 #include <iostream>
+#include "Headers/ai.h"
 
 // used for minimax
-#include <algorithm>
 #include <cstdlib>
 #include <time.h>
 
@@ -103,7 +103,7 @@ std::string Board::getFEN()
             if (x == 7 && piece == NULL && blankCounter != 0)
             {
                 FEN.append(1, blankCounter + '0');
-            }
+            } 
         }
         if (y != 0)
             FEN.append(1, '/');
@@ -186,33 +186,33 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                                 {
                                     // if pawn take
                                     if (isLowercase(moves[i + 1]))
-                                        move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]));
+                                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]));
                                     else
-                                        move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+                                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
                                 }
                                 else if (isNumber(moves[i + 2])) {
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
+                                    move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
                                 }
                                 else
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                    move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                             }
                             else if (isNumber(moves[i + 2]))
                             {
-                                move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
+                                move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
                             }
                             else {
                                 // if pawn-promotion-capture(... a little unwieldly)
                                 if (moves[i + 5] == '=') 
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]), getPieceIndexFromChar(moves[i + 6]));
+                                    move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]), getPieceIndexFromChar(moves[i + 6]));
                                 else {
                                     // this case happens when two pieces of the same type, can capture the same piece
                                     if (moves[i + 3] == 'x')
-                                    move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                    move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
                                     else {
                                         if (moves[i + 4] == 'x')
-                                            move = getValidMove(Point(getColumnAsNumber(moves[i + 5]), moves[i + 6] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                            move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 5]), moves[i + 6] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
                                         else 
-                                        move = getValidMove(Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
+                                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
                                     }
                                         
                                 }
@@ -221,9 +221,9 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                         }
                         else {
                             if (moves[i + 5] == '=')
-                                move = getValidMove(Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getPieceIndexFromChar(moves[i + 6]));
+                                move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getPieceIndexFromChar(moves[i + 6]));
                             else 
-                                move = getValidMove(Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
+                                move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
                         }
                             
                     }
@@ -246,11 +246,11 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                 {
                     // pawn move (not take)
                     if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!')
-                        move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
 
                     // same but with promotion
                     else 
-                        move = getValidMove(Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), getPieceIndexFromChar(moves[i + 4]));
+                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), getPieceIndexFromChar(moves[i + 4]));
                 }
 
                 if (exportMovePerHash)
@@ -367,7 +367,6 @@ void Board::clearBoard()
             this->board[x][y] = NULL;
     this->zobrist = new Zobrist(this);
 }
-
 
 void Board::setTurn(Color turn)
 {
@@ -550,154 +549,7 @@ PieceIndex Board::getPieceIndexFromChar(char piece)
     }
 }
 
-Move Board::getValidMove(Point endPos)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        if (piece->getIndex() == PAWNINDEX)
-        {
-            if (piece->color == turn && moves[i].startX == endPos.x && moves[i].endX == endPos.x && moves[i].endY == endPos.y)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
 
-Move Board::getValidMove(Point endPos, PieceIndex promotionType)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        if (piece->getIndex() == PAWNINDEX)
-        {
-            if (piece->color == turn && moves[i].startX == endPos.x && moves[i].endX == endPos.x && moves[i].endY == endPos.y && moves[i].promotionType == promotionType)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
-
-Move Board::getValidMove(Point endPos, char pieceChar)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        char piecePieceChar = piece->getPieceChar();
-        if (piecePieceChar == pieceChar)
-        {
-            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
-
-Move Board::getValidMove(Point endPos, char pieceChar, int column)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        char piecePieceChar = piece->getPieceChar();
-        if (piecePieceChar == pieceChar)
-        {
-            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
-
-Move Board::getValidMove(Point endPos, char pieceChar, int column, PieceIndex promotionType)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        char piecePieceChar = piece->getPieceChar();
-        if (piecePieceChar == pieceChar)
-        {
-            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column && moves[i].promotionType == promotionType)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
-
-Move Board::getValidMove(Point endPos, int row, char pieceChar)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        char piecePieceChar = piece->getPieceChar();
-        if (piecePieceChar == pieceChar)
-        {
-            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->y == row)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
-
-Move Board::getValidMove(Point endPos, int row, char pieceChar, int column)
-{
-    std::vector<Move> moves = getAllMoves(turn);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Piece *piece = getPiece(moves[i].startX, moves[i].startY);
-        char piecePieceChar = piece->getPieceChar();
-        if (piecePieceChar == pieceChar)
-        {
-            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->y == row && piece->x == column)
-            {
-                return moves[i];
-            }
-        }
-    }
-    throw std::invalid_argument("Found no move");
-}
-
-std::vector<Move> Board::getAllMoves(Color side)
-{
-
-    std::vector<Move> moves;
-
-    std::vector<Move>::iterator it;
-    it = moves.begin();
-    std::vector<Move> tempMoveList;
-
-    for (int y = 0; y < HEIGHT; y++)
-    {
-        for (int x = 0; x < WIDTH; x++)
-        {
-            if (!isSquareEmpty(x, y) && getPiece(x, y)->color == side)
-            {
-                tempMoveList = getPiece(x, y)->getPossibleMoves(*this);
-                moves.insert(it, tempMoveList.begin(), tempMoveList.end());
-                it = moves.begin();
-            }
-        }
-    }
-
-    return moves;
-}
 
 void Board::commitMove(Move *move)
 {
@@ -830,15 +682,8 @@ void Board::undoMove(Move *move)
     }
 }
 
-Move Board::getBestMove(int depth)
-{
-    int totalMovesChecked = 0;
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine e(seed);
-    Move move = minimax(depth, true, turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked, e);
-    printf("%d\n", totalMovesChecked);
-    return move;
-}
+
+
 
 int Board::evaluateBoard()
 {
@@ -863,101 +708,4 @@ int Board::evaluateBoard(Color side)
     }
 
     return value;
-}
-
-Move Board::minimax(int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int *totalMoves, std::default_random_engine e)
-{
-    (*totalMoves) += 1;
-    Move bestMove;
-    Color oppositeColor = ((currentTurn == WHITE) ? BLACK : WHITE);
-
-    // check if the position has occured more than 2 times
-    if (this->zobrist->priorInstanceCount.at(this->zobrist->getHash()) >= 3)
-    {
-        int multiplier = ((currentTurn == turn) ? 1 : -1);
-        bestMove.value = VALUEDRAW * multiplier;
-        return bestMove;
-    }
-
-    if (isMax)
-        bestMove.value = -VALUEINFINITE;
-    else
-        bestMove.value = VALUEINFINITE;
-    if (depth == 0 || !kingAlive[currentTurn] || !kingAlive[oppositeColor])
-    {
-
-        bestMove.value = evaluateBoard(turn);
-        return bestMove;
-    }
-
-
-
-
-    std::vector<Move> moves = getAllMoves(currentTurn);
-    std::shuffle(moves.begin(), moves.end(), e);
-
-    if (static_cast<int>(moves.size()) == 0)
-    {
-        int multiplier = ((currentTurn == turn) ? 1 : -1);
-        bestMove.value = VALUEDRAW * multiplier;
-        return bestMove;
-    }
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
-    {
-        Move move;
-        bool castlingLegality[2][2] ={ { false, false }, { false, false } };
-        for (int j = 0; j < 2; j++)
-            for (int j2 = 0; j2 < 2; j2++)
-                castlingLegality[j][j2] = castlingValid[j][j2];
-
-        doMove(&(moves[i]));
-        // get enpassant
-        if (move.pawnDoubleMove)
-            enPassant = move.startX;
-
-        if (depth == 1 && !doingHE && moves[i].target != NULL)
-        {
-            move = minimax(4, !isMax, oppositeColor, a, b, true, totalMoves, e);
-        }
-        else
-        {
-            if (doingHE)
-            {
-                if (moves[i].target != NULL)
-                    move = minimax(depth - 1, !isMax, oppositeColor, a, b, true, totalMoves, e);
-                else
-                {
-                    undoMove(&(moves[i]));
-                    continue;
-                }
-            }
-            else
-                move = minimax(depth - 1, !isMax, oppositeColor, a, b, false, totalMoves, e);
-        }
-        undoMove(&(moves[i]));
-
-        for (int j = 0; j < 2; j++)
-            for (int j2 = 0; j2 < 2; j2++)
-                castlingValid[j][j2] = castlingLegality[j][j2];
-
-        if (isMax && move.value > bestMove.value)
-        {
-            bestMove = moves[i];
-            bestMove.value = move.value;
-        }
-        else if (!isMax && move.value < bestMove.value)
-        {
-            bestMove = moves[i];
-            bestMove.value = move.value;
-        }
-
-        if (isMax)
-            a = std::max(bestMove.value, a);
-        else
-            b = std::min(bestMove.value, b);
-
-        if (a >= b)
-            break;
-    }
-    return bestMove;
 }
