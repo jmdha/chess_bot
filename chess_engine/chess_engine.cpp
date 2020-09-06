@@ -82,6 +82,7 @@ int getHash(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
+    /*
     int returnValue;
     try {
         returnValue = getHash(argc, argv);
@@ -90,20 +91,20 @@ int main(int argc, char *argv[])
     }
     
     return returnValue;
-
-    /*
+*/
+    
         Board board = Board();
         board.clearBoard();
         board.importFEN("8/8/8/8/1Pp5/8/8/8 w - - 0 1");
         board.enPassant = 1;
         board.turn = BLACK;
-        std::vector<Move> moves = board.getAllMoves(board.turn);
+        std::vector<Move> moves = getAllMoves(board, board.turn);
         board.printBoard();
         printf("-----------------\n");
         board.doMove(&moves[0]);
         board.printBoard();
 
-    */
+    
     return 0;
 }
 

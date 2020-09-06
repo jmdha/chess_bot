@@ -34,7 +34,7 @@ enum File : char {
     FILEH = 'h'
 };
 
-enum PieceChar
+enum PieceChar : char
 {
     PAWNWHITE = 'P',
     PAWNBLACK = 'p',

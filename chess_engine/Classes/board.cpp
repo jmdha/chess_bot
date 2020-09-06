@@ -132,17 +132,6 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
     {
         if (moves[i] == ' ') {
             // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
-            char da[7];
-            if (i > 3)
-            {
-                da[0] = moves[i - 3];
-                da[1] = moves[i - 2];
-                da[2] = moves[i - 1];
-                da[3] = moves[i + 0];
-                da[4] = moves[i + 1];
-                da[5] = moves[i + 2];
-                da[6] = moves[i + 3];
-            }
             if (moves[i + 1] == '{' || moves[i + 1] == '(') {
                 if (inComment)
                     nestedComment = true;
@@ -173,11 +162,12 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                     if (moves[i + 1] != 'O')
                     {
                         // Normal move
-                        char pieceChar = moves[i + 1];
-                        if (isLowercase(pieceChar))
-                            pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
+                        char tempPieceChar = moves[i + 1];
+                        if (isLowercase(tempPieceChar))
+                            tempPieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
                         else if (turn == BLACK)
-                            pieceChar += 32;
+                            tempPieceChar += 32;
+                        PieceChar pieceChar = static_cast<PieceChar>(tempPieceChar);
                         if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#' && moves[i + 4] != '?' && moves[i + 4] != '!')
                         {
                             if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#' || moves[i + 5] == '?' || moves[i + 5] == '!')
@@ -221,7 +211,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                         }
                         else {
                             if (moves[i + 5] == '=')
-                                move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getPieceIndexFromChar(moves[i + 6]));
+                                move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getPieceIndexFromChar(moves[i + 6]), pieceChar);
                             else 
                                 move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
                         }
@@ -244,13 +234,14 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                 }
                 else
                 {
+                    PieceChar pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
                     // pawn move (not take)
                     if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!')
-                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49));
+                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), pieceChar);
 
                     // same but with promotion
                     else 
-                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), getPieceIndexFromChar(moves[i + 4]));
+                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), getPieceIndexFromChar(moves[i + 4]), pieceChar);
                 }
 
                 if (exportMovePerHash)
