@@ -80,9 +80,8 @@ int getHash(int argc, char *argv[])
     return 0;
 }
 
-int main(int argc, char *argv[])
-{
-    /*
+int main(int argc, char *argv[]) {
+    
     int returnValue;
     try {
         returnValue = getHash(argc, argv);
@@ -91,8 +90,8 @@ int main(int argc, char *argv[])
     }
     
     return returnValue;
-*/
-    
+
+    /*
         Board board = Board();
         board.clearBoard();
         board.importFEN("8/8/8/8/1Pp5/8/8/8 w - - 0 1");
@@ -106,5 +105,6 @@ int main(int argc, char *argv[])
 
     
     return 0;
+    */
 }
 

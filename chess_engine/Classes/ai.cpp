@@ -23,7 +23,7 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
-        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y, piece->getPieceChar() == pieceChar)
+        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->getPieceChar() == pieceChar)
             {
                 return moves[i];
             }
