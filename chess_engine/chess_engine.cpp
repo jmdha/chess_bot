@@ -81,12 +81,9 @@ int getHash(int argc, char *argv[])
 }
 
 int main(int argc, char *argv[]) {
-    
-    int returnValue;
-    try {
+    int returnValue = 0;
+    for (int i = 0; i < 1000; i++) {
         returnValue = getHash(argc, argv);
-    } catch (const std::exception& e) {
-        return -1;
     }
     
     return returnValue;

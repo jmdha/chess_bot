@@ -33,7 +33,7 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar);
+    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
@@ -47,7 +47,7 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column)
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column, PieceIndex promotionType)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar);
+    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
@@ -61,7 +61,7 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column, Pi
 
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar);
+    std::vector<Move> moves = getAllMovesOfPieceChar(board, row, pieceChar);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
@@ -75,7 +75,7 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
 
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int column)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar);
+    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column, row);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
         Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
@@ -126,6 +126,81 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar)
         for (int x = 0; x < WIDTH; x++)
         {
             if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar)
+            {
+                tempMoveList = board.getPiece(x, y)->getPossibleMoves(board);
+                moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+                it = moves.begin();
+            }
+        }
+    }
+
+    return moves;
+}
+
+std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int startCol)
+{
+
+    std::vector<Move> moves;
+
+    std::vector<Move>::iterator it;
+    it = moves.begin();
+    std::vector<Move> tempMoveList;
+
+    for (int y = 0; y < HEIGHT; y++)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == startCol)
+            {
+                tempMoveList = board.getPiece(x, y)->getPossibleMoves(board);
+                moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+                it = moves.begin();
+            }
+        }
+    }
+
+    return moves;
+}
+
+std::vector<Move> getAllMovesOfPieceChar(Board board, int startRow, PieceChar pieceChar)
+{
+
+    std::vector<Move> moves;
+
+    std::vector<Move>::iterator it;
+    it = moves.begin();
+    std::vector<Move> tempMoveList;
+
+    for (int y = 0; y < HEIGHT; y++)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == startRow)
+            {
+                tempMoveList = board.getPiece(x, y)->getPossibleMoves(board);
+                moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+                it = moves.begin();
+            }
+        }
+    }
+
+    return moves;
+}
+
+std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int startCol, int startRow)
+{
+
+    std::vector<Move> moves;
+
+    std::vector<Move>::iterator it;
+    it = moves.begin();
+    std::vector<Move> tempMoveList;
+
+    for (int y = 0; y < HEIGHT; y++)
+    {
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == startCol && y == startRow)
             {
                 tempMoveList = board.getPiece(x, y)->getPossibleMoves(board);
                 moves.insert(it, tempMoveList.begin(), tempMoveList.end());

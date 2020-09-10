@@ -15,6 +15,9 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar);
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int column);
 std::vector<Move> getAllMoves(Board board, Color side);
 std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar);
+std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int startCol);
+std::vector<Move> getAllMovesOfPieceChar(Board board, int startRow, PieceChar pieceChar);
+std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int startCol, int startRow);
 
 Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int *totalMoves);
 Move getBestMove(Board * board, int depth);

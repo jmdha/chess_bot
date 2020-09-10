@@ -1,0 +1,2 @@
+C:\Users\A\Documents\GitHub\chess_bot\chess_engine\Debug\chess_engine.exe
+C:\Users\A\Documents\GitHub\chess_bot\chess_engine\Debug\chess_engine.pdb

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerEnvironment>
+    </LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>"1. e4 d5 2. exd5 Qxd5 3. Nc3 Qa5 { B01 Scandinavian Defense: Main Line } 4. Nf3 Bg4 5. Be2 Nf6 6. O-O e6 7. d4 c6 8. Bf4 Nbd7 9. a3 g5?! { (0.52 → 1.34) Inaccuracy. Be7 was best. } (9... Be7 10. h3 Bh5 11. Re1 O-O 12. Bd3 Nd5 13. Nxd5 cxd5 14. c3 Rac8 15. Qc2 Bg6 16. Bxg6) 10. b4?! { (1.34 → 0.66) Inaccuracy. Nxg5 was best. } (10. Nxg5 Qf5 11. Bd2 Bxe2 12. Nxe2 Qg6 13. Re1 Rg8 14. Ng3 O-O-O 15. Nf3 Bd6 16. c4 Bc7) 10... Qf5 11. Bg3 h5 12. h3?? { (0.25 → -1.48) Blunder. h4 was best. } (12. h4 gxh4 13. Nxh4 Qh7 14. Ra2 Bxe2 15. Qxe2 Rg8 16. b5 Rc8 17. bxc6 Rxc6 18. Qf3 Rg4) 12... Bxf3 13. Bxf3 g4 14. Be2 gxh3 15. Bd3?! { (-1.34 → -2.21) Inaccuracy. Qd3 was best. } (15. Qd3 Qxd3 16. cxd3 h4 17. Bc7 hxg2 18. Kxg2 Bg7 19. Bf4 Ke7 20. Kh3 Bh6 21. Be5 Rag8) 15... Qg5 16. Ne4 Nxe4 17. Bxe4 hxg2 18. Re1 h4 19. Bh2 Nf6 20. f4 Qg4?! { (-3.17 → -2.20) Inaccuracy. Qg8 was best. } (20... Qg8 21. Qf3 Nxe4 22. Qxe4 O-O-O 23. Qxg2 Rxd4 24. Rad1 Rc4 25. Qxg8 Rxg8+ 26. Kh1 Rxc2 27. f5) 21. Bf3?! { (-2.20 → -2.84) Inaccuracy. f5 was best. } (21. f5 Rg8 22. Qxg4 Nxg4 23. Bf4 O-O-O 24. fxe6 fxe6 25. Kxg2 Bh6 26. Bxh6 Nxh6+ 27. Kf2 Rg3) 21... Qh3 22. Re3 Ng4?? { (-2.45 → 7.87) Blunder. O-O-O was best. } (22... O-O-O 23. Qe2 Rg8 24. b5 Ng4 25. Bxg4 Qxg4 26. bxc6 Qxe2 27. Rxe2 bxc6 28. Rxg2 Rxg2+ 29. Kxg2) 23. Bxc6+ bxc6 24. Rxh3 Nxh2 25. Rxh2 h3 26. Qf3 Rc8 27. f5 exf5 28. Qxf5 Rc7 29. Re1+ Kd8 30. Rxh3 Rxh3 31. Qxh3 Bg7 { Black resigns. } 1-0"</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+</Project>
