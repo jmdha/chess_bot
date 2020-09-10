@@ -78,11 +78,11 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int c
     std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column, row);
     for (int i = 0; i < static_cast<int>(moves.size()); i++)
     {
-        Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
+        Piece* piece = board.getPiece(moves[i].startX, moves[i].startY);
         if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->y == row && piece->x == column)
-            {
-                return moves[i];
-            }
+        {
+            return moves[i];
+        }
     }
     throw std::invalid_argument("Found no move");
 }

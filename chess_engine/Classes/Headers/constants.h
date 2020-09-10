@@ -3,6 +3,7 @@
 
 #define WIDTH 8
 #define HEIGHT 8
+#define PIECECOUNT 6
 
 // Colors has to be in the range 0-1 (used in zobrist init)
 enum Color

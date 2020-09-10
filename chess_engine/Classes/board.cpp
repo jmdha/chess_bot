@@ -260,7 +260,6 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                     printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
                 }
 
-
                 // commit move
                 commitMove(&move);
                 if (move.pawnDoubleMove)

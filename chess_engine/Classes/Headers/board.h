@@ -28,53 +28,52 @@ class Move;
 class Board
 {
 public:
-    int turnNumber = 0;
-    bool kingAlive[2] = {true, true};
-    bool castlingValid[2][2] = {{true, true}, {true, true}};
-    Zobrist *zobrist;
-    int enPassant;
-    Color turn;
+	int turnNumber = 0;
+	bool kingAlive[2] = { true, true };
+	bool castlingValid[2][2] = { {true, true}, {true, true} };
+	Zobrist* zobrist;
+	int enPassant;
+	Color turn;
 
-    Board();
-    Board(Color turn);
+	Board();
+	Board(Color turn);
 
-    void setStartPos();
-    void clearBoard();
-    void importFEN(std::string FEN);
-    void importPGN(std::string moves, bool exportMovePerHash);
-    void importFakePGN(std::string moves);
-    void printBoard();
-    bool isSquareEmpty(int x, int y);
-    bool isSquareEnemy(Color color, int x, int y);
-    void placePiece(Piece *piece);
-    Piece *getPiece(int x, int y);
-    int evaluateBoard();
-int evaluateBoard(Color side);
-    
-    void commitMove(Move *move);
-    void doMove(Move *move);
-    void switchTurn();
-    std::string getFEN();
-    void undoMove(Move *move);
+	void setStartPos();
+	void clearBoard();
+	void importFEN(std::string FEN);
+	void importPGN(std::string moves, bool exportMovePerHash);
+	void importFakePGN(std::string moves);
+	void printBoard();
+	bool isSquareEmpty(int x, int y);
+	bool isSquareEnemy(Color color, int x, int y);
+	void placePiece(Piece* piece);
+	Piece* getPiece(int x, int y);
+	int evaluateBoard();
+	int evaluateBoard(Color side);
+
+	void commitMove(Move* move);
+	void doMove(Move* move);
+	void switchTurn();
+	std::string getFEN();
+	void undoMove(Move* move);
 
 private:
-    Piece *board[WIDTH][HEIGHT];
-    
-    
+	Piece* board[WIDTH][HEIGHT];
 
-    
-    void setTurn(Color turn);
 
-    void placePiece(Piece *piece, int x, int y);
-    void placePiece(PieceChar piece, int x, int y);
-    void removePiece(int x, int y);
 
-    
+	void setTurn(Color turn);
 
-    Piece *getPieceFromChar(PieceChar piece);
-    PieceChar getPieceCharFromChar(char piece);
-    PieceIndex getPieceIndexFromChar(char piece);
-    
+	void placePiece(Piece* piece, int x, int y);
+	void placePiece(PieceChar piece, int x, int y);
+	void removePiece(int x, int y);
+
+
+
+	Piece* getPieceFromChar(PieceChar piece);
+	PieceChar getPieceCharFromChar(char piece);
+	PieceIndex getPieceIndexFromChar(char piece);
+
 };
 
 #endif

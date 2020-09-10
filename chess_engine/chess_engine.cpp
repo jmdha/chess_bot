@@ -63,10 +63,10 @@ int getChessMove(int argc, char *argv[])
     return 0;
 }
 
-int getHash(int argc, char *argv[])
+int getHash(char *PGN)
 {
     Board board(WHITE);
-    std::string moves = argv[1];
+    std::string moves = PGN;
     bool printPerMove = true;
     moves.erase(
         remove(moves.begin(), moves.end(), '\"'),
@@ -82,8 +82,8 @@ int getHash(int argc, char *argv[])
 
 int main(int argc, char *argv[]) {
     int returnValue = 0;
-    for (int i = 0; i < 1000; i++) {
-        returnValue = getHash(argc, argv);
+    for (int i = 1; i < argc; i++) {
+        returnValue = getHash(argv[i]);
     }
     
     return returnValue;
