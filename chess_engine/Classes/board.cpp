@@ -236,8 +236,10 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                 {
                     PieceChar pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
                     // pawn move (not take)
-                    if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!')
-                        move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), pieceChar);
+                    if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!') {
+                        int col = getColumnAsNumber(moves[i + 1]);
+                        move = getValidMove(*this, Point(col, moves[i + 2] - 49), pieceChar, col);
+                    }
 
                     // same but with promotion
                     else 
