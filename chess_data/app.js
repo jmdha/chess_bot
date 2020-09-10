@@ -47,50 +47,56 @@ async function cleanData() {
     });
 }
 
+let PGNBuffer = [];
 async function passFile(fileName) {
     return new Promise(resolve => {
         let rd = readline.createInterface({
             input: fs.createReadStream(fileName)
         });
-        rd.on('line', function (line) {
+        rd.on('line', function (PGN) {
             if (
-                line.indexOf('Event') < 0 &&
-                line.indexOf('Site') < 0 &&
-                line.indexOf('UTC') < 0 &&
-                line.indexOf('Title') < 0 &&
-                line.indexOf('Termination') < 0 &&
-                line.indexOf('TimeControl') < 0 &&
-                line.indexOf('ECO') < 0 &&
-                line.indexOf('Opening') < 0 &&
-                line.indexOf('White \"') < 0 &&
-                line.indexOf('Black \"') < 0 &&
-                line.indexOf('Diff \"') < 0 &&
-                line.indexOf('Elo \"') < 0 &&
-                line.indexOf('Result') < 0 &&
-                line.length > 4) {
-                line = line.replace("…", "...");
-
-                incrementByPGN(line);
+                PGN.indexOf('Event') < 0 &&
+                PGN.indexOf('Site') < 0 &&
+                PGN.indexOf('UTC') < 0 &&
+                PGN.indexOf('Title') < 0 &&
+                PGN.indexOf('Termination') < 0 &&
+                PGN.indexOf('TimeControl') < 0 &&
+                PGN.indexOf('ECO') < 0 &&
+                PGN.indexOf('Opening') < 0 &&
+                PGN.indexOf('White \"') < 0 &&
+                PGN.indexOf('Black \"') < 0 &&
+                PGN.indexOf('Diff \"') < 0 &&
+                PGN.indexOf('Elo \"') < 0 &&
+                PGN.indexOf('Result') < 0 &&
+                PGN.length > 4) {
+                PGN = PGN.replace("…", "...");
+                PGNBuffer.push(JSON.stringify(PGN));
+                if (PGN.length >= 1) {
+                    incrementByPGN(PGNBuffer);
+                    PGNBuffer = [];
+                }
                 if (gameCount % 100 == 0)
                     printProgress();
                 //console.log(incrementCount);
             }
         });
+        // if any excess
+        if (PGNBuffer.length > 0)
+            incrementByPGN(PGNBuffer);
         rd.on('close', () => {
             resolve();
         })
     })
 }
 
-function incrementByPGN(PGN) {
-    let hashMovePairArray = getHash(PGN).toString().split('\r\n').map((hashMovePair) => hashMovePair.split(' ')).filter((element) => element.length == 2);
+function incrementByPGN(PGNBuffer) {
+    let hashMovePairArray = getHash(PGNBuffer).toString().split('\r\n').map((hashMovePair) => hashMovePair.split(' ')).filter((element) => element.length == 2);
 
     for (let i = 0; i < hashMovePairArray.length; i++) {
         incrementHashByMove(hashMovePairArray[i][0], hashMovePairArray[i][1]);
     }
 
-    gameCount++;
-
+    gameCount+= PGNBuffer.length;
 }
 
 let hashMovePairBuffer = [];
@@ -126,9 +132,8 @@ async function insertValue(sql, values) {
     })
 }
 
-function getHash(PGN) {
-    let optionals = new Array(JSON.stringify(PGN));
-    return execFileSync(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, {
+function getHash(PGNBuffer) {
+    return execFileSync(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), PGNBuffer, {
         "timeout": 5000
     })
 }
