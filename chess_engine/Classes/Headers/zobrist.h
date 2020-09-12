@@ -21,7 +21,6 @@ public:
     
 
 private:
-    unsigned long int valueBoard[WIDTH][HEIGHT][6][2] = {0};
     unsigned long int currentHash;
     Board *board;
 
