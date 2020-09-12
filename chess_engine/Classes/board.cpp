@@ -27,7 +27,6 @@ Board::Board()
 
 Board::Board(Color turn)
 {
-    this->zobrist = new Zobrist(this);
     setStartPos();
 }
 

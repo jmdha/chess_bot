@@ -6,4 +6,8 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommandArguments>"1. e4 e6 2. Nc3 c6 3. f4 d5 4. f5 exf5 5. exd5 cxd5 6. d4 Qe7+ 7. Be2 Nf6 8. Bf4 Ne4 9. Nxd5 Be6 10. Nc7+ 1-0"</LocalDebuggerCommandArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 e5 5. Nb5 d6 { B32 Sicilian Defense: Kalashnikov Variation } 6. N1c3 a6 7. Na3 Be6 8. Be3 b5 9. Nd5 Rb8 10. c4 b4 11. Nc2 Nf6 12. Bd3 Be7 13. b3 O-O 14. O-O a5 15. a3 bxa3 16. Rxa3 Bxd5 17. exd5 Nb4 18. Nxb4 axb4 19. Ra7 Nd7 20. Bf5 Nc5 21. Bxc5 dxc5 22. Rd7 Qe8 23. d6 Bg5 24. Qd5 g6 25. Bh3 Kh8 26. Re1 f5 27. Qxe5+ Bf6 28. Qxe8 Rfxe8 29. Rxe8+ Rxe8 30. g3 Re6 31. Bg2 Re1+ 32. Bf1 Rd1 33. Kg2 Be5 34. Rd8+ Kg7 35. d7 Bc7 36. Be2 Rd2 37. Rc8 Rxd7 38. Bf3 Re7 39. Bd5 Be5 40. h4 Bd4 41. f3 h5 42. g4 fxg4 43. fxg4 hxg4 44. Kg3 Re3+ 45. Kxg4 Rxb3 46. Rc7+ Kf6 47. Rc6+ Kg7 48. Be4 Bf6 49. Rc7+ Kf8 50. Bxg6 Be5 51. Kf5 Bxc7 52. h5 Rh3 53. Kg4 Rh1 54. Bc2 Rh2 55. Ba4 Ke7 56. Kg5 Kd6 57. Kg6 Ke5 58. h6 Kd4 59. h7 Be5 60. Bb3 Kc3 61. Ba4 b3 62. Bd7 b2 63. Bf5 Rxh7 64. Kxh7 Kxc4 65. Kg6 b1=Q 66. Bxb1 Kc3 67. Be4 Kd2 68. Kf5 { White wins on time. } 1-0</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
