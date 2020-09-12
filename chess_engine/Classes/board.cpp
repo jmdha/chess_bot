@@ -58,7 +58,6 @@ void Board::importFEN(std::string FEN)
         FEN.erase(0, 1);
     }
 
-    this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
     //this->zobrist->initializeHash();
 
@@ -348,7 +347,28 @@ bool Board::isSquareEnemy(Color color, int x, int y)
 
 void Board::setStartPos()
 {
-    importFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    clearBoard();
+    for (int x = 0; x < WIDTH; x++) {
+        placePiece(PAWNBLACK, x, PAWNROWBLACK);
+        placePiece(PAWNWHITE, x, PAWNROWWHITE);
+    }
+    placePiece(ROOKWHITE, 0, BACKROWWHITE);
+    placePiece(ROOKWHITE, 7, BACKROWWHITE);
+    placePiece(ROOKBLACK, 0, BACKROWBLACK);
+    placePiece(ROOKBLACK, 7, BACKROWBLACK);
+    placePiece(KNIGHTWHITE, 1, BACKROWWHITE);
+    placePiece(KNIGHTWHITE, 6, BACKROWWHITE);
+    placePiece(KNIGHTBLACK, 1, BACKROWBLACK);
+    placePiece(KNIGHTBLACK, 6, BACKROWBLACK);
+    placePiece(BISHOPWHITE, 2, BACKROWWHITE);
+    placePiece(BISHOPWHITE, 5, BACKROWWHITE);
+    placePiece(BISHOPBLACK, 2, BACKROWBLACK);
+    placePiece(BISHOPBLACK, 5, BACKROWBLACK);
+    placePiece(KINGWHITE, 3, BACKROWWHITE);
+    placePiece(KINGBLACK, 3, BACKROWBLACK);
+    placePiece(QUEENWHITE, 4, BACKROWWHITE);
+    placePiece(QUEENBLACK, 4, BACKROWBLACK);
+    zobrist->incrementCurrentHash();
 }
 
 void Board::clearBoard()

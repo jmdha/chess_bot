@@ -33,7 +33,7 @@ public:
 	bool castlingValid[2][2] = { {true, true}, {true, true} };
 	Zobrist* zobrist;
 	int enPassant;
-	Color turn;
+	Color turn = WHITE;
 
 	Board();
 	Board(Color turn);
