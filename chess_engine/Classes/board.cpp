@@ -364,10 +364,10 @@ void Board::setStartPos()
     placePiece(BISHOPWHITE, 5, BACKROWWHITE);
     placePiece(BISHOPBLACK, 2, BACKROWBLACK);
     placePiece(BISHOPBLACK, 5, BACKROWBLACK);
-    placePiece(KINGWHITE, 3, BACKROWWHITE);
-    placePiece(KINGBLACK, 3, BACKROWBLACK);
-    placePiece(QUEENWHITE, 4, BACKROWWHITE);
-    placePiece(QUEENBLACK, 4, BACKROWBLACK);
+    placePiece(KINGWHITE, 4, BACKROWWHITE);
+    placePiece(KINGBLACK, 4, BACKROWBLACK);
+    placePiece(QUEENWHITE, 3, BACKROWWHITE);
+    placePiece(QUEENBLACK, 3, BACKROWBLACK);
     zobrist->incrementCurrentHash();
 }
 
