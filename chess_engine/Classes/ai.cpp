@@ -19,69 +19,108 @@ Move getValidMove(Board board, Point endPos, PieceIndex promotionType, PieceChar
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    std::vector<Move> moves;
+
+    for (int y = 0; y < HEIGHT; y++)
     {
-        Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
-        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->getPieceChar() == pieceChar)
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar)
             {
-                return moves[i];
+                moves = board.getPiece(x, y)->getPossibleMoves(board);
+                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+                        return moves[i];
+                }
             }
+        }
     }
+
     throw std::invalid_argument("Found no move");
 }
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    std::vector<Move> moves;
+
+    for (int y = 0; y < HEIGHT; y++)
     {
-        Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
-        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column)
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == column)
             {
-                return moves[i];
+                moves = board.getPiece(x, y)->getPossibleMoves(board);
+                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+                        return moves[i];
+                }
             }
+        }
     }
+
     throw std::invalid_argument("Found no move");
 }
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column, PieceIndex promotionType)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    std::vector<Move> moves;
+
+    for (int y = 0; y < HEIGHT; y++)
     {
-        Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
-        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->x == column && moves[i].promotionType == promotionType)
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == column)
             {
-                return moves[i];
+                moves = board.getPiece(x, y)->getPossibleMoves(board);
+                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && moves[i].promotionType == promotionType)
+                        return moves[i];
+                }
             }
+        }
     }
+
     throw std::invalid_argument("Found no move");
 }
 
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, row, pieceChar);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    std::vector<Move> moves;
+
+    for (int y = 0; y < HEIGHT; y++)
     {
-        Piece *piece = board.getPiece(moves[i].startX, moves[i].startY);
-        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->y == row)
+        for (int x = 0; x < WIDTH; x++)
+        {
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == row)
             {
-                return moves[i];
+                moves = board.getPiece(x, y)->getPossibleMoves(board);
+                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+                        return moves[i];
+                }
             }
+        }
     }
+
     throw std::invalid_argument("Found no move");
 }
 
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int column)
 {
-    std::vector<Move> moves = getAllMovesOfPieceChar(board, pieceChar, column, row);
-    for (int i = 0; i < static_cast<int>(moves.size()); i++)
+    std::vector<Move> moves;
+
+    for (int y = 0; y < HEIGHT; y++)
     {
-        Piece* piece = board.getPiece(moves[i].startX, moves[i].startY);
-        if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && piece->y == row && piece->x == column)
+        for (int x = 0; x < WIDTH; x++)
         {
-            return moves[i];
+            if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == row && x == column)
+            {
+                moves = board.getPiece(x, y)->getPossibleMoves(board);
+                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+                        return moves[i];
+                }
+            }
         }
     }
     throw std::invalid_argument("Found no move");

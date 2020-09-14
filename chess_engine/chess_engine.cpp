@@ -82,10 +82,15 @@ int getHash(char *PGN)
 
 int main(int argc, char *argv[]) {
     int returnValue = 0;
-    for (int i2 = 0; i2 < 1000; i2++) {
-        for (int i = 1; i < argc; i++) {
-            returnValue = getHash(argv[i]);
+    try {
+        for (int i2 = 0; i2 < 10000; i2++) {
+            for (int i = 1; i < argc; i++) {
+                returnValue = getHash(argv[i]);
+            }
         }
+    }
+    catch (_exception e) {
+
     }
     
     return returnValue;
