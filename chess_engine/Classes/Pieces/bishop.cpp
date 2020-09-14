@@ -47,6 +47,36 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
     return moves;
 }
 
+Move Bishop::getMoveIfPossible(Board board, Point endPos) {
+    std::vector<Move> moves;
+
+    for (int i = 0; i < 4; i++)
+    {
+
+        Direction dir = NORTHWEST;
+        switch (i)
+        {
+        case 0:
+            dir = NORTHEAST;
+            break;
+
+        case 1:
+            dir = SOUTHWEST;
+            break;
+
+        case 2:
+            dir = SOUTHEAST;
+            break;
+        }
+        moves = this->getPossibleMovesInDirection(board, dir, 8);
+        for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+                return moves[i];
+        }
+    }
+    return Move(-1, -1, -1, -1);
+}
+
 int Bishop::getValue() {
     return VALUEBISHOP + VALUEBISHOPPOS[x][(this->color == WHITE) ? y : HEIGHT - 1];
 }

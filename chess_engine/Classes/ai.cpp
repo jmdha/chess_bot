@@ -19,7 +19,7 @@ Move getValidMove(Board board, Point endPos, PieceIndex promotionType, PieceChar
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
 {
-    std::vector<Move> moves;
+    Move move;
 
     for (int y = 0; y < HEIGHT; y++)
     {
@@ -27,11 +27,9 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
         {
             if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar)
             {
-                moves = board.getPiece(x, y)->getPossibleMoves(board);
-                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
-                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
-                        return moves[i];
-                }
+                move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
+                if (move.endX != -1 && move.endY != -1)
+                    return move;
             }
         }
     }
@@ -41,7 +39,7 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
 
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column)
 {
-    std::vector<Move> moves;
+    Move move;
 
     for (int y = 0; y < HEIGHT; y++)
     {
@@ -49,11 +47,9 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column)
         {
             if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == column)
             {
-                moves = board.getPiece(x, y)->getPossibleMoves(board);
-                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
-                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
-                        return moves[i];
-                }
+                move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
+                if (move.endX != -1 && move.endY != -1)
+                    return move;
             }
         }
     }
@@ -85,7 +81,7 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column, Pi
 
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
 {
-    std::vector<Move> moves;
+    Move move;
 
     for (int y = 0; y < HEIGHT; y++)
     {
@@ -93,11 +89,9 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
         {
             if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == row)
             {
-                moves = board.getPiece(x, y)->getPossibleMoves(board);
-                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
-                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
-                        return moves[i];
-                }
+                move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
+                if (move.endX != -1 && move.endY != -1)
+                    return move;
             }
         }
     }
@@ -107,7 +101,7 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
 
 Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int column)
 {
-    std::vector<Move> moves;
+    Move move;
 
     for (int y = 0; y < HEIGHT; y++)
     {
@@ -115,11 +109,9 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int c
         {
             if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == row && x == column)
             {
-                moves = board.getPiece(x, y)->getPossibleMoves(board);
-                for (int i = 0; i < static_cast<int>(moves.size()); i++) {
-                    if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
-                        return moves[i];
-                }
+                move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
+                if (move.endX != -1 && move.endY != -1)
+                    return move;
             }
         }
     }

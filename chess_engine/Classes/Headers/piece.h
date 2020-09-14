@@ -22,6 +22,7 @@ public:
     Piece(Color color);
     virtual PieceChar getPieceChar();
     virtual std::vector<Move> getPossibleMoves(Board board);
+    virtual Move getMoveIfPossible(Board board, Point endPos);
     virtual int getValue();
     virtual int getIndex();
     std::vector<Move> getPossibleMovesInDirection(Board board, Direction direction, int length);

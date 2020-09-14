@@ -16,6 +16,11 @@ std::vector<Move> Piece::getPossibleMoves(Board board)
     return {};
 }
 
+Move Piece::getMoveIfPossible(Board board, Point endPos)
+{
+    return {};
+}
+
 int Piece::getValue()
 {
     return 0;

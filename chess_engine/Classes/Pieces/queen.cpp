@@ -33,6 +33,25 @@ std::vector<Move> Queen::getPossibleMoves(Board board)
     return moves;
 }
 
+// does not check for castling
+Move Queen::getMoveIfPossible(Board board, Point endPos)
+{
+    std::vector<Move> moves;
+
+    for (int i = 1; i <= 9; i++)
+    {
+        if (i == 5)
+            continue;
+        moves = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 8);
+        for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+            if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+                return moves[i];
+        }
+    }
+
+    return Move(-1, -1, -1, -1);
+}
+
 int Queen::getValue()
 {
     return VALUEQUEEN + VALUEQUEENPOS[x][(this->color == WHITE) ? y : HEIGHT - 1];
