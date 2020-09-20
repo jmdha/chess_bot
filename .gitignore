@@ -4,12 +4,16 @@ chess_data/data/old
 # node modules
 chess_server/node_modules
 
+*
+*/
+
 # User-specific files
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
+*.exe
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
