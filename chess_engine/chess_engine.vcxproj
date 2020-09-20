@@ -152,6 +152,7 @@
     <ClCompile Include="chess_engine.cpp" />
     <ClCompile Include="Classes\ai.cpp" />
     <ClCompile Include="Classes\board.cpp" />
+    <ClCompile Include="Classes\database.cpp" />
     <ClCompile Include="Classes\generic_helper_functions.cpp" />
     <ClCompile Include="Classes\move.cpp" />
     <ClCompile Include="Classes\piece.cpp" />
@@ -163,12 +164,12 @@
     <ClCompile Include="Classes\Pieces\rook.cpp" />
     <ClCompile Include="Classes\point.cpp" />
     <ClCompile Include="Classes\zobrist.cpp" />
-    <ClCompile Include="Database.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Headers\ai.h" />
     <ClInclude Include="Classes\Headers\board.h" />
     <ClInclude Include="Classes\Headers\constants.h" />
+    <ClInclude Include="Classes\Headers\database.h" />
     <ClInclude Include="Classes\Headers\generic_helper_functions.h" />
     <ClInclude Include="Classes\Headers\move.h" />
     <ClInclude Include="Classes\Headers\piece.h" />
@@ -180,7 +181,6 @@
     <ClInclude Include="Classes\Pieces\Headers\pawn.h" />
     <ClInclude Include="Classes\Pieces\Headers\queen.h" />
     <ClInclude Include="Classes\Pieces\Headers\rook.h" />
-    <ClInclude Include="Database.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

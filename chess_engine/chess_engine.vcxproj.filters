@@ -57,7 +57,7 @@
     <ClCompile Include="Classes\Pieces\rook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Database.cpp">
+    <ClCompile Include="Classes\database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -104,7 +104,7 @@
     <ClInclude Include="Classes\Pieces\Headers\rook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Database.h">
+    <ClInclude Include="Classes\Headers\database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
