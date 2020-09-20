@@ -6,6 +6,7 @@ chess_server/node_modules
 
 
 *.db
+*.pgn
 
 # User-specific files
 *.rsuser
