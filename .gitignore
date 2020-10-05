@@ -4,9 +4,6 @@ chess_data/data/old
 # node modules
 chess_server/node_modules
 
-
-*.db
-
 # User-specific files
 *.rsuser
 *.suo

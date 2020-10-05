@@ -10,7 +10,6 @@
 #include "Classes/Pieces/Headers/knight.h"
 #include "Classes/Headers/generic_helper_functions.h"
 #include "Classes/Headers/ai.h"
-#include "Classes/Headers/database.h"
 
 int getChessMove(int argc, char *argv[])
 {
@@ -33,7 +32,7 @@ int getChessMove(int argc, char *argv[])
             remove(moves.begin(), moves.end(), '\"'),
             moves.end());
         if (isNumber(moves[0]))
-            board.importPGN(moves, false, nullptr);
+            board.importPGN(moves, false);
         else
             board.importFakePGN(moves);
     }
@@ -65,9 +64,8 @@ int getChessMove(int argc, char *argv[])
     return 0;
 }
 
-int getHash(char *PGN, Database *db)
+int getHash(char *PGN)
 {
-    
     Board board(WHITE);
     std::string moves = PGN;
     bool printPerMove = true;
@@ -75,7 +73,7 @@ int getHash(char *PGN, Database *db)
         remove(moves.begin(), moves.end(), '\"'),
         moves.end());
     if (isNumber(moves[0]))
-        board.importPGN(moves, printPerMove, db);
+        board.importPGN(moves, printPerMove);
     else
         board.importFakePGN(moves);
     if (!printPerMove)
@@ -84,19 +82,19 @@ int getHash(char *PGN, Database *db)
 }
 
 int main(int argc, char *argv[]) {
-    const char* path = "data.db";
-    Database db = Database(path);
+    
     int returnValue = 0;
     try {
         for (int i2 = 0; i2 < 10000; i2++) {
             for (int i = 1; i < argc; i++) {
-                returnValue = getHash(argv[i], &db);
+                returnValue = getHash(argv[i]);
             }
         }
     }
     catch (_exception e) {
+
     }
-    db.closeDatabase();
+    
     return returnValue;
     
     /*

@@ -18,7 +18,6 @@ class Move;
 #include "move.h"
 #include "zobrist.h"
 #include "point.h"
-#include "database.h"
 
 // used for random taking move
 #include <algorithm>
@@ -42,7 +41,7 @@ public:
 	void setStartPos();
 	void clearBoard();
 	void importFEN(std::string FEN);
-	void importPGN(std::string moves, bool exportMovePerHash, Database* database);
+	void importPGN(std::string moves, bool exportMovePerHash);
 	void importFakePGN(std::string moves);
 	void printBoard();
 	bool isSquareEmpty(int x, int y);

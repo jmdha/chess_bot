@@ -116,7 +116,7 @@ std::string Board::getFEN()
     return FEN;
 }
 
-void Board::importPGN(std::string moves, bool exportMovePerHash, Database *db)
+void Board::importPGN(std::string moves, bool exportMovePerHash)
 {
     this->turnNumber = 1;
     this->zobrist->priorInstanceCount.clear();
@@ -254,8 +254,8 @@ void Board::importPGN(std::string moves, bool exportMovePerHash, Database *db)
                         moveString += moves[i + i2];
                         i2++;
                     };
-                    db->addEntry(this->zobrist->getHash(), moveString.c_str());
                     //printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
+                    printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
                 }
 
                 // commit move
