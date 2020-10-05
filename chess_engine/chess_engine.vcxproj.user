@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerEnvironment>
+    </LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>"1. d4 Nf6 2. Nf3 e6 3. Bg5 { A46 Torre Attack } d5 4. e3 Be7 5. c4 h6 6. Bh4 O-O 7. Nbd2 b6 8. Qc2 c5 9. dxc5 bxc5 10. cxd5 exd5 11. Be2 Be6 12. O-O Nbd7 13. Rfd1 Re8 14. Rac1 Rc8 15. b3 a5 16. h3 a4 17. bxa4 Ra8 18. Bb5 Rf8 19. Nb3 c4 20. Nbd4 Qb6 21. Rb1 Qc5 22. Nxe6 fxe6 23. Nd4 Kf7 24. Nc6 Bd6 25. Nd4 Ne5 26. Bxf6 Kxf6 27. Qe2 Ke7 28. f4 Nd3 29. Qg4 Rf6 30. Qxg7+ Rf7 31. Qg4 Rf6 32. Qg7+ Rf7 33. Qxh6 Bxf4 34. Qxe6+ Kf8 35. Bc6 Rd8 36. Rb7 Rxb7 37. Bxb7 Qd6 38. exf4 { Black resigns. } 1-0"</LocalDebuggerCommandArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>"1. d4 Nf6 2. Nf3 e6 3. Bg5 { A46 Torre Attack } d5 4. e3 Be7 5. c4 h6 6. Bh4 O-O 7. Nbd2 b6 8. Qc2 c5 9. dxc5 bxc5 10. cxd5 exd5 11. Be2 Be6 12. O-O Nbd7 13. Rfd1 Re8 14. Rac1 Rc8 15. b3 a5 16. h3 a4 17. bxa4 Ra8 18. Bb5 Rf8 19. Nb3 c4 20. Nbd4 Qb6 21. Rb1 Qc5 22. Nxe6 fxe6 23. Nd4 Kf7 24. Nc6 Bd6 25. Nd4 Ne5 26. Bxf6 Kxf6 27. Qe2 Ke7 28. f4 Nd3 29. Qg4 Rf6 30. Qxg7+ Rf7 31. Qg4 Rf6 32. Qg7+ Rf7 33. Qxh6 Bxf4 34. Qxe6+ Kf8 35. Bc6 Rd8 36. Rb7 Rxb7 37. Bxb7 Qd6 38. exf4 { Black resigns. } 1-0"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LocalDebuggerCommandArguments>"1. d4 Nf6 2. Nf3 e6 3. Bg5 { A46 Torre Attack } d5 4. e3 Be7 5. c4 h6 6. Bh4 O-O 7. Nbd2 b6 8. Qc2 c5 9. dxc5 bxc5 10. cxd5 exd5 11. Be2 Be6 12. O-O Nbd7 13. Rfd1 Re8 14. Rac1 Rc8 15. b3 a5 16. h3 a4 17. bxa4 Ra8 18. Bb5 Rf8 19. Nb3 c4 20. Nbd4 Qb6 21. Rb1 Qc5 22. Nxe6 fxe6 23. Nd4 Kf7 24. Nc6 Bd6 25. Nd4 Ne5 26. Bxf6 Kxf6 27. Qe2 Ke7 28. f4 Nd3 29. Qg4 Rf6 30. Qxg7+ Rf7 31. Qg4 Rf6 32. Qg7+ Rf7 33. Qxh6 Bxf4 34. Qxe6+ Kf8 35. Bc6 Rd8 36. Rb7 Rxb7 37. Bxb7 Qd6 38. exf4 { Black resigns. } 1-0"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerCommandArguments>"1. d4 Nf6 2. Nf3 e6 3. Bg5 { A46 Torre Attack } d5 4. e3 Be7 5. c4 h6 6. Bh4 O-O 7. Nbd2 b6 8. Qc2 c5 9. dxc5 bxc5 10. cxd5 exd5 11. Be2 Be6 12. O-O Nbd7 13. Rfd1 Re8 14. Rac1 Rc8 15. b3 a5 16. h3 a4 17. bxa4 Ra8 18. Bb5 Rf8 19. Nb3 c4 20. Nbd4 Qb6 21. Rb1 Qc5 22. Nxe6 fxe6 23. Nd4 Kf7 24. Nc6 Bd6 25. Nd4 Ne5 26. Bxf6 Kxf6 27. Qe2 Ke7 28. f4 Nd3 29. Qg4 Rf6 30. Qxg7+ Rf7 31. Qg4 Rf6 32. Qg7+ Rf7 33. Qxh6 Bxf4 34. Qxe6+ Kf8 35. Bc6 Rd8 36. Rb7 Rxb7 37. Bxb7 Qd6 38. exf4 { Black resigns. } 1-0"</LocalDebuggerCommandArguments>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+</Project>

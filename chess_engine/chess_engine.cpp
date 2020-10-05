@@ -82,7 +82,20 @@ int getHash(char *PGN)
 }
 
 int main(int argc, char *argv[]) {
-    
+    sqlite3* db;
+    int rc = sqlite3_open("test.db", &db);
+    if (rc) {
+        fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+        return(0);
+    }
+    else {
+        fprintf(stderr, "Opened database successfully\n");
+    }
+    sqlite3_close(db);
+    return 0;
+
+
+    /*
     int returnValue = 0;
     try {
         for (int i2 = 0; i2 < 10000; i2++) {
@@ -96,7 +109,7 @@ int main(int argc, char *argv[]) {
     }
     
     return returnValue;
-    
+    */
     /*
         Board board = Board();
         board.clearBoard();
