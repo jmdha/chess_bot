@@ -118,7 +118,6 @@ std::string Board::getFEN()
 
 void Board::importPGN(std::string moves, bool exportMovePerHash, Database *db)
 {
-    std::string pgn = moves;
     this->turnNumber = 1;
     this->zobrist->priorInstanceCount.clear();
     this->zobrist->incrementCurrentHash();
@@ -130,14 +129,15 @@ void Board::importPGN(std::string moves, bool exportMovePerHash, Database *db)
     for (int i = 0; i < static_cast<int>(moves.length()); i++)
     {
         if (moves[i] == ' ') {
-            if (moves[i + 1] == '{' || moves[i + 1] == '(' || moves[i + 1] == '[') {
+            // da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
+            if (moves[i + 1] == '{' || moves[i + 1] == '(') {
                 if (inComment)
                     nestedComment = true;
                 else
                     inComment = true;
             }
 
-            if (moves[i - 1] == '}' || moves[i - 1] == ')' || moves[i + 1] == '[') {
+            if (moves[i - 1] == '}' || moves[i - 1] == ')') {
                 if (nestedComment)
                     nestedComment = false;
                 else
@@ -264,7 +264,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash, Database *db)
                     enPassant = move.startX;
                 else
                     enPassant = -1;
-
+                //printBoard();
                 if (isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
                     break;
             } else if (isNumber(moves[i + 1])) {
