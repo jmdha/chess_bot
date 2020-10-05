@@ -4,7 +4,6 @@
 #include <string>
 #include <algorithm>
 #include <chrono>
-#include <filesystem>
 #include "sqlite3.h"
 #include "Classes/Headers/board.h"
 #include "Classes/Headers/move.h"
@@ -66,7 +65,7 @@ int getChessMove(int argc, char *argv[])
     return 0;
 }
 
-void getHash(char *PGN, Database *db)
+int getHash(char *PGN, Database *db)
 {
     
     Board board(WHITE);
@@ -81,37 +80,24 @@ void getHash(char *PGN, Database *db)
         board.importFakePGN(moves);
     if (!printPerMove)
         printf("%lu\n", board.zobrist->getHash());
-}
-
-void goThroughFile(const char* path, Database *db) {
-    std::ifstream file(path);
-    std::string str;
-    while (std::getline(file, str)) {
-        if (str.length() > 4 && str[0] != '[') {
-            char* ch = const_cast<char*>(str.c_str());
-            getHash(ch, db);
-        }
-            
-    }
-}
-
-void goThroughAllPGNFIles(const char* path, Database *db) {
-    for (const auto& entry : std::filesystem::directory_iterator(path)) {
-        const auto filePath = entry.path().string();
-        goThroughFile(filePath.c_str(), db);
-    }
+    return 0;
 }
 
 int main(int argc, char *argv[]) {
     const char* path = "data.db";
     Database db = Database(path);
+    int returnValue = 0;
     try {
-        goThroughAllPGNFIles("./Data/", &db);
+        for (int i2 = 0; i2 < 10000; i2++) {
+            for (int i = 1; i < argc; i++) {
+                returnValue = getHash(argv[i], &db);
+            }
+        }
     }
     catch (_exception e) {
     }
     db.closeDatabase();
-    return 0;
+    return returnValue;
     
     /*
         Board board = Board();
