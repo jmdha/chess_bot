@@ -23,10 +23,6 @@
 
 Board::Board()
 {
-}
-
-Board::Board(Color turn)
-{
     setStartPos();
 }
 

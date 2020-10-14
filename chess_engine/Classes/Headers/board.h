@@ -36,7 +36,6 @@ public:
 	Color turn = WHITE;
 
 	Board();
-	Board(Color turn);
 
 	void setStartPos();
 	void clearBoard();

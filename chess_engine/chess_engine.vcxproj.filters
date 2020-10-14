@@ -1,105 +1,103 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="chess_engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\ai.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\generic_helper_functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\move.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\piece.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\point.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\zobrist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Classes\Pieces\bishop.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Pieces\king.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Pieces\knight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Pieces\pawn.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Pieces\queen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Pieces\rook.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Pieces\pawn.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\ai.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\board.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\generic_helper_functions.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\move.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\piece.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\point.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\zobrist.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Headers\ai.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\board.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Headers\constants.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\generic_helper_functions.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Headers\constants.h">
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\move.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\piece.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\point.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\zobrist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\bishop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\king.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\knight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\pawn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\queen.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\rook.h">
-      <Filter>Header Files</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\queen.h">
+      <Filter>Classes\Pieces\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\pawn.h">
+      <Filter>Classes\Pieces\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\king.h">
+      <Filter>Classes\Pieces\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\bishop.h">
+      <Filter>Classes\Pieces\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\knight.h">
+      <Filter>Classes\Pieces\Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{7a209631-07bf-4efd-928c-43e65145ef95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Headers">
+      <UniqueIdentifier>{79debfd8-7355-4e51-ac4a-2333c5bf203b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Pieces">
+      <UniqueIdentifier>{0b08c161-9118-4ee8-8299-327492b2fdc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Pieces\Headers">
+      <UniqueIdentifier>{57ffa1f8-b45f-4dca-886b-f37bf0c32f6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
