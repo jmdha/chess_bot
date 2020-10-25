@@ -247,7 +247,6 @@ Move getBestMove(Board *board, int depth)
 {
     int totalMovesChecked = 0;
     Move move = minimax(board, depth, true, board->turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked);
-    printf("%d\n", totalMovesChecked);
     return move;
 }
 
@@ -337,14 +336,20 @@ Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int 
             bestMove = moves[i];
             bestMove.value = move.value;
         }
-
-        if (isMax)
+        
+        if (isMax) {
             a = std::max(bestMove.value, a);
-        else
+            if (a >= b)
+                break;
+        }
+        else {
             b = std::min(bestMove.value, b);
+            if (b <= a)
+                break;
+        }
 
-        if (a >= b)
-            break;
+            
+
     }
     return bestMove;
 }
