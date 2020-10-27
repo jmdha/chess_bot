@@ -99,23 +99,27 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
 	moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 	it = moves.begin();
 
+	
 	// get en passant move
 	if (board.enPassant != -1) {
-		if (board.enPassant == x - 1) {
-			tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHWEST : SOUTHWEST, 1, false);
-			if (tempMoveList.size() == 1)
-				tempMoveList[0].enPassantTake = true;
-			moves.insert(it, tempMoveList.begin(), tempMoveList.end());
-			it = moves.begin();
-		}
-		else if (board.enPassant == x + 1) {
-			tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHEAST : SOUTHEAST, 1, false);
-			if (tempMoveList.size() == 1)
-				tempMoveList[0].enPassantTake = true;
-			moves.insert(it, tempMoveList.begin(), tempMoveList.end());
-			it = moves.begin();
+		if ((color == WHITE && y == ENPASSANTROWWHITE) || (color == BLACK && y == ENPASSANTROWBLACK)) {
+			if (board.enPassant == x - 1) {
+				tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHWEST : SOUTHWEST, 1, false);
+				if (tempMoveList.size() == 1)
+					tempMoveList[0].enPassantTake = true;
+				moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+				it = moves.begin();
+			}
+			else if (board.enPassant == x + 1) {
+				tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHEAST : SOUTHEAST, 1, false);
+				if (tempMoveList.size() == 1)
+					tempMoveList[0].enPassantTake = true;
+				moves.insert(it, tempMoveList.begin(), tempMoveList.end());
+				it = moves.begin();
+			}
 		}
 	}
+	
 	return moves;
 }
 
