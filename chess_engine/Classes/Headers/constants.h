@@ -12,6 +12,11 @@ enum Color
     BLACK
 };
 
+enum EnPassantRow {
+    ENPASSANTROWBLACK = 4,
+    ENPASSANTROWWHITE = 5
+};
+
 enum PawnRow
 {
     PAWNROWWHITE = 1,
