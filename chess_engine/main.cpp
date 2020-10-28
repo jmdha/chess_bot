@@ -1,22 +1,13 @@
 #include <cstdio>
 #include <iostream>
-#include <ctime>
 #include "Classes/Headers/board.h"
 #include "Classes/Headers/ai.h"
 #include "Classes/Headers/move.h"
 
-Move getChessMove(int depth, std::time_t time) {
-    Board board = Board();
-    return getBestMove(&board, depth);
-}
-
-
-int main()
+int main(int argc, char *argv[])
 {
-    int x;
     Board board = Board();
-    board.printBoard();
-    std::cin >> x;
-     
+    Move move = getBestMove(&board, 3);
+    printf("%s\n", move.getMoveAsString().c_str());
     return 0;
 }
