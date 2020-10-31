@@ -307,8 +307,11 @@ void Board::importFakePGN(std::string moves)
             }
             else
                 newMove = new Move(move);
-            doMove(newMove);
-            switchTurn();
+            commitMove(newMove);
+            if (newMove->pawnDoubleMove)
+                enPassant = newMove->startX;
+            else
+                enPassant = -1;
             move = "";
         }
     }
