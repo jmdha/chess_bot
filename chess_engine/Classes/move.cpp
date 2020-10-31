@@ -19,8 +19,14 @@ Move::Move(int startX, int startY, int endX, int endY) {
 Move::Move(std::string move) {
     this->startX = (int)move[0] - 97;
     this->startY = move[1] - '0' - 1;
-    this->endX = (int)move[3] - 97;
-    this->endY = move[4] - '0' - 1;
+    if (move[2] == ' ') {
+        this->endX = (int)move[3] - 97;
+        this->endY = move[4] - '0' - 1;
+    }
+    else {
+        this->endX = (int)move[2] - 97;
+        this->endY = move[3] - '0' - 1;
+    }
     setTarget(NULL);
 }
 
@@ -34,7 +40,6 @@ std::string Move::getMoveAsString() {
 
     return (char)(this->startX + 97)
     + std::to_string(this->startY + 1) 
-    + "-"
     + (char)(this->endX + 97)
     + std::to_string(this->endY + 1);
 }
