@@ -230,7 +230,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                 {
                     PieceChar pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
                     // pawn move (not take)
-                    if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!') {
+                    if (moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!' || moves.length() <= i + 3) {
                         int col = getColumnAsNumber(moves[i + 1]);
                         move = getValidMove(*this, Point(col, moves[i + 2] - 49), pieceChar, col);
                     }
