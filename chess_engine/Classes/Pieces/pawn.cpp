@@ -99,7 +99,7 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
 	moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 	it = moves.begin();
 
-	
+
 	// get en passant move
 	if (board.enPassant != -1) {
 		if ((color == WHITE && y == ENPASSANTROWWHITE) || (color == BLACK && y == ENPASSANTROWBLACK)) {
@@ -119,7 +119,7 @@ std::vector<Move> Pawn::getPossibleMoves(Board board)
 			}
 		}
 	}
-	
+
 	return moves;
 }
 
@@ -237,4 +237,13 @@ int Pawn::getValue() {
 
 int Pawn::getIndex() {
 	return PAWNINDEX;
+}
+
+bool Pawn::checkIfPosPossible(Board board, Point pos) {
+	int newY = ((color == WHITE) ? y + 1 : y - 1);
+	for (int newX = -1; newX < 2; newX += 2) {
+		if (pos.x == newX && pos.y == newY)
+			return true;
+	}
+	return false;
 }

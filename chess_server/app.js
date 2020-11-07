@@ -1,58 +1,182 @@
-var exec = require('child_process').execFile;
-var path = require('path');
+const https = require('https');
+const port = 3000;
+const exec = require('child_process');
+const fs = require('fs');
+let bearerId = fs.readFileSync('id.txt', 'utf8');
 
-const express = require('express')
-const app = express()
-const port = 3000
+const botId = "sun_bird";
 
+//const connection = new websocket('https://lichess.org/api/stream/event');
 
+let currentGame = null;
 
-app.use(express.static('public'));
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
-});
-
-app.post('/move', async function (req, res) {
-    try {
-        const output = await getAIMove(req.body.fen, req.body.moves);
-
-        res.end(output);
-    } catch (error) {
-        console.error(error.toString());
-        res.end();
+https.get('https://lichess.org/api/stream/event', {
+    headers: {
+        Authorization: 'Bearer ' + bearerId
     }
+}, function (res) {
+    res.on('data', function (chunk) {
+        let data;
+        if (String(chunk).length > 5) {
+            data = JSON.parse(String((chunk)));
 
+            switch (data.type) {
+                case 'challenge':
+                    console.log("received challenge by " + data.challenge.challenger.id);
+                    if (currentGame == null && data.challenge.challenger.id == 'laggus' && !data.challenge.rated)
+                        acceptChallenge(data.challenge.id, data.challenge.url);
+                    break;
+                case 'gameStart':
+                    currentGame = {};
+                    currentGame.id = data.game.id;
+                    currentGame.turn = 'white';
+                    console.log("Starting game " + currentGame.id);
+
+                    
+                    beginGameStream(currentGame.id);
+                    break;
+                case 'gameFinish':
+                    currentGame = null;
+                    break;
+            }
+        }
+    });
+    res.on('end', function (msg) {
+        // all data has been downloaded
+    });
 });
 
-app.listen(port, () => console.log('Listening on port: ' + port));
+//createChallenge('Laggus');
 
+function createChallenge(user) {
+    let options = {
+        hostname: 'lichess.org',
+        port: 443,
+        path: '/api/challenge/' + user,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + bearerId
+        }
+    };
+    let req = https.request(options, (res) => {
 
-function getAIMove(fen, moves) {
-    let depth = 3;
+        res.on('data', (d) => {
+            process.stdout.write(d);
+        });
+    })
 
+    req.on('error', (error) => {
+        console.error(error);
+    });
+    req.end();
+}
 
-    return new Promise(function (resolve, reject) {
-        console.log(fen);
-        console.log(moves);
-        let optionals;
+function acceptChallenge(id) {
+    let options = {
+        hostname: 'lichess.org',
+        port: 443,
+        path: 'https://lichess.org/api/challenge/' + id + '/accept',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + bearerId
+        }
+    };
+    let req = https.request(options, (res) => {})
 
-        if (moves.length > 0)
-            optionals = new Array(`${depth}`, fen, moves);
-        else
-            optionals = new Array(`${depth}`, fen);
-        console.log("Getting Move...");
-        exec(path.resolve(__dirname, '../chess_engine/chess_engine.exe'), optionals, function (error, output) {
-            console.log("Done.");
-            
-            console.log(move);
-            if (output.split("\n").length > 3) {
-                let outcome = output.split("\n")[2].trim();
-                console.log(outcome);
-                resolve(outcome);
-            } else
-                resolve(move);
+    req.on('error', (error) => {
+        console.error(error);
+    });
+    req.end();
+
+}
+
+function beginGameStream(id) {
+    https.get('https://lichess.org/api/bot/game/stream/' + id, {
+        headers: {
+            Authorization: 'Bearer ' + bearerId
+        }
+    }, function (res) {
+        res.on('data', function (chunk) {
+            let data;
+            if (String(chunk).length > 5) {
+                data = JSON.parse(String((chunk)));
+                switch (data.type) {
+                    case 'gameFull':
+                        currentGame.state = data.state;
+                        currentGame.white = data.white;
+                        currentGame.black = data.black;
+                        if (currentGame.white.id == botId) {
+                            currentGame.botSide = 'white';
+                            handleNewMove('');
+                        } else
+                            currentGame.botSide = 'black';
+                        break;
+                    case 'gameState':
+
+                        if (data.status == 'started') {
+                            switchTurn();
+                            handleNewMove(data.moves);
+                        }
+                        break;
+                }
+            }
+        });
+        res.on('end', function (msg) {
+            console.log("shit's done yo!")
+            // all data has been downloaded
         });
     });
+}
+
+function handleNewMove(moves) {
+
+    if (currentGame.turn == currentGame.botSide) {
+        exec.exec('./chess_engine.out ' + "\"" + moves + "\"", function (err, data) {
+            if (err != null)
+                console.log("engine error ", err);
+
+                console.log(data);
+            let move = data.split('\n')[0];
+            sendMove(move);
+        });
+    }
+}
+
+function sendMove(move) {
+
+    let options = {
+        hostname: 'lichess.org',
+        port: 443,
+        path: 'https://lichess.org/api/bot/game/' + currentGame.id + '/move/' + move,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + bearerId
+        }
+    };
+    let req = https.request(options, (res) => {
+        console.log("move sent with statuscode ", res.statusCode);
+        if (res.statusCode != 200) {
+            console.log("sent to path ", options.path);
+            if (res.statusCode == 429)
+                setTimeout(sendMove, 61*1000, move);
+            else
+                setTimeout(sendMove, 5000, move);
+        }
+    })
+
+    req.on('error', (error) => {
+        console.log("lada");
+        console.error("error3 ", error);
+    });
+    req.end();
+}
+
+function switchTurn() {
+    if (currentGame.turn == 'white')
+        currentGame.turn = 'black';
+    else
+        currentGame.turn = 'white';
 }

@@ -81,6 +81,11 @@ enum Direction
 
 };
 
+enum CastlingDirection {
+    LEFT = 0,
+    RIGHT = 1
+};
+
 enum Value : int
 {
     VALUEDRAW = 10000,

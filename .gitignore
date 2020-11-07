@@ -3,6 +3,7 @@ chess_data/data/old
 
 # node modules
 chess_server/node_modules
+chess_server/id.txt
 
 # User-specific files
 *.rsuser

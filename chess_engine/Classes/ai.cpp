@@ -259,7 +259,7 @@ Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int 
     Color oppositeColor = ((currentTurn == WHITE) ? BLACK : WHITE);
 
     // check if the position has occured more than 2 times
-    if (board->zobrist->priorInstanceCount.at(board->zobrist->getHash()) >= 3)
+    if (board->zobrist->priorInstanceCount.at(board->zobrist->getHash()) > 2)
     {
         int multiplier = ((currentTurn == board->turn) ? 1 : -1);
         bestMove.value = VALUEDRAW * multiplier;
@@ -297,11 +297,13 @@ Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int 
                 castlingLegality[j][j2] = board->castlingValid[j][j2];
 
         board->doMove(&(moves[i]));
+
         // get enpassant
         if (move.pawnDoubleMove)
             board->enPassant = move.startX;
 
-        if (depth == 1 && !doingHE && moves[i].target != NULL)
+        // Go deeper
+        if (depth == 1 && !doingHE && moves[i].target != NULL && false)
         {
             move = minimax(board, 4, !isMax, oppositeColor, a, b, true, totalMoves);
         }
@@ -311,11 +313,6 @@ Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int 
             {
                 if (moves[i].target != NULL)
                     move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, true, totalMoves);
-                else
-                {
-                    board->undoMove(&(moves[i]));
-                    continue;
-                }
             }
             else
                 move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, false, totalMoves);
@@ -336,7 +333,8 @@ Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int 
             bestMove = moves[i];
             bestMove.value = move.value;
         }
-        
+
+
         if (isMax) {
             a = std::max(bestMove.value, a);
             if (a >= b)
@@ -348,6 +346,7 @@ Move minimax(Board *board, int depth, bool isMax, Color currentTurn, int a, int 
                 break;
         }
 
+        
             
 
     }

@@ -162,7 +162,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
                         else if (turn == BLACK)
                             tempPieceChar += 32;
                         PieceChar pieceChar = static_cast<PieceChar>(tempPieceChar);
-                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#' && moves[i + 4] != '?' && moves[i + 4] != '!')
+                        if (moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#' && moves[i + 4] != '?' && moves[i + 4] != '!' && moves.length() != i + 4)
                         {
                             if (moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#' || moves[i + 5] == '?' || moves[i + 5] == '!')
                             {
@@ -294,19 +294,22 @@ void Board::importFakePGN(std::string moves)
         if (moves[i] == ' ' || i == static_cast<int>(moves.length()) - 1)
         {
             Move *newMove;
-            if (move == "O-O" || move == "O-O-O")
+            if (move == "e1g1" || move == "e1b1" || move == "e8g8" || move == "e8g8")
             {
                 int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
                 int startX = 4;
                 int endX;
-                if (move == "O-O")
+                if (move == "e1g1" || move == "e8g8")
                     endX = 6;
                 else
                     endX = 2;
                 newMove = new Move(startX, y, endX, y);
+                newMove->castling = true;
             }
             else
                 newMove = new Move(move);
+            if (getPiece(newMove->startX, newMove->startY)->getIndex() == PAWNINDEX && (newMove->endY == BACKROWWHITE || newMove->endY == BACKROWBLACK))
+                newMove->promotion = true;
             commitMove(newMove);
             if (newMove->pawnDoubleMove)
                 enPassant = newMove->startX;

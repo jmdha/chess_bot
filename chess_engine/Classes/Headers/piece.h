@@ -27,8 +27,10 @@ public:
     virtual int getIndex();
     std::vector<Move> getPossibleMovesInDirection(Board board, Direction direction, int length);
     std::vector<Move> getPossibleMovesInDirection(Board board, Direction direction, int length, bool onlyCapture);
+    virtual bool checkIfPosPossible(Board board, Point pos);
 private:
     Point getNewEndPoint(Point priorPos, Direction direction, int moveLength);
+    
     
     
 };

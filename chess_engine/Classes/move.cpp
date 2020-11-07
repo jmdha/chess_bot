@@ -44,6 +44,14 @@ std::string Move::getMoveAsString() {
     + std::to_string(this->endY + 1);
 }
 
+// Difference between this and getMoveAsString is that this prints all moves as a single piece moving from one square to another;
+std::string Move::getMoveAsPlainString() {
+    return (char)(this->startX + 97)
+        + std::to_string(this->startY + 1)
+        + (char)(this->endX + 97)
+        + std::to_string(this->endY + 1);
+}
+
 void Move::setTarget(Piece *target) {
     this->target = target;
 }

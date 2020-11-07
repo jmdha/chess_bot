@@ -7,7 +7,9 @@
 int main(int argc, char *argv[])
 {
     Board board = Board();
+    if (argc > 1)
+        board.importFakePGN(argv[1]);
     Move move = getBestMove(&board, 3);
-    printf("%s\n", move.getMoveAsString().c_str());
+    printf("%s\n", move.getMoveAsPlainString().c_str());
     return 0;
 }

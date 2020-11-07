@@ -27,6 +27,7 @@ public:
     Move(int startX, int startY, int endX, int endY);
     Move(std::string move);
     std::string getMoveAsString();
+    std::string getMoveAsPlainString();
     void setTarget(Piece *target);
 private:
 };

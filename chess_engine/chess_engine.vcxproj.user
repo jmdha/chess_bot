@@ -1,4 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <RemoteDebuggerCommandArguments>'1. Nf3 d5 2. Nc3 Nf6 3. d4 e6 4. Bg5 { A46 Queens Pawn Game: Veresov Attack, Classical Defense } Bb4 5. Bxf6 Qxf6 6. Qd2 O-O 7. Nxd5 Bxd2+ 8. Nxd2 Qxd4 9. Nxc7 Nc6 10. c3 Qd7 11. Nxa8 b6 12. a4 Ba6 13. e4 Rxa8 14. Bxa6 Ne5 15. a5 b5 16. f4 Nc4 17. Nxc4 bxc4 18. Bxc4 Rd8 { Black resigns. } 1-0'</RemoteDebuggerCommandArguments>
+    <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
+    <AdditionalDebuggerCommands>
+    </AdditionalDebuggerCommands>
+  </PropertyGroup>
 </Project>

@@ -13,8 +13,10 @@ public:
     Move getMoveIfPossible(Board board, Point endPos);
     int getValue();
     int getIndex();
+    bool checkIfPosPossible(Board board, Point pos);
 
 private:
+    
 };
 
 #endif

@@ -122,3 +122,8 @@ Point Piece::getNewEndPoint(Point priorPos, Direction direction, int moveLength)
         throw std::invalid_argument("Invalid direction ");
     }
 }
+
+bool Piece::checkIfPosPossible(Board board, Point pos)
+{
+    return false;
+}

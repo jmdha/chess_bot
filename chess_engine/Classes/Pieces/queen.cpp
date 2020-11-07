@@ -60,3 +60,32 @@ int Queen::getValue()
 int Queen::getIndex() {
     return QUEENINDEX;
 }
+
+bool Queen::checkIfPosPossible(Board board, Point pos)
+{
+    int xDir;
+    int yDir;
+    if (x > pos.x)
+        xDir = -1;
+    else if (x < pos.x)
+        xDir = 1;
+    else
+        xDir = 0;
+    if (y > pos.y)
+        yDir = -1;
+    else if (y < pos.y)
+        yDir = 1;
+    else
+        yDir = 0;
+
+    for (int i = 1; i < 8; i++) {
+        int newX = x + i * xDir;
+        int newY = y + i * yDir;
+        if (pos.x == newX && pos.y == newY)
+            return true;
+        else if (board.getPiece(newX, newY) != NULL)
+            return false;
+    }
+
+    return false;
+}
