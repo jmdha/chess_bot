@@ -35,9 +35,12 @@ public:
 	int enPassant;
 	Color turn = WHITE;
 
+	// tested in chess_engine_test::EngineTest::BoardTest::InitialState
 	Board();
 
+	// tested in chess_engine_test::EngineTest::BoardTest::InitialState
 	void setStartPos();
+	// tested in chess_engine_test::EngineTest::BoardTest::ClearBoard
 	void clearBoard();
 	void importFEN(std::string FEN);
 	void importPGN(std::string moves, bool exportMovePerHash);

@@ -436,6 +436,8 @@ void Board::removePiece(int x, int y)
 
 Piece *Board::getPiece(int x, int y)
 {
+    if (x < 0 || x > 7 || y < 0 || y > 7)
+        return nullptr;
     return board[x][y];
 }
 

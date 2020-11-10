@@ -67,23 +67,23 @@
     <ClInclude Include="Classes\Headers\zobrist.h">
       <Filter>Classes\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\rook.h">
-      <Filter>Classes\Pieces\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\queen.h">
-      <Filter>Classes\Pieces\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\pawn.h">
-      <Filter>Classes\Pieces\Headers</Filter>
+    <ClInclude Include="Classes\Pieces\Headers\bishop.h">
+      <Filter>Classes\Headers\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\king.h">
-      <Filter>Classes\Pieces\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Pieces\Headers\bishop.h">
-      <Filter>Classes\Pieces\Headers</Filter>
+      <Filter>Classes\Headers\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\knight.h">
-      <Filter>Classes\Pieces\Headers</Filter>
+      <Filter>Classes\Headers\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\pawn.h">
+      <Filter>Classes\Headers\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\queen.h">
+      <Filter>Classes\Headers\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Pieces\Headers\rook.h">
+      <Filter>Classes\Headers\Pieces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -96,8 +96,8 @@
     <Filter Include="Classes\Pieces">
       <UniqueIdentifier>{0b08c161-9118-4ee8-8299-327492b2fdc7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\Pieces\Headers">
-      <UniqueIdentifier>{57ffa1f8-b45f-4dca-886b-f37bf0c32f6f}</UniqueIdentifier>
+    <Filter Include="Classes\Headers\Pieces">
+      <UniqueIdentifier>{f0302a96-fca5-4640-8ee0-fc2e0971665a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
