@@ -2,7 +2,8 @@
 An in development chess bot for the site lichess.org
 
 ## Table of Contents
-* [Setup](#Setup)
+* [Setup](#setup)
+* [How it works](#how-it-works)
 
 ## Setup
 As the projects consists of four subprojects there will be different setup guides depending on the purpose of usage.
@@ -18,3 +19,6 @@ These are standard unit test for a Visual Studio solution. Opening the chess_eng
 
 ### Data Cleaning
 Not working atm. 
+
+## How it works
+### Chess engine
