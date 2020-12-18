@@ -14,7 +14,7 @@ As the projects consists of four subprojects there will be different setup guide
 * Turn on server with node. See (https://github.com/jamadaha/chess_bot/tree/master/chess_server)
 
 ### Chess Bot Tests
-These are standard unit test for a Visual Studio solution. Opening the chess_bot solution (https://github.com/jamadaha/chess_bot/tree/master/chess_engine) will display them automatically.
+These are standard unit test for a Visual Studio solution. Opening the chess_engine solution (https://github.com/jamadaha/chess_bot/tree/master/chess_engine) will display them automatically.
 
 ### Data Cleaning
 Not working atm. 
