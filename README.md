@@ -22,3 +22,12 @@ Not working atm.
 
 ## How it works
 ### Chess engine
+There are three primary parts to how this chess engine works: move generation, board evaluation and Minimax. These parts work together to generate a move given PGN input (or other input types).
+#### Move generation
+This works by going through all pieces for the side whose turn it is, where all pieces gone through is checked for valid moves. A valid move is any move which is legal in a game of chess. 
+The moves are generated in a relativly naive manner, as all moves are generated 
+
+#### Board evaluation
+
+#### Minimax
+As it stands the algorithm searches a fixed depth, therefore, the time taken to generate increases with the complexity of the position.
