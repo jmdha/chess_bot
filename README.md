@@ -13,5 +13,8 @@ As the projects consists of four subprojects there will be different setup guide
 * Move the *.out* file to the same folder as the server file 
 * Turn on server with node. See (https://github.com/jamadaha/chess_bot/tree/master/chess_server)
 
+### Chess Bot Tests
+These are standard unit test for a Visual Studio solution. Opening the Chess Bot (https://github.com/jamadaha/chess_bot/tree/master/chess_engine) will display them automatically.
+
 ### Data Cleaning
 Not working atm. 
