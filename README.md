@@ -45,4 +45,4 @@ For the purpose of optimization, when calculating the evaluation for a given pos
 
 #### Minimax
 I will not go into too many details of how this works, as I have not deviated far from standard implementation of this algorithm. One thing to note is that the Minimax implementation used, also implements Alpha-beta pruning.
-As it stands the algorithm searches a fixed depth, therefore, the time taken to generate increases with the complexity of the position.
+As it stands the algorithm searches a fixed depth i.e. how many layers in a search tree, therefore, the time taken to generate increases with the complexity of the position. This can be a problem as the complexity can increase *very* fast. A part of the reason behind this, is that the implementation of the algorithm tries to handle the horizon effect (https://en.wikipedia.org/wiki/Horizon_effect). The horizon effect is handled by continued searching into further depths, if the last move searched is a capture i.e. one piece capturing another.
