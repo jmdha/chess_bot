@@ -41,5 +41,8 @@ Pawn position eval           |  Gradient of pawn position eval
 
 The displayed table is the evaluation for pawns where the friendly side is down, i.e. the side currently being calculated is down. If the side which currently being calculated is white, as in minimax was called to generate a move for white, the side down would be white. This is then done for all pieces and summed up to generate a total score for white. The same is then done for black, where the table is reversed for them, i.e. the table is from the viewpoint of the side. These two values are then compared to generate the final value. The equation for this, when calculating for white, looks like *white score - black score = final score*, where the inverse is the score for black.
 
+For the purpose of optimization, when calculating the evaluation for a given position the score is stored in a hashmap. The hashmap's hash is a simple implementation of the Zobrist Hashing seen in (https://github.com/jamadaha/chess_bot/blob/master/chess_engine/Classes/zobrist.cpp). When a score is then needed for a given position, which also exists in the hashmap, the score is taken from the hashmap instead of calculating it anew.
+
 #### Minimax
+I will not go into too many details of how this works, as I have not deviated far from standard implementation of this algorithm. One thing to note is that the Minimax implementation used, also implements Alpha-beta pruning.
 As it stands the algorithm searches a fixed depth, therefore, the time taken to generate increases with the complexity of the position.
