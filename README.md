@@ -31,6 +31,17 @@ This works by going through all pieces for the side whose turn it is, where all 
 The moves are calculated in a relativly naive manner, as all moves are recalculate every time. 
 
 #### Board evaluation
+When evaluating the board two parts are calculated: piece values and positional values.
+The piece values are pretty straight forward; all pieces are given a fixed value and as long as they are still alive, their value is counted.
+The more complicated part is the position value. This value is calculated by looking at each piece at comparing it to a predefined table of values. An example of this kind of table can be seen below.
+
+Pawn position eval           |  Gradient of pawn position eval
+:---------------------------:|:-------------------------:
+![](pawn_eval_position.png)  |  ![](pawn_eval_position_gradient.png)
+
+The displayed table is the evaluation for pawns where the friendly side is down, i.e. the side currently being calculated is down. If the side which currently being calculated is white, as in minimax was called to generate a move for white, the side down would be white. This is then done for all pieces and summed up to generate a total score for white. The same is then done for black, where the table is reversed for them, i.e. the table is from the viewpoint of the side. These two values are then compared to generate the final value. The equation for this, when calculating for white, looks like *white score - black score = final score*, where the inverse is the score for black.
+
+[!equation](a+b=2)
 
 #### Minimax
 As it stands the algorithm searches a fixed depth, therefore, the time taken to generate increases with the complexity of the position.
