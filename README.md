@@ -1,5 +1,5 @@
 # chess_bot
-An in development chess bot for the site lichess.org
+An in development chess bot which I plan to use on lichess.org
 
 ## Table of Contents
 * [Setup](#setup)
