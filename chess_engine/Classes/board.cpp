@@ -294,7 +294,7 @@ void Board::importFakePGN(std::string moves)
         if (moves[i] == ' ' || i == static_cast<int>(moves.length()) - 1)
         {
             Move *newMove;
-            if (move == "e1g1" || move == "e1b1" || move == "e8g8" || move == "e8g8")
+            if (move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8")
             {
                 int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
                 int startX = 4;
