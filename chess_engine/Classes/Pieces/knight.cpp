@@ -93,23 +93,26 @@ int Knight::getIndex() {
 bool Knight::checkIfPosPossible(Board board, Point pos) {
 	int xDir;
 	int yDir;
-	if (x > pos.x)
+	if (x < pos.x)
 		xDir = 1;
-	else if (x < pos.x)
+	else if (x > pos.x)
 		xDir = -1;
 	else
 		return false;
-	if (y > pos.y)
+	if (y < pos.y)
 		yDir = 1;
-	else if (y < pos.y)
+	else if (y > pos.y)
 		yDir = -1;
 	else
 		return false;
 	
-	for (int tempX = xDir; tempX < 3 * xDir; tempX += 2 * xDir)
-		for (int tempY = yDir; tempY < 3 * yDir; tempY += 2 * yDir)
-			if (x == pos.x && y == pos.y)
-				return true;
+	int xOffset[2] = { 1, 2 };
+	int yOffset[2] = { 2, 1 };
+
+	for (int i = 0; i < 2; i++)
+		if (x + xOffset[i] * xDir == pos.x && y + yOffset[i] * yDir == pos.y)
+			return true;
+
 
 	return false;
 }
