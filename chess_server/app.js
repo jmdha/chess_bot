@@ -137,7 +137,7 @@ function handleNewMove(moves) {
             if (err != null)
                 console.log("engine error ", err);
 
-                console.log(data);
+            console.log(data);
             let move = data.split('\n')[0];
             sendMove(move);
         });
