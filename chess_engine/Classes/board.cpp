@@ -648,7 +648,7 @@ void Board::doMove(Move *move)
             piece->y = move->endY;
         }
         else if (move->enPassantTake) {
-            int passedPawnYPosition = ((piece->color == WHITE) ? 4 : 3);
+            int passedPawnYPosition = ((piece->color == WHITE) ? 3 : 4);
             removePiece(move->endX, passedPawnYPosition);
         }
     }
