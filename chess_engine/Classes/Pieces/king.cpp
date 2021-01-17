@@ -106,6 +106,13 @@ bool King::getCastlingPossibility(Board board, CastlingDirection direction) {
 			}
 		}
 	}
+
+	// checking if in check
+	for (int i = 0; i < pieceCount; i++) {
+		if (pieces[i]->checkIfPosPossible(board, Point(x, y)))
+			return false;
+	}
+
 	// checkíng right
 	if (direction == RIGHT) {
 		for (int i = 0; i < pieceCount; i++) {
