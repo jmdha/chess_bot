@@ -2,6 +2,8 @@ const https = require('https');
 const port = 3000;
 const exec = require('child_process');
 const fs = require('fs');
+const qs = require('querystring');
+
 let bearerId = fs.readFileSync('id.txt', 'utf8');
 
 const botId = "sun_bird";
@@ -18,8 +20,9 @@ https.get('https://lichess.org/api/stream/event', {
     res.on('data', function (chunk) {
         let data;
         if (String(chunk).length > 5) {
+            console.log("Chunk ", String(chunk))
             data = JSON.parse(String((chunk)));
-
+            
             switch (data.type) {
                 case 'challenge':
                     console.log("received challenge by " + data.challenge.challenger.id);
@@ -27,16 +30,19 @@ https.get('https://lichess.org/api/stream/event', {
                         acceptChallenge(data.challenge.id, data.challenge.url);
                     break;
                 case 'gameStart':
+                    if (currentGame != null)
+                        break;
                     currentGame = {};
                     currentGame.id = data.game.id;
                     currentGame.turn = 'white';
                     console.log("Starting game " + currentGame.id);
 
-                    
+
                     beginGameStream(currentGame.id);
                     break;
                 case 'gameFinish':
                     currentGame = null;
+                    createAIChallange();
                     break;
             }
         }
@@ -46,9 +52,10 @@ https.get('https://lichess.org/api/stream/event', {
     });
 });
 
-//createChallenge('Laggus');
+//createAIChallange();
+//createChallenge('LeelaNovice');
 
-function createChallenge(user) {
+function createUserChallenge(user) {
     let options = {
         hostname: 'lichess.org',
         port: 443,
@@ -58,6 +65,8 @@ function createChallenge(user) {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': 'Bearer ' + bearerId
         }
+        //json: true,
+
     };
     let req = https.request(options, (res) => {
 
@@ -69,6 +78,48 @@ function createChallenge(user) {
     req.on('error', (error) => {
         console.error(error);
     });
+
+    var postData = qs.stringify({
+        'clock.limit': '300',
+        'clock.increment': '5',
+        'rated': 'false'
+    });
+
+    req.write(postData);
+    req.end();
+}
+
+function createAIChallange() {
+    let options = {
+        hostname: 'lichess.org',
+        port: 443,
+        path: '/api/challenge/ai',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + bearerId
+        }
+        //json: true,
+
+    };
+    let req = https.request(options, (res) => {
+
+        res.on('data', (d) => {
+            process.stdout.write(d);
+        });
+    })
+
+    req.on('error', (error) => {
+        console.error(error);
+    });
+
+    var postData = qs.stringify({
+        'clock.limit': '300',
+        'clock.increment': '5',
+        'level': '3'
+    });
+
+    req.write(postData);
     req.end();
 }
 
@@ -100,26 +151,42 @@ function beginGameStream(id) {
     }, function (res) {
         res.on('data', function (chunk) {
             let data;
+            if (chunk != null)
+                console.log(String(chunk))
             if (String(chunk).length > 5) {
+                console.log("chunk ", String(chunk));
                 data = JSON.parse(String((chunk)));
+                console.log("parsed: ", data);
                 switch (data.type) {
                     case 'gameFull':
                         currentGame.state = data.state;
                         currentGame.white = data.white;
                         currentGame.black = data.black;
+                    
                         if (currentGame.white.id == botId) {
                             currentGame.botSide = 'white';
-                            handleNewMove('');
                         } else
                             currentGame.botSide = 'black';
-                        break;
-                    case 'gameState':
 
+                        if (currentGame.state.moves != null && currentGame.state.moves.length > 0) {
+                            currentGame.turn = (1 - (String(data.state.moves).split(' ').length % 2)) ? 'white' : 'black';
+
+                            console.log("going into handle new move")
+                            handleNewMove(data.state.moves);
+                        }
+                            
+
+                        break;
+                        
+                    case 'gameState': {
+                        console.log("gameState", data.status);
                         if (data.status == 'started') {
                             switchTurn();
                             handleNewMove(data.moves);
-                        }
+                        } else
+                            currentGame = null;
                         break;
+                    }
                 }
             }
         });
@@ -131,7 +198,7 @@ function beginGameStream(id) {
 }
 
 function handleNewMove(moves) {
-
+    console.log("turn ", currentGame.turn);
     if (currentGame.turn == currentGame.botSide) {
         exec.exec('./chess_engine.out ' + "\"" + moves + "\"", function (err, data) {
             if (err != null)
@@ -161,7 +228,7 @@ function sendMove(move) {
         if (res.statusCode != 200) {
             console.log("sent to path ", options.path);
             if (res.statusCode == 429)
-                setTimeout(sendMove, 61*1000, move);
+                setTimeout(sendMove, 61 * 1000, move);
             else
                 setTimeout(sendMove, 5000, move);
         }
