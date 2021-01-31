@@ -8,6 +8,8 @@ Zobrist::Zobrist(Board* board)
 {
 	this->board = board;
 	/*
+	* code for generating initial zobrist
+	* has been replaced by a constant as it takes a long time to generate
 	std::mt19937 gen(0);
 	std::uniform_int_distribution<unsigned long int> distribution(0, ULONG_MAX);
 	for (int y = 0; y < HEIGHT; y++)
