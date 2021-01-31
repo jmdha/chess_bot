@@ -2,24 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Classes\Pieces\bishop.cpp">
-      <Filter>Classes\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Pieces\king.cpp">
-      <Filter>Classes\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Pieces\knight.cpp">
-      <Filter>Classes\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Pieces\queen.cpp">
-      <Filter>Classes\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Pieces\rook.cpp">
-      <Filter>Classes\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\Pieces\pawn.cpp">
-      <Filter>Classes\Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\ai.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -41,6 +23,38 @@
     <ClCompile Include="Classes\zobrist.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\Pieces\bishop.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Pieces\king.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Pieces\knight.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Pieces\pawn.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Pieces\queen.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\Pieces\rook.cpp">
+      <Filter>Classes\Pieces</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{7e194b64-63e9-4af2-b78f-aedad44c681f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Pieces">
+      <UniqueIdentifier>{f55fbbf0-cbed-40e6-87fb-4cdeb67a4de9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Headers">
+      <UniqueIdentifier>{5531526e-0f04-4fdf-9f86-1166d6acbe99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Pieces\Headers">
+      <UniqueIdentifier>{ae8fcd00-2aef-45d5-8d8a-adb3b7424a6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Headers\ai.h">
@@ -49,10 +63,10 @@
     <ClInclude Include="Classes\Headers\board.h">
       <Filter>Classes\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Headers\generic_helper_functions.h">
+    <ClInclude Include="Classes\Headers\constants.h">
       <Filter>Classes\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Headers\constants.h">
+    <ClInclude Include="Classes\Headers\generic_helper_functions.h">
       <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Headers\move.h">
@@ -68,36 +82,22 @@
       <Filter>Classes\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\bishop.h">
-      <Filter>Classes\Headers\Pieces</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\king.h">
-      <Filter>Classes\Headers\Pieces</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\knight.h">
-      <Filter>Classes\Headers\Pieces</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\pawn.h">
-      <Filter>Classes\Headers\Pieces</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\queen.h">
-      <Filter>Classes\Headers\Pieces</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\rook.h">
-      <Filter>Classes\Headers\Pieces</Filter>
+      <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Classes">
-      <UniqueIdentifier>{7a209631-07bf-4efd-928c-43e65145ef95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Headers">
-      <UniqueIdentifier>{79debfd8-7355-4e51-ac4a-2333c5bf203b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Pieces">
-      <UniqueIdentifier>{0b08c161-9118-4ee8-8299-327492b2fdc7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Headers\Pieces">
-      <UniqueIdentifier>{f0302a96-fca5-4640-8ee0-fc2e0971665a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

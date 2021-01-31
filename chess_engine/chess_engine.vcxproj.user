@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <RemoteDebuggerCommandArguments>'e2e3 g8f6 d2d4 b8c6 b1c3 a8b8 f1d3 c6b4 g1e2 b4d3 d1d3 e7e6 a2a3 f8e7 h2h3 f6d5 e1g1 d5c3 d3c3 e8f8 e3e4 f8g8 c1f4 e7d6 e4e5 d6e7 c3g3 e7h4 g3c3 g7g5 f4d2 g8g7 e2g3 f7f5'</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>'g1f3 e7e6 e2e4 g8f6 b1c3 b8c6 f1c4 a7a6 d2d4 d8b4 e4e5 f6g8 e1g1'</RemoteDebuggerCommandArguments>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
     <AdditionalDebuggerCommands>
     </AdditionalDebuggerCommands>

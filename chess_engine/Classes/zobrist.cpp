@@ -83,7 +83,7 @@ void Zobrist::decrementCurrentHash()
 	//if (this->priorInstanceCount.find(this->getHash()) != this->priorInstanceCount.end())
 	//{
 	this->priorInstanceCount.at(this->getHash()) -= 1;
-	if (this->priorInstanceCount.at(this->getHash()) == 0)
-		this->priorInstanceCount.erase(this->getHash());
+	//if (this->priorInstanceCount.at(this->getHash()) == 0)
+		//this->priorInstanceCount.erase(this->getHash());
 	//}
 }

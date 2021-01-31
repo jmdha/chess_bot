@@ -21,8 +21,8 @@ https.get('https://lichess.org/api/stream/event', {
         let data;
         if (String(chunk).length > 5) {
             console.log("Chunk ", String(chunk))
-            data = JSON.parse(String((chunk)));
-            
+            data = String(chunk);
+            data = JSON.parse(data);
             switch (data.type) {
                 case 'challenge':
                     console.log("received challenge by " + data.challenge.challenger.id);
@@ -173,7 +173,12 @@ function beginGameStream(id) {
 
                             console.log("going into handle new move")
                             handleNewMove(data.state.moves);
+                            switchTurn();
+                        } else if (currentGame.state.moves.length == 0) {
+                            handleNewMove('');
+                            switchTurn();
                         }
+
                             
 
                         break;

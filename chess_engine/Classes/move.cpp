@@ -27,6 +27,9 @@ Move::Move(std::string move) {
         this->endX = (int)move[2] - 97;
         this->endY = move[3] - '0' - 1;
     }
+
+
+
     setTarget(NULL);
 }
 

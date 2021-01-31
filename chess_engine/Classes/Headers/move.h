@@ -16,7 +16,11 @@ public:
     int startY;
     int endX;
     int endY;
-    int value = 0;
+    int value = -1;
+    // Used for debugging
+    int totalMoves = 0;
+    int moveSizeBatch = 0;
+
     Piece *target;
     bool castling = false;
     bool promotion = false;
