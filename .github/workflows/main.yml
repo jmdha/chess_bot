@@ -1,37 +1,43 @@
-# This is a basic workflow to help you get started with Actions
+# Workflow for unit test
 
-name: TestSuite
+name: Unit Test
 
-# Controls when the action will run. 
+# Controls when the action will run
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # Triggers the workflow on push or pull request events
   push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+# Opts out of telemetry
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# A workflow run is made up of one or more jobs that run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  install-dependencies:
+  # Setup of enviorment and run tests
+  Tests:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # Checks-out the repo under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Install Dependencies
-        working-directory: ./chess_engine_test
-        run: gcc chess_engine_test.cpp -o test.out;
+    # Installs .NET
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+        
+    # Restores dependencies
+    - name: Restore dependencies
+      run: dotnet restore P4
 
-      # Runs a set of commands using the runners shell
-     # - name: Run a multi-line script
-      #  run: |
-       #   echo Add other actions to build,
-        #  echo test, and deploy your project.
+    # Builds project
+    - name: Build
+      run: dotnet build P4 --no-restore
+
+    # Run tests
+    - name: Test
+      run: dotnet test P4/ANTLRParserTests --no-build --verbosity normal
