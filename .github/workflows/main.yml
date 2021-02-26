@@ -40,4 +40,4 @@ jobs:
 
     # Run tests
     - name: Test
-      run: dotnet test P4/ANTLRParserTests --no-build --verbosity normal
+      run: dotnet test chess_engine --no-build --verbosity normal
