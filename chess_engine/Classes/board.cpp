@@ -613,8 +613,6 @@ void Board::doMove(Move* move)
 				move->disallowedCastling[i] = true;
 				castlingValid[side][i] = false;
 			}
-			move->disallowedCastling[i] = true;
-			castlingValid[side][i] = false;
 		}
 
 		if (move->castling)
@@ -644,11 +642,11 @@ void Board::doMove(Move* move)
 	{
 		int side = static_cast<int>(piece->color);
 		if (piece->x == 0 && castlingValid[side][0]) {
-			move->disallowedCastling[1] = true;
+			move->disallowedCastling[0] = true;
 			castlingValid[side][0] = false;
 		}
 			
-		else if (piece->x == 7) {
+		else if (piece->x == 7 && castlingValid[side][1]) {
 			move->disallowedCastling[1] = true;
 			castlingValid[side][1] = false;
 		}

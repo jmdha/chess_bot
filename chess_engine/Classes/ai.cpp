@@ -164,7 +164,8 @@ std::vector<Move> getAllMoves(Board board, Color side)
 		{
 			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->color == side)
 			{
-				tempMoveList = board.getPiece(x, y)->getPossibleMoves(board);
+				Piece* piece = board.getPiece(x, y);
+				tempMoveList = piece->getPossibleMoves(board);
 				// Go through moves
 				for (int i = 0; i < tempMoveList.size(); i++) {
 					board.doMove(&tempMoveList[i]);
