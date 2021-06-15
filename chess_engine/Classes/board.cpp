@@ -294,21 +294,13 @@ void Board::importFakePGN(std::string moves)
 		}
 		if (moves[i] == ' ' || i == static_cast<int>(moves.length()) - 1)
 		{
-			Move* newMove;
-			if (move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8")
-			{
-				int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
-				int startX = 4;
-				int endX;
-				if (move == "e1g1" || move == "e8g8")
-					endX = 6;
-				else
-					endX = 2;
-				newMove = new Move(startX, y, endX, y);
-				newMove->castling = true;
-			}
-			else
-				newMove = new Move(move);
+			Move* newMove = new Move(move);
+			if (getPiece(newMove->startX, newMove->startY)->getIndex() == KINGWHITE)
+				if (move == "e1g1" || move == "e1c1")
+					newMove->castling = true;
+			else if(getPiece(newMove->startX, newMove->startY)->getIndex() == KINGBLACK)
+				if (move == "e8g8" || move == "e8c8")
+					newMove->castling = true;
 
 
 
@@ -607,7 +599,7 @@ void Board::doMove(Move* move)
 	if (piece->getIndex() == KINGINDEX)
 	{
 		int side = static_cast<int>(piece->color);
-		
+
 		for (int i = 0; i < 2; i++) {
 			if (castlingValid[side][i]) {
 				move->disallowedCastling[i] = true;
@@ -645,7 +637,7 @@ void Board::doMove(Move* move)
 			move->disallowedCastling[0] = true;
 			castlingValid[side][0] = false;
 		}
-			
+
 		else if (piece->x == 7 && castlingValid[side][1]) {
 			move->disallowedCastling[1] = true;
 			castlingValid[side][1] = false;
