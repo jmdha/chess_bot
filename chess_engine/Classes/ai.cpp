@@ -326,7 +326,10 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	if (static_cast<int>(moves.size()) == 0)
 	{
 		if (isKingVunerable(*board, currentTurn))
-			bestMove.value = VALUEMATE;
+			if (board->turn != currentTurn)
+				bestMove.value = VALUEMATE;
+			else
+				bestMove.value = -VALUEMATE;
 		else
 			bestMove.value = VALUEDRAW;
 		return bestMove;
