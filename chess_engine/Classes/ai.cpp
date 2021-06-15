@@ -125,7 +125,7 @@ bool isKingVunerable(Board board, Color side) {
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == KINGWHITE)
+			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == ((side == WHITE) ? KINGWHITE : KINGBLACK))
 			{
 				kingPos.x = x;
 				kingPos.y = y;
@@ -138,7 +138,7 @@ bool isKingVunerable(Board board, Color side) {
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.isSquareEnemy(side, x, y))
+			if (board.isSquareEnemy(side, x, y))
 			{
 				if (board.getPiece(x, y)->checkIfPosPossible(board, kingPos))
 					return true;
