@@ -750,6 +750,11 @@ int Board::evaluateBoard(Color side)
 {
 	int value = 0;
 
+	if (!kingAlive[(side == WHITE) ? BLACK : WHITE])
+		return VALUEMATE;
+	else if (!kingAlive[(side == WHITE) ? WHITE : BLACK])
+		return -VALUEMATE;
+
 	for (int y = 0; y < HEIGHT; y++)
 	{
 		for (int x = 0; x < WIDTH; x++)
