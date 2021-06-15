@@ -87,7 +87,7 @@ Move King::getMoveIfPossible(Board board, Point endPos)
 
 int King::getValue()
 {
-	return VALUEMATE + VALUEKINGPOSMID[x][(this->color == WHITE) ? y : HEIGHT - 1];
+	return 0 + VALUEKINGPOSMID[x][(this->color == WHITE) ? y : HEIGHT - 1];
 }
 
 int King::getIndex() {

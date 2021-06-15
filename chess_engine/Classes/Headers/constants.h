@@ -90,7 +90,7 @@ enum CastlingDirection {
 enum VALUEMULTIPLIER : int
 {
     POSITIONALMULTIPLIER = 1,
-    PIECEMULTIPLIER = 10
+    PIECEMULTIPLIER = 2
 };
 
 enum Value : int
