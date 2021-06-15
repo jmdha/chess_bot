@@ -335,12 +335,6 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 		board->doMove(&(moves[i]));
 
-		// get enpassant
-		if (moves[i].pawnDoubleMove)
-			board->enPassant = moves[i].startX;
-		else
-			board->enPassant = -1;
-
 		// Go deeper
 		if (depth == 1 && !doingHE && moves[i].target != NULL)
 			move = minimax(board, 3, !isMax, oppositeColor, a, b, true, totalMoves);
