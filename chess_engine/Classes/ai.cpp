@@ -332,11 +332,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	{
 		Move move;
 
-		unsigned long int tempHash1 = board->zobrist->getHash();
-
 		board->doMove(&(moves[i]));
-
-		unsigned long int tempHash2 = board->zobrist->getHash();
 
 		// get enpassant
 		if (moves[i].pawnDoubleMove)
@@ -353,8 +349,6 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 			else
 				move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, doingHE, totalMoves);
 		}
-
-		unsigned long int tempHash3 = board->zobrist->getHash();
 
 		board->undoMove(&(moves[i]));
 
