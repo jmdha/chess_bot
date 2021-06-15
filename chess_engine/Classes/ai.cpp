@@ -118,6 +118,37 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int c
 	throw std::invalid_argument("Found no move");
 }
 
+bool isKingVunerable(Board board, Color side) {
+	// Get king position
+	Point kingPos = Point(0, 0);
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == KINGWHITE)
+			{
+				kingPos.x = x;
+				kingPos.y = y;
+			}
+		}
+	}
+
+	// See if enemy can attack
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			if (!board.isSquareEmpty(x, y) && board.isSquareEnemy(side, x, y))
+			{
+				if (board.getPiece(x, y)->checkIfPosPossible(board, kingPos))
+					return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 std::vector<Move> getAllMoves(Board board, Color side)
 {
 
@@ -134,8 +165,13 @@ std::vector<Move> getAllMoves(Board board, Color side)
 			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->color == side)
 			{
 				tempMoveList = board.getPiece(x, y)->getPossibleMoves(board);
-				moves.insert(it, tempMoveList.begin(), tempMoveList.end());
-				it = moves.begin();
+				// Go through moves
+				for (int i = 0; i < tempMoveList.size(); i++) {
+					board.doMove(&tempMoveList[i]);
+					if (!isKingVunerable(board, side))
+						moves.push_back(tempMoveList[i]);
+					board.undoMove(&tempMoveList[i]);
+				}
 			}
 		}
 	}
@@ -295,14 +331,6 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	for (int i = 0; i < static_cast<int>(moves.size()); i++)
 	{
 		Move move;
-		bool castlingLegality[2][2] = { { false, false }, { false, false } };
-		for (int j = 0; j < 2; j++)
-			for (int j2 = 0; j2 < 2; j2++)
-				castlingLegality[j][j2] = board->castlingValid[j][j2];
-
-
-		//board->printBoard();
-		//printf("\n");
 
 		unsigned long int tempHash1 = board->zobrist->getHash();
 
@@ -329,11 +357,6 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		unsigned long int tempHash3 = board->zobrist->getHash();
 
 		board->undoMove(&(moves[i]));
-
-		for (int j = 0; j < 2; j++)
-			for (int j2 = 0; j2 < 2; j2++)
-				board->castlingValid[j][j2] = castlingLegality[j][j2];
-		// get enpassant
 
 
 		if (isMax && move.value > bestMove.value)

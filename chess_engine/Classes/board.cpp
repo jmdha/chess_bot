@@ -607,8 +607,15 @@ void Board::doMove(Move* move)
 	if (piece->getIndex() == KINGINDEX)
 	{
 		int side = static_cast<int>(piece->color);
-		for (int i = 0; i < 2; i++)
+		
+		for (int i = 0; i < 2; i++) {
+			if (castlingValid[side][i]) {
+				move->disallowedCastling[i] = true;
+				castlingValid[side][i] = false;
+			}
+			move->disallowedCastling[i] = true;
 			castlingValid[side][i] = false;
+		}
 
 		if (move->castling)
 		{
@@ -636,10 +643,15 @@ void Board::doMove(Move* move)
 	else if (piece->getIndex() == ROOKINDEX)
 	{
 		int side = static_cast<int>(piece->color);
-		if (piece->x == 0)
+		if (piece->x == 0 && castlingValid[side][0]) {
+			move->disallowedCastling[1] = true;
 			castlingValid[side][0] = false;
-		else if (piece->x == 7)
+		}
+			
+		else if (piece->x == 7) {
+			move->disallowedCastling[1] = true;
 			castlingValid[side][1] = false;
+		}
 	}
 	else if (piece->getIndex() == PAWNINDEX)
 	{
@@ -679,6 +691,12 @@ void Board::undoMove(Move* move)
 {
 	this->zobrist->decrementCurrentHash();
 	Piece* piece = getPiece(move->endX, move->endY);
+
+	int side = static_cast<int>(piece->color);
+	for (int i = 0; i < 2; i++)
+		if (move->disallowedCastling[i])
+			castlingValid[side][i] = true;
+
 	if (move->promotion)
 	{
 		piece = new Pawn(piece->color);
