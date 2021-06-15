@@ -295,7 +295,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	}
 	for (int i = 0; i < static_cast<int>(moves.size()); i++)
 	{
-		Move move = moves[i];
+		Move move;
 		bool castlingLegality[2][2] = { { false, false }, { false, false } };
 		for (int j = 0; j < 2; j++)
 			for (int j2 = 0; j2 < 2; j2++)
@@ -312,8 +312,8 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		unsigned long int tempHash2 = board->zobrist->getHash();
 
 		// get enpassant
-		if (move.pawnDoubleMove)
-			board->enPassant = move.startX;
+		if (moves[i].pawnDoubleMove)
+			board->enPassant = moves[i].startX;
 		else
 			board->enPassant = -1;
 
@@ -335,10 +335,6 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 			for (int j2 = 0; j2 < 2; j2++)
 				board->castlingValid[j][j2] = castlingLegality[j][j2];
 		// get enpassant
-		if (move.pawnDoubleMove)
-			board->enPassant = move.startX;
-		else
-			board->enPassant = -1;
 
 
 		if (isMax && move.value > bestMove.value)

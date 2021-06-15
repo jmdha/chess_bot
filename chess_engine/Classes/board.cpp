@@ -665,6 +665,7 @@ void Board::doMove(Move* move)
 		}
 		else if (move->enPassantTake) {
 			int passedPawnYPosition = ((piece->color == WHITE) ? 4 : 3);
+			move->setTarget(getPiece(move->endX, passedPawnYPosition));
 			removePiece(move->endX, passedPawnYPosition);
 		}
 	}
