@@ -20,6 +20,8 @@ public:
     // Used for debugging
     int totalMoves = 0;
     int moveSizeBatch = 0;
+    // The state of enpassant before the move
+    int priorEnPassant = -1;
 
     Piece *target;
     bool castling = false;

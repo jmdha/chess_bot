@@ -678,6 +678,13 @@ void Board::doMove(Move* move)
 			move->setTarget(getPiece(move->endX, passedPawnYPosition));
 			removePiece(move->endX, passedPawnYPosition);
 		}
+
+		move->priorEnPassant = enPassant;
+
+		if (move->pawnDoubleMove)
+			enPassant = move->startX;
+		else
+			enPassant = -1;
 	}
 	placePiece(piece, move->endX, move->endY);
 	removePiece(move->startX, move->startY);
@@ -728,6 +735,7 @@ void Board::undoMove(Move* move)
 		undoMove(
 			new Move(rookStartX, piece->y, rookEndX, piece->y));
 	}
+	enPassant = move->priorEnPassant;
 }
 
 
