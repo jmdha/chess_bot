@@ -26,7 +26,6 @@ https.get('https://lichess.org/api/stream/event', {
     res.on('data', function (chunk) {
         let data;
         if (String(chunk).length > 5) {
-            console.log("Chunk ", String(chunk))
             data = String(chunk);
             data = JSON.parse(data);
             switch (data.type) {
@@ -44,10 +43,6 @@ https.get('https://lichess.org/api/stream/event', {
 
                     beginGameStream(currentGame.id);
                     break;
-                case 'gameFinish':
-                    currentGame = null;
-                    //createAIChallange();
-                    break;
             }
         }
     });
@@ -57,7 +52,6 @@ https.get('https://lichess.org/api/stream/event', {
 });
 
 createAIChallange();
-//createChallenge('LeelaNovice');
 
 function createUserChallenge(user) {
     let options = {
@@ -109,7 +103,7 @@ function createAIChallange() {
     let req = https.request(options, (res) => {
 
         res.on('data', (d) => {
-            console.log("Response from challenge ".brightBlue + d);
+            //console.log("Response from challenge ".brightBlue + d);
         });
     })
 
@@ -157,7 +151,7 @@ function beginGameStream(id) {
             let data;
             if (String(chunk).length > 5) {
                 data = JSON.parse(String((chunk)));
-                console.log("parsed: ", data);
+                //console.log("parsed: ", data);
                 switch (data.type) {
                     case 'gameFull':
                         currentGame.state = data.state;
@@ -179,8 +173,10 @@ function beginGameStream(id) {
                         if (data.status == 'started') {
                             currentGame.state = data;
                             handleNewMove(data.moves);
-                        } else
+                        } else {
                             currentGame = null;
+                            createAIChallange();
+                        }
                         break;
                     }
                 }
@@ -194,17 +190,24 @@ function beginGameStream(id) {
 }
 
 function handleNewMove(moves) {
-    console.log("moves ", moves);
-    console.log("current turn ", getCurrentTurn());
     if (getCurrentTurn() == currentGame.botSide) {
-        console.log("Generating move");
+        console.log("moves: ".grey, moves);
+        console.log("current turn ".grey, getCurrentTurn());
+        console.log("Generating move".grey);
         exec.exec('./chess_engine.out ' + "\"" + moves + "\"", function (err, data) {
-            if (err != null)
+            if (err != null) {
                 console.log("engine error ".red, err);
+                resignGame();
+                createAIChallange();
+            }
 
-            console.log(data);
-            let move = data.split('\n')[0];
-            sendMove(move);
+            console.log("engine output: ".brightBlue, data.green);
+            if (data.includes('draw'))
+                sendDrawRequest();
+            else {
+                let move = data.split('\n')[0];
+                sendMove(move);
+            }
         });
     }
 }
@@ -222,9 +225,14 @@ function sendMove(move) {
         }
     };
     let req = https.request(options, (res) => {
-        console.log("move sent with statuscode ", res.statusCode);
+        if (res.statusCode == 200){
+            console.log("move sent with statuscode ", String(res.statusCode).green);
+            console.log('\n');
+        }
         if (res.statusCode != 200) {
+            console.log("move sent with statuscode ", String(res.statusCode).red);
             console.log("sent to path ", options.path);
+            console.log('\n')
             if (res.statusCode == 429)
                 setTimeout(sendMove, 61 * 1000, move);
             else
@@ -244,4 +252,58 @@ function getCurrentTurn() {
         return 'white';
     else
         return (1 - (String(currentGame.state.moves).split(' ').length % 2)) ? 'white' : 'black';
+}
+
+function resignGame() {
+    let options = {
+        hostname: 'lichess.org',
+        port: 443,
+        path: '/api/bot/game/' + currentGame.id + '/resign',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + bearerId
+        }
+        //json: true,
+
+    };
+    let req = https.request(options, (res) => {
+
+        res.on('data', (d) => {
+            //console.log("Response from challenge ".brightBlue + d);
+        });
+    })
+
+    req.on('error', (error) => {
+        console.error(error);
+    });
+
+    req.end();
+}
+
+function sendDrawRequest() {
+    let options = {
+        hostname: 'lichess.org',
+        port: 443,
+        path: '/api/bot/game/' + currentGame.id + '/draw/yes',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + bearerId
+        }
+        //json: true,
+
+    };
+    let req = https.request(options, (res) => {
+
+        res.on('data', (d) => {
+            //console.log("Response from challenge ".brightBlue + d);
+        });
+    })
+
+    req.on('error', (error) => {
+        console.error(error);
+    });
+
+    req.end();
 }
