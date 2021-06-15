@@ -1,8 +1,12 @@
 const https = require('https');
 const port = 3000;
+// used for execution of engine
 const exec = require('child_process');
+// used for reading bot id
 const fs = require('fs');
 const qs = require('querystring');
+// used for output color
+const colors = require('colors');
 
 let bearerId = fs.readFileSync('id.txt', 'utf8');
 
@@ -12,11 +16,13 @@ const botId = "sun_bird";
 
 let currentGame = null;
 
+// Open stream
 https.get('https://lichess.org/api/stream/event', {
     headers: {
         Authorization: 'Bearer ' + bearerId
     }
 }, function (res) {
+    // On receive data
     res.on('data', function (chunk) {
         let data;
         if (String(chunk).length > 5) {
@@ -34,15 +40,13 @@ https.get('https://lichess.org/api/stream/event', {
                         break;
                     currentGame = {};
                     currentGame.id = data.game.id;
-                    currentGame.turn = 'white';
                     console.log("Starting game " + currentGame.id);
-
 
                     beginGameStream(currentGame.id);
                     break;
                 case 'gameFinish':
                     currentGame = null;
-                    createAIChallange();
+                    //createAIChallange();
                     break;
             }
         }
@@ -52,7 +56,7 @@ https.get('https://lichess.org/api/stream/event', {
     });
 });
 
-//createAIChallange();
+createAIChallange();
 //createChallenge('LeelaNovice');
 
 function createUserChallenge(user) {
@@ -105,7 +109,7 @@ function createAIChallange() {
     let req = https.request(options, (res) => {
 
         res.on('data', (d) => {
-            process.stdout.write(d);
+            console.log("Response from challenge ".brightBlue + d);
         });
     })
 
@@ -151,10 +155,7 @@ function beginGameStream(id) {
     }, function (res) {
         res.on('data', function (chunk) {
             let data;
-            if (chunk != null)
-                console.log(String(chunk))
             if (String(chunk).length > 5) {
-                console.log("chunk ", String(chunk));
                 data = JSON.parse(String((chunk)));
                 console.log("parsed: ", data);
                 switch (data.type) {
@@ -168,25 +169,15 @@ function beginGameStream(id) {
                         } else
                             currentGame.botSide = 'black';
 
-                        if (currentGame.state.moves != null && currentGame.state.moves.length > 0) {
-                            currentGame.turn = (1 - (String(data.state.moves).split(' ').length % 2)) ? 'white' : 'black';
+                        currentGame.turn = getCurrentTurn();
 
-                            console.log("going into handle new move")
-                            handleNewMove(data.state.moves);
-                            switchTurn();
-                        } else if (currentGame.state.moves.length == 0) {
-                            handleNewMove('');
-                            switchTurn();
-                        }
-
-                            
-
+                        handleNewMove(currentGame.state.moves);
                         break;
                         
                     case 'gameState': {
-                        console.log("gameState", data.status);
+                        //console.log("gameState", data);
                         if (data.status == 'started') {
-                            switchTurn();
+                            currentGame.state = data;
                             handleNewMove(data.moves);
                         } else
                             currentGame = null;
@@ -203,11 +194,13 @@ function beginGameStream(id) {
 }
 
 function handleNewMove(moves) {
-    console.log("turn ", currentGame.turn);
-    if (currentGame.turn == currentGame.botSide) {
+    console.log("moves ", moves);
+    console.log("current turn ", getCurrentTurn());
+    if (getCurrentTurn() == currentGame.botSide) {
+        console.log("Generating move");
         exec.exec('./chess_engine.out ' + "\"" + moves + "\"", function (err, data) {
             if (err != null)
-                console.log("engine error ", err);
+                console.log("engine error ".red, err);
 
             console.log(data);
             let move = data.split('\n')[0];
@@ -246,9 +239,9 @@ function sendMove(move) {
     req.end();
 }
 
-function switchTurn() {
-    if (currentGame.turn == 'white')
-        currentGame.turn = 'black';
+function getCurrentTurn() {
+    if (currentGame.state.moves.length == 0)
+        return 'white';
     else
-        currentGame.turn = 'white';
+        return (1 - (String(currentGame.state.moves).split(' ').length % 2)) ? 'white' : 'black';
 }
