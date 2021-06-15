@@ -245,9 +245,7 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int s
 
 Move getBestMove(Board* board, int depth)
 {
-	// If seen at -1 without knowing why, return to 0
-	// -1 is used for debugging
-	int totalMovesChecked = -1;
+	int totalMovesChecked = 0;
 	Move move = minimax(board, depth, true, board->turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked);
 	return move;
 }
@@ -261,6 +259,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	Color oppositeColor = ((currentTurn == WHITE) ? BLACK : WHITE);
 
 	// check if the position has occured more than 2 times
+	// this is to check for draw
 	if (board->zobrist->priorInstanceCount.at(board->zobrist->getHash()) > 2)
 	{
 		int multiplier = ((currentTurn == board->turn) ? 1 : -1);
