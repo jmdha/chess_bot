@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <RemoteDebuggerCommandArguments>'d2d3 b8c6 e2e4 d7d5 d1d2 d5e4 d3e4 d8d2 e1d2 f7f5 b1c3 f5e4 g1e2 g8f6 e2f4 e7e5 f4h3 e8f7 f1c4 f7g6 a2a4 c6a5 c4d5 f6d5 c3e4 f8b4 d2d1 c8g4 f2f3 g4f5 h3g5 a5c4 h2h3 c4e3 c1e3 d5e3 d1c1 e3g2 h1g1 g2e3 g1g3 b4e1 g3g1 e1b4 h3h4 g6h6 g5f7 h6h5 g1g7 h8c8 c2c3 b4e7 b2b4 h5h4 c1d2 e3c4 d2e2 e7f8 a1h1 f5h3 g7g4'</RemoteDebuggerCommandArguments>
+    <RemoteDebuggerCommandArguments>'e2e4 b8c6 g1f3 d7d5 e4e5 d5d4 f1b5 a7a6 b5d3 c8g4 e1g1 c6e5 d1e2 e5d3 c2d3 a8b8 h2h3 g4f5 f1e1 f5e6 e2e5 d8d6 e5d4 d6d4 f3d4 e6d7 a2a4 c7c5 d4f3 d7f5 e1e3 b8d8 f3e5 f7f6 g2g4'</RemoteDebuggerCommandArguments>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
     <AdditionalDebuggerCommands>
     </AdditionalDebuggerCommands>

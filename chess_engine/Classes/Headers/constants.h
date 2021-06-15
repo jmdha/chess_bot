@@ -13,7 +13,7 @@ enum Color
 };
 
 enum EnPassantRow {
-    ENPASSANTROWBLACK = 5,
+    ENPASSANTROWBLACK = 3,
     ENPASSANTROWWHITE = 4
 };
 

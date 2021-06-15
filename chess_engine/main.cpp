@@ -7,10 +7,12 @@
 int main(int argc, char *argv[])
 {
     Board board = Board();
+    
     if (argc > 1)
         board.importFakePGN(argv[1]);
 
-    Move move = getBestMove(&board, 1);
+    Move move = getBestMove(&board, 3);
+
     if (move.startX == -1 || move.startY == -1)
         printf("draw");
     else

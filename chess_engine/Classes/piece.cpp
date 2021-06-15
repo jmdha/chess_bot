@@ -80,7 +80,7 @@ std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction dire
             else
                 break;
         }
-        else if (!board.isSquareEmpty(endPoint.x, endPoint.y) && board.isSquareEnemy(this->color, endPoint.x, endPoint.y))
+        else if (board.isSquareEnemy(this->color, endPoint.x, endPoint.y))
         {
             moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
         }
