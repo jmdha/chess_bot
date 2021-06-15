@@ -243,9 +243,9 @@ int Pawn::getIndex() {
 }
 
 bool Pawn::checkIfPosPossible(Board board, Point pos) {
-	int newY = ((color == WHITE) ? y + 1 : y - 1);
+	int newY = ((color == WHITE) ?  + 1 : - 1);
 	for (int newX = -1; newX < 2; newX += 2) {
-		if (pos.x == newX && pos.y == newY)
+		if (pos.x == x + newX && pos.y == y + newY)
 			return true;
 	}
 	return false;
