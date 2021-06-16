@@ -418,13 +418,6 @@ void Board::switchTurn()
 	}
 }
 
-void Board::placePiece(Piece* piece)
-{
-	board[piece->x][piece->y] = piece;
-	if (piece != NULL)
-		this->zobrist->flipSquare(piece->x, piece->y, piece->getIndex(), static_cast<int>(piece->color));
-}
-
 void Board::placePiece(Piece* piece, int x, int y)
 {
 	board[x][y] = piece;
@@ -435,11 +428,7 @@ void Board::placePiece(Piece* piece, int x, int y)
 
 void Board::placePiece(PieceChar piece, int x, int y)
 {
-	board[x][y] = getPieceFromChar(piece);
-	getPiece(x, y)->x = x;
-	getPiece(x, y)->y = y;
-	Piece* newPiece = this->getPiece(x, y);
-	this->zobrist->flipSquare(x, y, newPiece->getIndex(), static_cast<int>(newPiece->color));
+	placePiece(getPieceFromChar(piece), x, y);
 }
 
 void Board::removePiece(int x, int y)
@@ -728,7 +717,7 @@ void Board::undoMove(Move* move)
 	removePiece(move->endX, move->endY);
 	if (move->target != NULL)
 	{
-		placePiece(move->target);
+		placePiece(move->target, move->target->x, move->target->y);
 		move->setTarget(NULL);
 		for (int i = 0; i < 2; i++)
 			kingAlive[i] = true;

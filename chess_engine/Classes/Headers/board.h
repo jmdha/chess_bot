@@ -45,7 +45,6 @@ public:
 	void printBoard();
 	bool isSquareEmpty(int x, int y);
 	bool isSquareEnemy(Color color, int x, int y);
-	void placePiece(Piece* piece);
 	Piece* getPiece(int x, int y);
 	int evaluateBoard();
 	int evaluateBoard(Color side);

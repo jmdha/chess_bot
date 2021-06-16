@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     else if (pieceCount < 10)
         depth = 5;
     else
-        depth = 3;
+        depth = 6;
 
 
     auto start = std::chrono::high_resolution_clock::now();
