@@ -399,8 +399,9 @@ void Board::clearBoard()
 {
 	for (int y = 0; y < HEIGHT; y++)
 		for (int x = 0; x < WIDTH; x++)
-			this->board[x][y] = NULL;
+			removePiece(x, y);
 	this->zobrist = new Zobrist(this);
+	pieceCount = 0;
 }
 
 void Board::setTurn(Color turn)
@@ -424,6 +425,7 @@ void Board::placePiece(Piece* piece, int x, int y)
 	piece->x = x;
 	piece->y = y;
 	this->zobrist->flipSquare(x, y, piece->getIndex(), static_cast<int>(piece->color));
+	pieceCount++;
 }
 
 void Board::placePiece(PieceChar piece, int x, int y)
@@ -440,6 +442,7 @@ void Board::removePiece(int x, int y)
 		int index = piece->getIndex();
 		int color = static_cast<int>(piece->color);
 		this->zobrist->flipSquare(x, y, index, color);
+		pieceCount--;
 	}
 
 	board[x][y] = NULL;

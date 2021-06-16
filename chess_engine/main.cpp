@@ -15,10 +15,9 @@ int main(int argc, char *argv[])
         board.importFakePGN(argv[1]);
 
     int depth;
-    int pieceCount = board.GetPieceCount();
-    if (pieceCount < 5)
+    if (board.pieceCount < 5)
         depth = 7;
-    else if (pieceCount < 10)
+    else if (board.pieceCount < 10)
         depth = 5;
     else
         depth = 6;
@@ -30,9 +29,9 @@ int main(int argc, char *argv[])
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     if (move.startX == -1 || move.startY == -1)
-        printf("draw\n%s", getStatString(move, duration.count(), depth, pieceCount));
+        printf("draw\n%s", getStatString(move, duration.count(), depth, board.pieceCount));
     else
-        printf("%s\n%s", move.getMoveAsPlainString().c_str(), getStatString(move, duration.count(), depth, pieceCount).c_str());
+        printf("%s\n%s", move.getMoveAsPlainString().c_str(), getStatString(move, duration.count(), depth, board.pieceCount).c_str());
         
     return 0;
 }

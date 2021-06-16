@@ -31,6 +31,7 @@ public:
 	int turnNumber = 0;
 	bool kingAlive[2] = { true, true };
 	bool castlingValid[2][2] = { {true, true}, {true, true} };
+	int pieceCount = 32;
 	Zobrist* zobrist;
 	int enPassant;
 	Color turn = WHITE;
