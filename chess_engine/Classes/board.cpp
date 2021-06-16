@@ -302,8 +302,27 @@ void Board::importFakePGN(std::string moves)
 			// check pawn "stuff"
 			if (getPiece(newMove->startX, newMove->startY)->getIndex() == PAWNINDEX) {
 				// if promotion
-				if (newMove->endY == BACKROWWHITE || newMove->endY == BACKROWBLACK)
+				if (newMove->endY == BACKROWWHITE || newMove->endY == BACKROWBLACK) {
+					// if promotion to something else
+					PieceIndex type = QUEENINDEX;
+					if (move.length() == 5) {
+						switch (move[4])
+						{
+						case 'r':
+							type = ROOKINDEX;
+							break;
+						case 'n':
+							type = KNIGHTINDEX;
+							break;
+						case 'b':
+							type = BISHOPINDEX;
+							break;
+						}
+					}
+					newMove->promotionType = type;
 					newMove->promotion = true;
+				}
+					
 				// if double move
 				else if (abs(newMove->endY - newMove->startY) == 2)
 					newMove->pawnDoubleMove = true;
