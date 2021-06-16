@@ -295,14 +295,9 @@ void Board::importFakePGN(std::string moves)
 		if (moves[i] == ' ' || i == static_cast<int>(moves.length()) - 1)
 		{
 			Move* newMove = new Move(move);
-			if (getPiece(newMove->startX, newMove->startY)->getIndex() == KINGWHITE)
-				if (move == "e1g1" || move == "e1c1")
+			if (getPiece(newMove->startX, newMove->startY)->getIndex() == KINGINDEX)
+				if (move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8")
 					newMove->castling = true;
-			else if(getPiece(newMove->startX, newMove->startY)->getIndex() == KINGBLACK)
-				if (move == "e8g8" || move == "e8c8")
-					newMove->castling = true;
-
-
 
 			// check pawn "stuff"
 			if (getPiece(newMove->startX, newMove->startY)->getIndex() == PAWNINDEX) {
