@@ -118,7 +118,7 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int c
 	throw std::invalid_argument("Found no move");
 }
 
-bool isKingVunerable(Board board, Color side) {
+bool isKingVulnerable(Board board, Color side) {
 	// Get king position
 	Point kingPos = Point(0, 0);
 	for (int y = 0; y < HEIGHT; y++)
@@ -169,7 +169,7 @@ std::vector<Move> getAllMoves(Board board, Color side)
 				// Go through moves
 				for (int i = 0; i < tempMoveList.size(); i++) {
 					board.doMove(&tempMoveList[i]);
-					if (!isKingVunerable(board, side))
+					if (!isKingVulnerable(board, side))
 						moves.push_back(tempMoveList[i]);
 					board.undoMove(&tempMoveList[i]);
 				}
@@ -325,7 +325,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 	if (static_cast<int>(moves.size()) == 0)
 	{
-		if (isKingVunerable(*board, currentTurn))
+		if (isKingVulnerable(*board, currentTurn))
 			if (board->turn != currentTurn)
 				bestMove.value = VALUEMATE;
 			else
@@ -341,8 +341,8 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		board->doMove(&(moves[i]));
 
 		// Go deeper
-		if (depth == 1 && !doingHE && moves[i].target != NULL)
-			move = minimax(board, 3, !isMax, oppositeColor, a, b, true, totalMoves);
+		if (depth == 1 && !doingHE && (moves[i].target != NULL || isKingVulnerable(*board, currentTurn)))
+			move = minimax(board, 4, !isMax, oppositeColor, a, b, true, totalMoves);
 		else {
 			if (doingHE && moves[i].target == NULL)
 				move = minimax(board, 0, !isMax, oppositeColor, a, b, doingHE, totalMoves);
