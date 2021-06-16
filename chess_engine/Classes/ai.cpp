@@ -357,11 +357,18 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		{
 			bestMove = moves[i];
 			bestMove.value = move.value;
+			bestMove.moveDepth = depth;
 		}
 		else if (!isMax && move.value < bestMove.value)
 		{
 			bestMove = moves[i];
 			bestMove.value = move.value;
+			bestMove.moveDepth = depth;
+		}
+		else if (move.value == bestMove.value && depth > bestMove.moveDepth) {
+			bestMove = moves[i];
+			bestMove.value = move.value;
+			bestMove.moveDepth = depth;
 		}
 
 

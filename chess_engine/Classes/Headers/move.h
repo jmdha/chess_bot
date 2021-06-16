@@ -23,6 +23,9 @@ public:
     // The state of enpassant before the move
     int priorEnPassant = -1;
 
+    // depth at which was found
+    int moveDepth = 0;
+
     Piece *target;
     bool castling = false;
     // if this move is the one to disallow castling on a side
