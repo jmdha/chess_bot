@@ -192,22 +192,27 @@ function beginGameStream(id) {
 function handleNewMove(moves) {
     if (getCurrentTurn() == currentGame.botSide) {
         console.log("moves: ".grey, moves);
-        console.log("current turn ".grey, getCurrentTurn());
         console.log("Generating move".grey);
         exec.exec('./chess_engine.out ' + "\"" + moves + "\"", function (err, data) {
             if (err != null) {
                 console.log("engine error ".red, err);
-                resignGame();
-                createAIChallange();
+                //resignGame();
+                //createAIChallange();
             }
+            let segmentedData = data.split('\n');
 
-            console.log("engine output: ".brightBlue, data.green);
+            console.log("----");
+            console.log("Engine Output: ".grey);
+            console.log("Move: ", segmentedData[0].green);
+            for (let i = 1; i < segmentedData.length; i++) 
+                console.log(segmentedData[i]);
+            console.log("----");
+
+
             if (data.includes('draw'))
                 sendDrawRequest();
-            else {
-                let move = data.split('\n')[0];
-                sendMove(move);
-            }
+            else 
+                sendMove(segmentedData[0]);
         });
     }
 }
@@ -228,8 +233,7 @@ function sendMove(move) {
         if (res.statusCode == 200){
             console.log("move sent with statuscode ", String(res.statusCode).green);
             console.log('\n');
-        }
-        if (res.statusCode != 200) {
+        } else {
             console.log("move sent with statuscode ", String(res.statusCode).red);
             console.log("sent to path ", options.path);
             console.log('\n')
@@ -282,6 +286,8 @@ function resignGame() {
 }
 
 function sendDrawRequest() {
+    if (currentGame == null)
+        return;
     let options = {
         hostname: 'lichess.org',
         port: 443,
