@@ -399,7 +399,7 @@ void Board::clearBoard()
 {
 	for (int y = 0; y < HEIGHT; y++)
 		for (int x = 0; x < WIDTH; x++)
-			removePiece(x, y);
+			this->board[x][y] = NULL;
 	this->zobrist = new Zobrist(this);
 	pieceCount = 0;
 }
