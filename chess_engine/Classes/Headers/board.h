@@ -49,7 +49,7 @@ public:
 	Piece* getPiece(int x, int y);
 	int evaluateBoard();
 	int evaluateBoard(Color side);
-
+	int GetPieceCount();
 	void commitMove(Move* move);
 	void doMove(Move* move);
 	void switchTurn();

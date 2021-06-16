@@ -1,8 +1,11 @@
 #include <cstdio>
 #include <iostream>
+#include <chrono>
 #include "Classes/Headers/board.h"
 #include "Classes/Headers/ai.h"
 #include "Classes/Headers/move.h"
+
+std::string getStatString(Move move, int64_t duration, int depth, int pieceCount);
 
 int main(int argc, char *argv[])
 {
@@ -11,12 +14,35 @@ int main(int argc, char *argv[])
     if (argc > 1)
         board.importFakePGN(argv[1]);
 
-    Move move = getBestMove(&board, 3);
+    int depth;
+    int pieceCount = board.GetPieceCount();
+    if (pieceCount < 5)
+        depth = 7;
+    else if (pieceCount < 10)
+        depth = 5;
+    else
+        depth = 3;
+
+
+    auto start = std::chrono::high_resolution_clock::now();
+    Move move = getBestMove(&board, depth);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     if (move.startX == -1 || move.startY == -1)
-        printf("draw");
+        printf("draw\n%s", getStatString(move, duration.count(), depth, pieceCount));
     else
-        printf("%s", move.getMoveAsPlainString().c_str());
+        printf("%s\n%s", move.getMoveAsPlainString().c_str(), getStatString(move, duration.count(), depth, pieceCount).c_str());
         
     return 0;
+}
+
+std::string getStatString(Move move, int64_t duration, int depth, int pieceCount) {
+    std::string statString = "";
+    statString.append("Search depth: " + std::to_string(depth) + "\n");
+    statString.append("Piece count: " + std::to_string(pieceCount) + "\n");
+    statString.append("Time (ms): " + std::to_string(duration) + "\n");
+    statString.append("Total moves: " + std::to_string(move.totalMoves));
+
+    return statString;
 }

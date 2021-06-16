@@ -586,6 +586,16 @@ PieceIndex Board::getPieceIndexFromChar(char piece)
 	}
 }
 
+int Board::GetPieceCount() {
+	int count = 0;
+	for (int x = 0; x < WIDTH; x++) {
+		for (int y = 0; y < HEIGHT; y++) {
+			if (!isSquareEmpty(x, y))
+				count++;
+		}
+	}
+	return count;
+}
 
 
 void Board::commitMove(Move* move)
