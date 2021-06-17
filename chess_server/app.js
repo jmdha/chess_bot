@@ -218,7 +218,8 @@ function handleNewMove(moves) {
 }
 
 function sendMove(move) {
-
+    if (currentGame == null)
+        return;
     let options = {
         hostname: 'lichess.org',
         port: 443,
@@ -237,10 +238,6 @@ function sendMove(move) {
             console.log("move sent with statuscode ", String(res.statusCode).red);
             console.log("sent to path ", options.path);
             console.log('\n')
-            if (res.statusCode == 429)
-                setTimeout(sendMove, 61 * 1000, move);
-            else
-                setTimeout(sendMove, 5000, move);
         }
     })
 
@@ -259,6 +256,8 @@ function getCurrentTurn() {
 }
 
 function resignGame() {
+    if (currentGame == null)
+        return;
     let options = {
         hostname: 'lichess.org',
         port: 443,

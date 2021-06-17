@@ -15,13 +15,11 @@ int main(int argc, char *argv[])
         board.importFakePGN(argv[1]);
 
     int depth;
-    if (board.pieceCount < 5)
-        depth = 8;
-    else if (board.pieceCount < 7)
+    if (board.pieceCount < 4)
         depth = 7;
-    else if (board.pieceCount < 12)
+    else if (board.pieceCount < 8)
         depth = 6;
-    else if (board.pieceCount < 20)
+    else if (board.pieceCount < 16)
         depth = 5;
     else
         depth = 4;
