@@ -7,6 +7,12 @@ const fs = require('fs');
 const qs = require('querystring');
 // used for output color
 const colors = require('colors');
+// used for ui
+var readline = require('readline');
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 let bearerId = fs.readFileSync('id.txt', 'utf8');
 
@@ -15,6 +21,24 @@ const botId = "sun_bird";
 //const connection = new websocket('https://lichess.org/api/stream/event');
 
 let currentGame = null;
+
+
+
+UI();
+function UI() {
+    rl.question('Select Mode:\n1 - Practice (Automatically starts game with Lichess Bot)\n2 - Bot (Waits for challenge)(NOT IMPLEMENTED)\n', (answer) => {
+        console.log(answer);
+        if (answer != 1 && answer != 2)
+            UI();
+        else if (answer == 1){
+            rl.question('Select Level (1-8):', (level) => {
+                createAIChallange(level);
+            })
+            
+        }
+    });
+}
+
 
 // Open stream
 https.get('https://lichess.org/api/stream/event', {
@@ -51,8 +75,6 @@ https.get('https://lichess.org/api/stream/event', {
     });
 });
 
-createAIChallange();
-
 function createUserChallenge(user) {
     let options = {
         hostname: 'lichess.org',
@@ -87,7 +109,7 @@ function createUserChallenge(user) {
     req.end();
 }
 
-function createAIChallange() {
+function createAIChallange(level) {
     let options = {
         hostname: 'lichess.org',
         port: 443,
@@ -114,7 +136,7 @@ function createAIChallange() {
     var postData = qs.stringify({
         'clock.limit': '300',
         'clock.increment': '5',
-        'level': '3'
+        'level': level
     });
 
     req.write(postData);
@@ -175,7 +197,6 @@ function beginGameStream(id) {
                             handleNewMove(data.moves);
                         } else {
                             currentGame = null;
-                            createAIChallange();
                         }
                         break;
                     }
@@ -184,6 +205,7 @@ function beginGameStream(id) {
         });
         res.on('end', function (msg) {
             console.log("shit's done yo!")
+            UI();
             // all data has been downloaded
         });
     });
