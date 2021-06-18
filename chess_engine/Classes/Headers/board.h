@@ -31,7 +31,8 @@ public:
 	int turnNumber = 0;
 	bool kingAlive[2] = { true, true };
 	bool castlingValid[2][2] = { {true, true}, {true, true} };
-	int pieceCount = 32;
+	// First number is total, second is white, then black
+	int pieceCount[3] = { 32, 16, 16 };
 	int pawnsOnFile[8] = { 2 };
 	Zobrist* zobrist;
 	int enPassant;

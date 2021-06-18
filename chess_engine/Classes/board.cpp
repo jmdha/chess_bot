@@ -401,7 +401,7 @@ void Board::clearBoard()
 		for (int x = 0; x < WIDTH; x++)
 			this->board[x][y] = NULL;
 	this->zobrist = new Zobrist(this);
-	pieceCount = 0;
+	pieceCount[0] = 0, pieceCount[1] = 0, pieceCount[2] = 0;
 	for (int x = 0; x < WIDTH; x++)
 		pawnsOnFile[x] = 0;
 }
@@ -427,7 +427,8 @@ void Board::placePiece(Piece* piece, int x, int y)
 	piece->x = x;
 	piece->y = y;
 	this->zobrist->flipSquare(x, y, piece->getIndex(), static_cast<int>(piece->color));
-	pieceCount++;
+	pieceCount[0]++;
+	pieceCount[1 + piece->color]++;
 	if (piece->getIndex() == PAWNINDEX)
 		pawnsOnFile[x]++;
 }
@@ -446,7 +447,8 @@ void Board::removePiece(int x, int y)
 		int index = piece->getIndex();
 		int color = static_cast<int>(piece->color);
 		this->zobrist->flipSquare(x, y, index, color);
-		pieceCount--;
+		pieceCount[0]--;
+		pieceCount[1 + color]--;
 		if (piece->getIndex() == PAWNINDEX)
 			pawnsOnFile[x]--;
 	}
