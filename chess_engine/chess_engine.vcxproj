@@ -93,6 +93,7 @@
     <ClCompile Include="Classes\board.cpp" />
     <ClCompile Include="Classes\generic_helper_functions.cpp" />
     <ClCompile Include="Classes\move.cpp" />
+    <ClCompile Include="Classes\node.cpp" />
     <ClCompile Include="Classes\piece.cpp" />
     <ClCompile Include="Classes\Pieces\bishop.cpp" />
     <ClCompile Include="Classes\Pieces\king.cpp" />
@@ -110,6 +111,7 @@
     <ClInclude Include="Classes\Headers\constants.h" />
     <ClInclude Include="Classes\Headers\generic_helper_functions.h" />
     <ClInclude Include="Classes\Headers\move.h" />
+    <ClInclude Include="Classes\Headers\node.h" />
     <ClInclude Include="Classes\Headers\piece.h" />
     <ClInclude Include="Classes\Headers\point.h" />
     <ClInclude Include="Classes\Headers\zobrist.h" />
