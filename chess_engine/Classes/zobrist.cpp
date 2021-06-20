@@ -74,9 +74,11 @@ void Zobrist::initializeHash()
 
 void Zobrist::incrementCurrentHash()
 {
-	if (priorInstanceCount.emplace(this->getHash(), 1).second == false);
+	if (this->priorInstanceCount.find(this->getHash()) == this->priorInstanceCount.end())
+		this->priorInstanceCount.emplace(this->getHash(), 1);
+	else
 		this->priorInstanceCount.at(this->getHash()) += 1;
-}	
+}
 
 void Zobrist::decrementCurrentHash()
 {
