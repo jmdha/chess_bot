@@ -30,6 +30,7 @@ class Board
 public:
 	int turnNumber = 0;
 	bool kingAlive[2] = { true, true };
+	Point kingPos[2] = { Point(0, 0), Point(0,0) };
 	bool castlingValid[2][2] = { {true, true}, {true, true} };
 	// First number is total, second is white, then black
 	int pieceCount[3] = { 32, 16, 16 };

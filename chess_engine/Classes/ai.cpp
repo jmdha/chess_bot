@@ -119,20 +119,6 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int c
 }
 
 bool isKingVulnerable(Board board, Color side) {
-	// Get king position
-	Point kingPos = Point(0, 0);
-	for (int y = 0; y < HEIGHT; y++)
-	{
-		for (int x = 0; x < WIDTH; x++)
-		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == ((side == WHITE) ? KINGWHITE : KINGBLACK))
-			{
-				kingPos.x = x;
-				kingPos.y = y;
-			}
-		}
-	}
-
 	// See if enemy can attack
 	for (int y = 0; y < HEIGHT; y++)
 	{
@@ -140,7 +126,7 @@ bool isKingVulnerable(Board board, Color side) {
 		{
 			if (board.isSquareEnemy(side, x, y))
 			{
-				if (board.getPiece(x, y)->checkIfPosPossible(board, kingPos))
+				if (board.getPiece(x, y)->checkIfPosPossible(board, board.kingPos[side]))
 					return true;
 			}
 		}
