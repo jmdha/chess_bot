@@ -69,9 +69,6 @@
     <ClCompile Include="..\chess_engine\Classes\Pieces\rook.cpp">
       <Filter>Classes\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="..\chess_engine\Classes\node.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\chess_engine\Classes\Headers\ai.h">
@@ -115,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\rook.h">
       <Filter>Classes\Pieces\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\chess_engine\Classes\Headers\node.h">
-      <Filter>Classes\Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -41,9 +41,6 @@
     <ClCompile Include="Classes\Pieces\rook.cpp">
       <Filter>Classes\Pieces</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\node.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Classes">
@@ -101,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="Classes\Pieces\Headers\rook.h">
       <Filter>Classes\Pieces\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Headers\node.h">
-      <Filter>Classes\Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
