@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     else if (board.pieceCount[0] < 16)
         depth = 5;
     else
-        depth = 4;
+        depth = 6;
 
 
     auto start = std::chrono::high_resolution_clock::now();

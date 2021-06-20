@@ -431,6 +431,8 @@ void Board::placePiece(Piece* piece, int x, int y)
 	pieceCount[1 + piece->color]++;
 	if (piece->getIndex() == PAWNINDEX)
 		pawnsOnFile[x]++;
+	else if (piece->getIndex() == KINGINDEX)
+		kingPos[piece->color] = Point(piece->x, piece->y);
 }
 
 void Board::placePiece(PieceChar piece, int x, int y)
