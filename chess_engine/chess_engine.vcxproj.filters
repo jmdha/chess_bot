@@ -99,11 +99,5 @@
     <ClInclude Include="Classes\Pieces\Headers\rook.h">
       <Filter>Classes\Pieces\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Headers\node.h">
-      <Filter>Classes\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\Headers\doubly_linked_list.h">
-      <Filter>Classes\Headers</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

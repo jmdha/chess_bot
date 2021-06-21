@@ -8,11 +8,10 @@ class Move;
 #include "move.h"
 #include "board.h"
 #include "point.h"
-#include "node.h"
 #include <vector>
 
 
-class Piece : Node
+class Piece
 {
 
 public:

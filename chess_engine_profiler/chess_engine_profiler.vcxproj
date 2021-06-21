@@ -158,10 +158,8 @@
     <ClInclude Include="..\chess_engine\Classes\Headers\ai.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\board.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\constants.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\doubly_linked_list.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\generic_helper_functions.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\move.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\node.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\piece.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\point.h" />
     <ClInclude Include="..\chess_engine\Classes\Headers\zobrist.h" />
