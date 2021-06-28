@@ -5,5 +5,8 @@
   "main": "app.js",
   "author": {
     "name": ""
+  },
+  "dependencies": {
+    "colors": "^1.4.0"
   }
 }

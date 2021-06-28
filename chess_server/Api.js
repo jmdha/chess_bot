@@ -16,6 +16,14 @@ class Api {
         this.stream(`/api/bot/game/stream/${id}`, callback);
     }
 
+    sendDrawRequest(id) {
+        this.post(`/api/board/game/${id}/draw/yes`);
+    }
+
+    sendMove(id, move) {
+        this.post(`/api/bot/game/${id}/move/${move}`);
+    }
+
     post(path) {
         let options = {
             hostname: this.hostname,
