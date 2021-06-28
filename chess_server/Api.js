@@ -1,4 +1,5 @@
 const https = require('https');
+const qs = require('querystring');
 
 class Api {
     
@@ -39,7 +40,7 @@ class Api {
                 'Authorization': 'Bearer ' + this.bearerID
             },
             body: {
-                'reason': 'timeControl'
+                'reason': reason
             }
             //json: true,
 
@@ -54,6 +55,12 @@ class Api {
         req.on('error', (error) => {
             console.error(error);
         });
+
+        if (reason != null) {
+            req.write(qs.stringify({
+                'reason': reason
+            }));
+        }
 
         req.end();
     }

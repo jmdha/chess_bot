@@ -12,6 +12,7 @@ class InstanceManager {
                 if (event.challenge.variant.key != 'standard') {
                     console.log(`Declining Challenge: ${event.challenge.id}`);
                     this.api.declineChallenge(event.challenge.id, 'standard');
+                    break;
                 }
 
 
