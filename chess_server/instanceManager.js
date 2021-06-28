@@ -9,8 +9,20 @@ class InstanceManager {
     handleEvent(event) {
         switch (event.type) {
             case 'challenge':
-                console.log(`Accepting Challenge: ${event.challenge.id}`);
-                this.api.acceptChallenge(event.challenge.id);
+                if (event.challenge.variant.key != 'standard') {
+                    console.log(`Declining Challenge: ${event.challenge.id}`);
+                    this.api.declineChallenge(event.challenge.id, 'standard');
+                }
+
+
+                if (event.challenge.speed == 'rapid' || event.challenge.speed == 'blitz') {
+                    console.log(`Accepting Challenge: ${event.challenge.id}`);
+                    this.api.acceptChallenge(event.challenge.id);
+                } else {
+                    console.log(`Declining Challenge: ${event.challenge.id}`);
+                    this.api.declineChallenge(event.challenge.id, 'timeControl');
+                }
+
                 break;
             case 'gameStart':
                 console.log(`Starting Instance: ${event.game.id}`);

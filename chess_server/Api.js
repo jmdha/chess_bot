@@ -12,6 +12,10 @@ class Api {
         this.post(`/api/challenge/${id}/accept`);
     }
 
+    declineChallenge(id, reason) {
+        this.post(`/api/challenge/${id}/decline`, reason);
+    }
+
     beginGameStream(id, callback) {
         this.stream(`/api/bot/game/stream/${id}`, callback);
     }
@@ -24,7 +28,7 @@ class Api {
         this.post(`/api/bot/game/${id}/move/${move}`);
     }
 
-    post(path) {
+    post(path, reason) {
         let options = {
             hostname: this.hostname,
             port: 443,
@@ -33,6 +37,9 @@ class Api {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer ' + this.bearerID
+            },
+            body: {
+                'reason': 'timeControl'
             }
             //json: true,
 
