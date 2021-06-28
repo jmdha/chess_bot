@@ -26,7 +26,6 @@ class Instance {
     }
 
     handleEvent(event) {
-        console.log(event);
         switch (event.type) {
             // on initial state
             case 'gameFull':

@@ -33,7 +33,6 @@ function lichessStream(res) {
 
 function start() {
     const https = require('https');
-    const port = 5000;
     https.get('https://lichess.org/api/stream/event', {
         headers: {
             Authorization: `Bearer ${bearerID}`
