@@ -34,7 +34,7 @@ class Instance {
                 this.handleMove(event.state.moves);
                 break;
             case 'gameState':
-                this.handleMove(event.state.moves);
+                this.handleMove(event.moves);
                 break;
         }
     }
@@ -55,7 +55,6 @@ class Instance {
     }
 
     playMove(instance, err, stdout) {
-        console.log("Plating move")
         if (err != null) {
             console.log("engine error ".red, err);
         }
