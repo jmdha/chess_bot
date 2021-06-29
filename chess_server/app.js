@@ -1,6 +1,7 @@
 const path = require('path');
 const InstanceManager = require(path.resolve('InstanceManager'));
 const Api = require(path.resolve('Api'));
+const UI = require(path.resolve('UI'));
 
 // used for reading id
 const fs = require('fs');
@@ -15,8 +16,9 @@ function readID() {
 }
 
 function lichessStream(res) {
-    console.log("Starting Lichess Stream");
-    let instanceManager = new InstanceManager(new Api(bearerID, botID));
+    let ui = new UI();
+    let instanceManager = new InstanceManager(new Api(bearerID, botID), ui);
+    ui.display(instanceManager.instances);
     res.on('data', function (chunk) {
         let data;
         try {

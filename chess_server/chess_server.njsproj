@@ -35,6 +35,9 @@
     <Content Include="InstanceManager.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
+    <Content Include="UI.js">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>

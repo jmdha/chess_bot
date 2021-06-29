@@ -1,9 +1,12 @@
 const path = require('path');
 const Instance = require(path.resolve('Instance'));
+const UI = require(path.resolve('UI'));
 
 class InstanceManager {
-    constructor(api) {
+    constructor(api, ui) {
         this.api = api;
+        this.ui = ui;
+        this.instances = [];
     }
 
     handleEvent(event) {
@@ -25,12 +28,24 @@ class InstanceManager {
                 }
 
                 break;
+
             case 'gameStart':
-                console.log(`Starting Instance: ${event.game.id}`);
-                const instance = new Instance(this.api, event.game.id);
+                //console.log(`Starting Instance: ${event.game.id}`);
+                const instance = new Instance(this.api, event.game.id, this.updateInstance);
                 instance.start();
+                this.instances.push(instance);
+                this.ui.display(this.instances);
+                break;
+
+            case 'gameFinish':
+                this.instances.pop(this.instances.filter(item => item.instanceID == event.game.id));
+                this.ui.display(this.instances);
                 break;
         }
+    }
+
+    updateInstance() {
+        this.ui.display(this.instances);
     }
 }
 

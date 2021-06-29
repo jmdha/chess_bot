@@ -21,13 +21,11 @@ class Instance {
             instance.handleEvent(data);
         });
         res.on('end', function (msg) {
-
         });
     }
 
     handleEvent(event) {
         switch (event.type) {
-            // on initial state
             case 'gameFull':
                 this.setInstanceColor(event.white.id == this.api.botID);
                 this.handleMove(event.state.moves);
@@ -39,12 +37,10 @@ class Instance {
     }
 
     handleMove(moves) {
-        let a = this.isInstanceColor(moves);
-        if (!a)
+        if (!this.isInstanceColor(moves)) 
             return;
-        console.log("moves: ".grey, moves);
-        console.log("Generating move".grey);
-        let output = this.generateMove(this, moves, this.playMove)
+        
+        this.generateMove(this, moves, this.playMove)
     }
 
     generateMove(instance, moves, callback) {
@@ -58,14 +54,6 @@ class Instance {
             console.log("engine error ".red, err);
         }
         let segmentedData = stdout.split('\n');
-
-        console.log("----");
-        console.log("Engine Output: ".grey);
-        console.log("Move: ", segmentedData[0].green);
-        for (let i = 1; i < segmentedData.length; i++)
-            console.log(segmentedData[i]);
-        console.log("----");
-
 
         if (stdout.includes('draw'))
             instance.api.sendDrawRequest(instance.instanceID);
@@ -82,10 +70,6 @@ class Instance {
 
     isInstanceColor(moves) {
         return (this.instanceColor == ((1 - (moves.length == 0) - moves.split(' ').length % 2) ? "white" : "black"));
-    }
-
-    getMove(moves) {
-
     }
 }
 
