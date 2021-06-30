@@ -1,10 +1,13 @@
 const exec = require('child_process');
 const colors = require('colors');
+const EventEmitter = require('events');
 
 class Instance {
-    constructor(api, instanceID) {
+    constructor(api, instanceID, manager) {
         this.api = api;
         this.instanceID = instanceID;
+        this.manager = manager;
+        this.updateState('Init');
     }
 
     start() {
@@ -37,19 +40,23 @@ class Instance {
     }
 
     handleMove(moves) {
-        if (!this.isInstanceColor(moves)) 
+        if (!this.isInstanceColor(moves)) {
+            this.updateState('Waiting for Opponent');
             return;
+        }
         
         this.generateMove(this, moves, this.playMove)
     }
 
     generateMove(instance, moves, callback) {
+        this.updateState('Generating Move');
         exec.exec('./chess_engine.out ' + "\"" + moves + "\"", (err, stdout) => {
             callback(instance, err, stdout);
         });
     }
 
     playMove(instance, err, stdout) {
+        instance.updateState('Sending Move');
         if (err != null) {
             console.log("engine error ".red, err);
         }
@@ -70,6 +77,11 @@ class Instance {
 
     isInstanceColor(moves) {
         return (this.instanceColor == ((1 - (moves.length == 0) - moves.split(' ').length % 2) ? "white" : "black"));
+    }
+
+    updateState(state) {
+        this.state = state;
+        this.manager.emit('instanceStateUpdate');
     }
 }
 

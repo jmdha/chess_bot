@@ -1,12 +1,18 @@
 const path = require('path');
 const Instance = require(path.resolve('Instance'));
 const UI = require(path.resolve('UI'));
+const EventEmitter = require('events');
 
-class InstanceManager {
+class InstanceManager extends EventEmitter {
     constructor(api, ui) {
+        super();
         this.api = api;
         this.ui = ui;
         this.instances = [];
+
+        this.on('instanceStateUpdate', () => {
+            this.ui.display(this.instances);
+        });
     }
 
     handleEvent(event) {
@@ -31,7 +37,7 @@ class InstanceManager {
 
             case 'gameStart':
                 //console.log(`Starting Instance: ${event.game.id}`);
-                const instance = new Instance(this.api, event.game.id, this.updateInstance);
+                const instance = new Instance(this.api, event.game.id, this);
                 instance.start();
                 this.instances.push(instance);
                 this.ui.display(this.instances);

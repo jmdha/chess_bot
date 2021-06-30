@@ -19,6 +19,7 @@ class UI {
         console.log(`-`);
         console.log(`Game ${index}`);
         console.log(`ID :${instance.instanceID}`);
+        console.log(`State :${instance.state}`);
     }
 
 }
