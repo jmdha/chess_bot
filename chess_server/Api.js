@@ -38,9 +38,6 @@ class Api {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer ' + this.bearerID
-            },
-            body: {
-                'reason': reason
             }
             //json: true,
 
