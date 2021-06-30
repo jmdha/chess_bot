@@ -18,7 +18,6 @@ function readID() {
 function lichessStream(res) {
     let ui = new UI();
     let instanceManager = new InstanceManager(new Api(bearerID, botID), ui);
-    ui.display(instanceManager.instances);
     res.on('data', function (chunk) {
         let data;
         try {

@@ -13,6 +13,7 @@ class InstanceManager extends EventEmitter {
         this.on('instanceStateUpdate', () => {
             this.ui.display(this.instances);
         });
+        ui.display(this.instances);
     }
 
     handleEvent(event) {
