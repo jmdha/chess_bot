@@ -13,6 +13,7 @@ class InstanceManager extends EventEmitter {
         this.on('instanceStateUpdate', () => {
             this.ui.display(this.instances);
         });
+        this.api.challengeAI();
         ui.display(this.instances);
     }
 
@@ -47,6 +48,8 @@ class InstanceManager extends EventEmitter {
             case 'gameFinish':
                 this.instances.pop(this.instances.filter(item => item.instanceID == event.game.id));
                 this.ui.display(this.instances);
+                if (this.instances.length == 0)
+                    this.api.challengeAI();
                 break;
         }
     }

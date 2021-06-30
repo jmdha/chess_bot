@@ -14,11 +14,19 @@ class Api {
     }
 
     declineChallenge(id, reason) {
-        this.post(`/api/challenge/${id}/decline`, reason);
+        this.post(`/api/challenge/${id}/decline`, {'reason': reason});
     }
 
     beginGameStream(id, callback) {
         this.stream(`/api/bot/game/stream/${id}`, callback);
+    }
+
+    challengeAI() {
+        this.post(`/api/challenge/ai`, {
+            'clock.limit': '300',
+            'clock.increment': '5',
+            'level': '5'
+        });
     }
 
     sendDrawRequest(id) {
@@ -29,7 +37,7 @@ class Api {
         this.post(`/api/bot/game/${id}/move/${move}`);
     }
 
-    post(path, reason) {
+    post(path, body) {
         let options = {
             hostname: this.hostname,
             port: 443,
@@ -39,7 +47,6 @@ class Api {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer ' + this.bearerID
             }
-            //json: true,
 
         };
         let req = https.request(options, (res) => {
@@ -53,10 +60,8 @@ class Api {
             console.error(error);
         });
 
-        if (reason != null) {
-            req.write(qs.stringify({
-                'reason': reason
-            }));
+        if (body != null) {
+            req.write(qs.stringify(body));
         }
 
         req.end();
