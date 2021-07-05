@@ -33,7 +33,6 @@
     <Content Include="app.js" />
     <Content Include="Instance.js" />
     <Content Include="InstanceManager.js" />
-    <Content Include="package.json" />
     <Content Include="README.md" />
     <Content Include="UI.js">
       <SubType>Code</SubType>
