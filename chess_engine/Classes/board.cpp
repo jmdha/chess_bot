@@ -704,8 +704,8 @@ void Board::doMove(Move* move)
 		else
 			enPassant = -1;
 	}
-	placePiece(piece, move->endX, move->endY);
 	removePiece(move->startX, move->startY);
+	placePiece(piece, move->endX, move->endY);
 	this->zobrist->incrementCurrentHash();
 }
 
@@ -726,8 +726,8 @@ void Board::undoMove(Move* move)
 		piece->x = move->startX;
 		piece->y = move->startX;
 	}
-	placePiece(piece, move->startX, move->startY);
 	removePiece(move->endX, move->endY);
+	placePiece(piece, move->startX, move->startY);
 	if (move->target != NULL)
 	{
 		placePiece(move->target, move->target->x, move->target->y);
