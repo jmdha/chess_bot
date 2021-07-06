@@ -18,11 +18,43 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\Headers\ai.h" />
+    <ClInclude Include="..\Classes\Headers\board.h" />
+    <ClInclude Include="..\Classes\Headers\constants.h" />
+    <ClInclude Include="..\Classes\Headers\generic_helper_functions.h" />
+    <ClInclude Include="..\Classes\Headers\move.h" />
+    <ClInclude Include="..\Classes\Headers\piece.h" />
+    <ClInclude Include="..\Classes\Headers\point.h" />
+    <ClInclude Include="..\Classes\Headers\zobrist.h" />
+    <ClInclude Include="..\Classes\Pieces\Headers\bishop.h" />
+    <ClInclude Include="..\Classes\Pieces\Headers\king.h" />
+    <ClInclude Include="..\Classes\Pieces\Headers\knight.h" />
+    <ClInclude Include="..\Classes\Pieces\Headers\pawn.h" />
+    <ClInclude Include="..\Classes\Pieces\Headers\queen.h" />
+    <ClInclude Include="..\Classes\Pieces\Headers\rook.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Classes\ai.cpp" />
+    <ClCompile Include="..\Classes\board.cpp" />
+    <ClCompile Include="..\Classes\generic_helper_functions.cpp" />
+    <ClCompile Include="..\Classes\move.cpp" />
+    <ClCompile Include="..\Classes\piece.cpp" />
+    <ClCompile Include="..\Classes\Pieces\bishop.cpp" />
+    <ClCompile Include="..\Classes\Pieces\king.cpp" />
+    <ClCompile Include="..\Classes\Pieces\knight.cpp" />
+    <ClCompile Include="..\Classes\Pieces\pawn.cpp" />
+    <ClCompile Include="..\Classes\Pieces\queen.cpp" />
+    <ClCompile Include="..\Classes\Pieces\rook.cpp" />
+    <ClCompile Include="..\Classes\point.cpp" />
+    <ClCompile Include="..\Classes\zobrist.cpp" />
+    <ClCompile Include="..\main.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3d5f835c-19f1-4537-bb16-e71ba68a5031}</ProjectGuid>
-    <RootNamespace>chessengineprofiler</RootNamespace>
+    <ProjectGuid>{79a854d1-6017-47bf-ba52-59563f42c5e0}</ProjectGuid>
+    <RootNamespace>profiler</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,38 +170,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\chess_engine\Classes\ai.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\board.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\generic_helper_functions.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\move.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\piece.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\Pieces\bishop.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\Pieces\king.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\Pieces\knight.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\Pieces\pawn.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\Pieces\queen.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\Pieces\rook.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\point.cpp" />
-    <ClCompile Include="..\chess_engine\Classes\zobrist.cpp" />
-    <ClCompile Include="..\chess_engine\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\chess_engine\Classes\Headers\ai.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\board.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\constants.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\generic_helper_functions.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\move.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\piece.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\point.h" />
-    <ClInclude Include="..\chess_engine\Classes\Headers\zobrist.h" />
-    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\bishop.h" />
-    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\king.h" />
-    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\knight.h" />
-    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\pawn.h" />
-    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\queen.h" />
-    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\rook.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
