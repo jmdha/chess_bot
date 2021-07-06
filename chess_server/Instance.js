@@ -1,5 +1,4 @@
 const exec = require('child_process');
-const colors = require('colors');
 const EventEmitter = require('events');
 
 class Instance {
@@ -58,7 +57,7 @@ class Instance {
     playMove(instance, err, stdout) {
         instance.updateState('Sending Move');
         if (err != null) {
-            console.log("engine error ".red, err);
+            console.log("engine error ", err);
         }
         let segmentedData = stdout.split('\n');
 
