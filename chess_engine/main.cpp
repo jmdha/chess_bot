@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
     if (move.startX == -1 || move.startY == -1)
-        printf("draw\n%s", getStatString(move, duration.count(), depth, board.pieceCount[0]));
+        printf("draw\n%s", getStatString(move, duration.count(), depth, board.pieceCount[0]).c_str());
     else
         printf("%s\n%s", move.getMoveAsPlainString().c_str(), getStatString(move, duration.count(), depth, board.pieceCount[0]).c_str());
         
