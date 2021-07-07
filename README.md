@@ -2,8 +2,14 @@
 This project includes a chess engine and a server that can communicate with lichess.org. Therefore, it has all the code needed to run a bot on the page, or any other given API implementation.
 
 ## Table of Contents
+* [Notes](#notes)
 * [Goals](#goals)
 * [Setup](#setup)
+
+## Notes
+This repository is used as a personal git repo, as such most of what is written is informal and for myself. 
+
+That being said, anyone is welcome to contribute.
 
 ## Goals
 This project is built upon a project from high school, where an exam project was to build a robot playing chess. Admittedly, that project didn't work. This is an attempt to succeed in that.
