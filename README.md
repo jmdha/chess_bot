@@ -15,7 +15,7 @@ That being said, anyone is welcome to contribute.
 This project is built upon a project from high school, where an exam project was to build a robot playing chess. Admittedly, that project didn't work. This is an attempt to succeed in that.
 As such the goals are as following:
 * Implement an engine which can output a meaningful move as a response to given input(Board state / move sequence) ✓
-* Implement a server which allows playing against the engine on a website ✓
+* Implement a server which allows playing against the engine on a website ✓ (https://lichess.org/@/sun_bird)
 * Build a robot which can play the moves on an actual board ✗
 * Allow playing against robot ✗
   * Offline
