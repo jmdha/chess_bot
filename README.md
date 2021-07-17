@@ -29,11 +29,10 @@ Requires [Node.js](https://nodejs.org)
 
 Place the chess engine in the containing server project with name chess_engine.out
 
-Make file in containing server project called id.txt
-Fill it out in this format:
+Fill out config.env (Replace ... with values):
 ```
-BearerID: ...
-BotID: ...
+BEARER_ID=...
+BOT_ID=...
 ```
 Bearer ID is generated on lichess following their [API](https://lichess.org/api#operation/botAccountUpgrade) for a bot
 Bot ID is the name of the user on [lichess](https://lichess.org)
