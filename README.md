@@ -15,7 +15,7 @@ That being said, anyone is welcome to contribute.
 This project is built upon a project from high school, where an exam project was to build a robot playing chess. Admittedly, that project didn't work. This is an attempt to succeed in that.
 As such the goals are as following:
 * Implement an engine which can output a meaningful move as a response to given input(Board state / move sequence) ✓
-* Implement a server which allows playing against the engine on a website ✓
+* Implement a server which allows playing against the engine on a website ✓ (https://lichess.org/@/sun_bird)
 * Build a robot which can play the moves on an actual board ✗
 * Allow playing against robot ✗
   * Offline
@@ -29,9 +29,11 @@ Requires [Node.js](https://nodejs.org)
 
 Place the chess engine in the containing server project with name chess_engine.out
 
-Fill out config.env (Replace ... with values):
+Create and fill out the file config.env in root of the server (Replace ... with values):
 ```
+# see https://lichess.org/api#operation/apiStreamEvent
 BEARER_ID=...
+# name of the bot on lichess.org
 BOT_ID=...
 ```
 Bearer ID is generated on lichess following their [API](https://lichess.org/api#operation/botAccountUpgrade) for a bot
