@@ -48,7 +48,7 @@
     <ClInclude Include="..\Classes\Headers\constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Headers\generic_helper_functions.h">
+    <ClInclude Include="..\Classes\Headers\utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Headers\move.h">
@@ -89,7 +89,7 @@
     <ClCompile Include="..\Classes\board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\generic_helper_functions.cpp">
+    <ClCompile Include="..\Classes\utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\move.cpp">

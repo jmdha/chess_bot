@@ -1,4 +1,4 @@
-#include "Headers/generic_helper_functions.h"
+#include "Headers/utilities.h"
 
 bool isNumber(char charToCheck)
 {

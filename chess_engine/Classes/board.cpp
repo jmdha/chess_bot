@@ -19,7 +19,7 @@
 #include <chrono>
 
 // used for import of PGN
-#include "Headers/generic_helper_functions.h"
+#include "Headers/utilities.h"
 
 Board::Board()
 {
