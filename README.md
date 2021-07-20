@@ -24,6 +24,32 @@ As such the goals are as following:
 ## Setup
 Only works on Linux right now
 
+### Data
+
+Requires [MYSQL](https://dev.mysql.com/downloads/connector/cpp/) C++ Connector
+
+Create and fill out the file config.txt in root of the program(Replace ... with values):
+
+```
+# Any line with a # as first character is ignored
+# Any empty line is ignored
+
+# DB connection IP e.g. 127.0.0.1
+IP=...
+# DB connection port e.g. 3306
+PORT=...
+
+# Name of DB schema e.g. chess_data
+SCHEMA_NAME=...
+# Name of DB table e.g. move_frequency
+TABLE_NAME=...
+
+# Username of account e.g. admin
+USER_NAME=...
+# Password of account e.g. password
+USER_PASSWORD=...
+```
+
 ### Server
 Requires [Node.js](https://nodejs.org)
 
