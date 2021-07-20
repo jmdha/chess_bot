@@ -18,5 +18,13 @@
     <ClCompile Include="chess_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="config_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="config_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

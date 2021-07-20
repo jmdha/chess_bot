@@ -6,14 +6,18 @@
 #include <cppconn/statement.h>
 #include <iostream>
 
-bool incrementEntry(int hash, std::string move);
+#include "config_manager.h"
+
+bool incrementEntry(config_manager cManager, int hash, std::string move);
 
 int main()
 {
-	incrementEntry(2, "a");
+	config_manager cManager = config_manager("config.txt");
+	cManager.read();
+	incrementEntry(cManager, 45, "a2a4");
 }
 
-bool incrementEntry(int hash, std::string move) {
+bool incrementEntry(config_manager cManager, int hash, std::string move) {
 	try {
 		sql::Driver* driver;
 		sql::Connection* con;
@@ -22,14 +26,16 @@ bool incrementEntry(int hash, std::string move) {
 
 		driver = get_driver_instance();
 		std::cout << "Hello World!\n";
-		con = driver->connect("tcp://127.0.0.1:3306", "chess", "chess");
+		con = driver->connect("tcp://" + cManager.getValue("IP") + ":" + cManager.getValue("PORT"), 
+			cManager.getValue("USER_NAME"), 
+			cManager.getValue("USER_PASSWORD"));
 
-		con->setSchema("chess_data");
+		con->setSchema(cManager.getValue("SCHEMA_NAME"));
 
 		stmt = con->createStatement();
 
 		rowsChanged = stmt->executeUpdate(
-			"INSERT INTO `move_frequency` (hash, move, count)" 
+			"INSERT INTO `" + cManager.getValue("TABLE_NAME") + "` (hash, move, count)" 
 			"VALUES(" + std::to_string(hash) +", '" + move + "', 1)" 
 			"ON DUPLICATE KEY UPDATE `count` = `count` + 1"
 		);
