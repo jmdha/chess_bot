@@ -30,6 +30,8 @@ public:
     bool castling = false;
     // if this move is the one to disallow castling on a side
     bool disallowedCastling[2] = { false, false };
+    // first move of a piece
+    bool firstMove = false;
     bool promotion = false;
     PieceIndex promotionType;
     bool pawnDoubleMove = false;

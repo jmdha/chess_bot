@@ -18,6 +18,7 @@ public:
     Color color;
     int x;
     int y;
+    bool hasMoved = false;
 
     Piece(Color color);
     virtual PieceChar getPieceChar();
@@ -30,7 +31,6 @@ public:
     virtual bool checkIfPosPossible(Board board, Point pos);
 private:
     Point getNewEndPoint(Point priorPos, Direction direction, int moveLength);
-    
     
     
 };

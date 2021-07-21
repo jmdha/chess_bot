@@ -250,7 +250,6 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
 						moveString += moves[i + i2];
 						i2++;
 					};
-					//printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
 					printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
 				}
 
@@ -322,7 +321,7 @@ void Board::importFakePGN(std::string moves)
 					newMove->promotionType = type;
 					newMove->promotion = true;
 				}
-					
+
 				// if double move
 				else if (abs(newMove->endY - newMove->startY) == 2)
 					newMove->pawnDoubleMove = true;
@@ -651,9 +650,9 @@ void Board::doMove(Move* move)
 			if (getPiece(rookStartX, piece->y) == NULL)
 				move->castling = false;
 			else
+				doMove(new Move(rookStartX, piece->y, rookEndX, piece->y));
 
-				doMove(
-					new Move(rookStartX, piece->y, rookEndX, piece->y));
+
 		}
 	}
 	else if (piece->getIndex() == ROOKINDEX)
@@ -704,6 +703,12 @@ void Board::doMove(Move* move)
 		else
 			enPassant = -1;
 	}
+
+	if (!piece->hasMoved) {
+		piece->hasMoved = true;
+		move->firstMove = true;
+	}
+
 	removePiece(move->startX, move->startY);
 	placePiece(piece, move->endX, move->endY);
 	this->zobrist->incrementCurrentHash();
@@ -719,6 +724,9 @@ void Board::undoMove(Move* move)
 	for (int i = 0; i < 2; i++)
 		if (move->disallowedCastling[i])
 			castlingValid[side][i] = true;
+
+	if (move->firstMove)
+		piece->hasMoved = false;
 
 	if (move->promotion)
 	{
@@ -750,8 +758,7 @@ void Board::undoMove(Move* move)
 			rookEndX = 5;
 		}
 
-		undoMove(
-			new Move(rookStartX, piece->y, rookEndX, piece->y));
+		undoMove(new Move(rookStartX, piece->y, rookEndX, piece->y));
 	}
 	enPassant = move->priorEnPassant;
 }
