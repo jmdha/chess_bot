@@ -250,7 +250,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
 						moveString += moves[i + i2];
 						i2++;
 					};
-					printf("%lu %s\n", this->zobrist->getHash(), moveString.c_str());
+					std::cout << this->zobrist->getHash() << ' ' << moveString.c_str() << std::endl;
 				}
 
 				// commit move
