@@ -763,7 +763,22 @@ void Board::undoMove(Move* move)
 	enPassant = move->priorEnPassant;
 }
 
+bool Board::isKingVulnerable(Color side) {
+	// See if enemy can attack
+	for (int y = 0; y < HEIGHT; y++)
+	{
+		for (int x = 0; x < WIDTH; x++)
+		{
+			if (isSquareEnemy(side, x, y))
+			{
+				if (getPiece(x, y)->checkIfPosPossible(*(this), kingPos[side]))
+					return true;
+			}
+		}
+	}
 
+	return false;
+}
 
 
 int Board::evaluateBoard()

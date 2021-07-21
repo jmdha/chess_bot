@@ -11,7 +11,13 @@ Move getValidMove(Board board, Point endPos, PieceIndex promotionType, PieceChar
 		Piece* piece = board.getPiece(moves[i].startX, moves[i].startY);
 		if (piece->color == board.turn && moves[i].startX == endPos.x && moves[i].endX == endPos.x && moves[i].endY == endPos.y && moves[i].promotionType == promotionType)
 		{
-			return moves[i];
+			bool valid = false;
+			board.doMove(&moves[i]);
+			if (!board.isKingVulnerable(piece->color))
+				valid = true;
+			board.undoMove(&moves[i]);
+			if (valid)
+				return moves[i];
 		}
 	}
 	throw std::invalid_argument("Found no move");
@@ -38,19 +44,33 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
 	for (int i = 0; i < amountOfMatchingPieces; i++) {
 		if (!matchingPieces[i]->hasMoved) {
 			move = matchingPieces[i]->getMoveIfPossible(board, endPos);
-			if (move.endX != -1 && move.endY != -1)
-				return move;
+			if (move.endX != -1 && move.endY != -1) {
+				bool valid = false;
+				board.doMove(&move);
+				if (!board.isKingVulnerable(matchingPieces[i]->color))
+					valid = true;
+				board.undoMove(&move);
+				if (valid)
+					return move;
+			}
 		}
 	}
 	for (int i = 0; i < amountOfMatchingPieces; i++) {
 		if (matchingPieces[i]->hasMoved) {
 			move = matchingPieces[i]->getMoveIfPossible(board, endPos);
-			if (move.endX != -1 && move.endY != -1)
-				return move;
+			if (move.endX != -1 && move.endY != -1) {
+				bool valid = false;
+				board.doMove(&move);
+				if (!board.isKingVulnerable(matchingPieces[i]->color))
+					valid = true;
+				board.undoMove(&move);
+				if (valid)
+					return move;
+			}
 		}
 	}
 
-	
+
 	throw std::invalid_argument("Found no move");
 }
 
@@ -62,11 +82,21 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == column)
-			{
-				move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
-				if (move.endX != -1 && move.endY != -1)
-					return move;
+			if (!board.isSquareEmpty(x, y)) {
+				Piece* piece = board.getPiece(x, y);
+				if (piece->getPieceChar() == pieceChar && x == column)
+				{
+					move = piece->getMoveIfPossible(board, endPos);
+					if (move.endX != -1 && move.endY != -1) {
+						bool valid = false;
+						board.doMove(&move);
+						if (!board.isKingVulnerable(piece->color))
+							valid = true;
+						board.undoMove(&move);
+						if (valid)
+							return move;
+					}
+				}
 			}
 		}
 	}
@@ -82,12 +112,23 @@ Move getValidMove(Board board, Point endPos, PieceChar pieceChar, int column, Pi
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && x == column)
-			{
-				moves = board.getPiece(x, y)->getPossibleMoves(board);
-				for (int i = 0; i < static_cast<int>(moves.size()); i++) {
-					if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && moves[i].promotionType == promotionType)
-						return moves[i];
+			if (!board.isSquareEmpty(x, y)) {
+				Piece* piece = board.getPiece(x, y);
+				if (piece->getPieceChar() == pieceChar && x == column)
+				{
+					moves = piece->getPossibleMoves(board);
+					for (int i = 0; i < static_cast<int>(moves.size()); i++) {
+						if (moves[i].endX == endPos.x && moves[i].endY == endPos.y && moves[i].promotionType == promotionType)
+						{
+							bool valid = false;
+							board.doMove(&moves[i]);
+							if (!board.isKingVulnerable(piece->color))
+								valid = true;
+							board.undoMove(&moves[i]);
+							if (valid)
+								return moves[i];
+						}
+					}
 				}
 			}
 		}
@@ -104,11 +145,21 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == row)
-			{
-				move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
-				if (move.endX != -1 && move.endY != -1)
-					return move;
+			if (!board.isSquareEmpty(x, y)) {
+				Piece* piece = board.getPiece(x, y);
+				if (piece->getPieceChar() == pieceChar && y == row)
+				{
+					move = piece->getMoveIfPossible(board, endPos);
+					if (move.endX != -1 && move.endY != -1) {
+						bool valid = false;
+						board.doMove(&move);
+						if (!board.isKingVulnerable(piece->color))
+							valid = true;
+						board.undoMove(&move);
+						if (valid)
+							return move;
+					}
+				}
 			}
 		}
 	}
@@ -124,32 +175,25 @@ Move getValidMove(Board board, Point endPos, int row, PieceChar pieceChar, int c
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar && y == row && x == column)
-			{
-				move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
-				if (move.endX != -1 && move.endY != -1)
-					return move;
+			if (!board.isSquareEmpty(x, y)) {
+				Piece* piece = board.getPiece(x, y);
+				if (piece->getPieceChar() == pieceChar && y == row && x == column)
+				{
+					move = piece->getMoveIfPossible(board, endPos);
+					if (move.endX != -1 && move.endY != -1) {
+						bool valid = false;
+						board.doMove(&move);
+						if (!board.isKingVulnerable(piece->color))
+							valid = true;
+						board.undoMove(&move);
+						if (valid)
+							return move;
+					}
+				}
 			}
 		}
 	}
 	throw std::invalid_argument("Found no move");
-}
-
-bool isKingVulnerable(Board board, Color side) {
-	// See if enemy can attack
-	for (int y = 0; y < HEIGHT; y++)
-	{
-		for (int x = 0; x < WIDTH; x++)
-		{
-			if (board.isSquareEnemy(side, x, y))
-			{
-				if (board.getPiece(x, y)->checkIfPosPossible(board, board.kingPos[side]))
-					return true;
-			}
-		}
-	}
-
-	return false;
 }
 
 std::vector<Move> getAllMoves(Board board, Color side)
@@ -165,16 +209,18 @@ std::vector<Move> getAllMoves(Board board, Color side)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
-			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->color == side)
-			{
+			if (!board.isSquareEmpty(x, y)) {
 				Piece* piece = board.getPiece(x, y);
-				tempMoveList = piece->getPossibleMoves(board);
-				// Go through moves
-				for (int i = 0; i < tempMoveList.size(); i++) {
-					board.doMove(&tempMoveList[i]);
-					if (!isKingVulnerable(board, side))
-						moves.push_back(tempMoveList[i]);
-					board.undoMove(&tempMoveList[i]);
+				if (piece->color == side)
+				{
+					tempMoveList = piece->getPossibleMoves(board);
+					// Go through moves
+					for (int i = 0; i < tempMoveList.size(); i++) {
+						board.doMove(&tempMoveList[i]);
+						if (!board.isKingVulnerable(side))
+							moves.push_back(tempMoveList[i]);
+						board.undoMove(&tempMoveList[i]);
+					}
 				}
 			}
 		}
@@ -328,7 +374,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 	if (static_cast<int>(moves.size()) == 0)
 	{
-		if (isKingVulnerable(*board, currentTurn))
+		if (board->isKingVulnerable(currentTurn))
 			if (board->turn != currentTurn)
 				bestMove.value = VALUEMATE;
 			else
@@ -344,7 +390,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		board->doMove(&(moves[i]));
 
 		// Go deeper
-		if (depth == 1 && !doingHE && (moves[i].target != NULL || isKingVulnerable(*board, currentTurn)))
+		if (depth == 1 && !doingHE && (moves[i].target != NULL || board->isKingVulnerable(currentTurn)))
 			move = minimax(board, 4, !isMax, oppositeColor, a, b, true, totalMoves);
 		else {
 			if (doingHE && moves[i].target == NULL)

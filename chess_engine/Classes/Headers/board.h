@@ -58,6 +58,7 @@ public:
 	void switchTurn();
 	std::string getFEN();
 	void undoMove(Move* move);
+	bool isKingVulnerable(Color side);
 
 private:
 	Piece* board[WIDTH][HEIGHT];
