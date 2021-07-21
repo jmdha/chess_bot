@@ -150,10 +150,15 @@
     <ClCompile Include="api.cpp" />
     <ClCompile Include="chess_data.cpp" />
     <ClCompile Include="config_manager.cpp" />
+    <ClCompile Include="pgn_parser.cpp" />
+    <ClCompile Include="pgn_reader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
     <ClInclude Include="config_manager.h" />
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="pgn_parser.h" />
+    <ClInclude Include="pgn_reader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
