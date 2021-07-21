@@ -1,5 +1,19 @@
 #include "api.h"
 
+api::api(std::string ip,
+	std::string port,
+	std::string username,
+	std::string password,
+	std::string schemaName,
+	std::string tableName) {
+	this->ip = ip;
+	this->port = port;
+	this->username = username;
+	this->password = password;
+	this->schemaName = schemaName;
+	this->tableName = tableName;
+}
+
 bool api::incrementEntry(config_manager cManager, int hash, std::string move) {
 	try {
 		sql::Driver* driver;
@@ -8,16 +22,16 @@ bool api::incrementEntry(config_manager cManager, int hash, std::string move) {
 		int rowsChanged = 0;
 
 		driver = get_driver_instance();
-		con = driver->connect("tcp://" + cManager.getValue("IP") + ":" + cManager.getValue("PORT"),
-			cManager.getValue("USER_NAME"),
-			cManager.getValue("USER_PASSWORD"));
+		con = driver->connect("tcp://" + this->ip + ":" + this->port,
+			this->username,
+			this->password);
 
-		con->setSchema(cManager.getValue("SCHEMA_NAME"));
+		con->setSchema(this->schemaName);
 
 		stmt = con->createStatement();
 
 		rowsChanged = stmt->executeUpdate(
-			"INSERT INTO `" + cManager.getValue("TABLE_NAME") + "` (hash, move, count)"
+			"INSERT INTO `" + this->tableName + "` (hash, move, count)"
 			"VALUES(" + std::to_string(hash) + ", '" + move + "', 1)"
 			"ON DUPLICATE KEY UPDATE `count` = `count` + 1"
 		);
