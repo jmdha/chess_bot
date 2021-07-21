@@ -20,20 +20,37 @@ Move getValidMove(Board board, Point endPos, PieceIndex promotionType, PieceChar
 Move getValidMove(Board board, Point endPos, PieceChar pieceChar)
 {
 	Move move;
-
+	int amountOfMatchingPieces = 0;
+	Piece* matchingPieces[8] = { nullptr };
 	for (int y = 0; y < HEIGHT; y++)
 	{
 		for (int x = 0; x < WIDTH; x++)
 		{
 			if (!board.isSquareEmpty(x, y) && board.getPiece(x, y)->getPieceChar() == pieceChar)
 			{
-				move = board.getPiece(x, y)->getMoveIfPossible(board, endPos);
-				if (move.endX != -1 && move.endY != -1)
-					return move;
+				matchingPieces[amountOfMatchingPieces] = board.getPiece(x, y);
+				amountOfMatchingPieces++;
 			}
 		}
 	}
 
+	// if multiple pieces can move to end square, take the one that hasn't moved
+	for (int i = 0; i < amountOfMatchingPieces; i++) {
+		if (!matchingPieces[i]->hasMoved) {
+			move = matchingPieces[i]->getMoveIfPossible(board, endPos);
+			if (move.endX != -1 && move.endY != -1)
+				return move;
+		}
+	}
+	for (int i = 0; i < amountOfMatchingPieces; i++) {
+		if (matchingPieces[i]->hasMoved) {
+			move = matchingPieces[i]->getMoveIfPossible(board, endPos);
+			if (move.endX != -1 && move.endY != -1)
+				return move;
+		}
+	}
+
+	
 	throw std::invalid_argument("Found no move");
 }
 
