@@ -13,99 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Pieces">
-      <UniqueIdentifier>{8a9adad0-a2a4-4986-a539-67031174224e}</UniqueIdentifier>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{fb66e056-5706-4628-b78a-0ea0457e19e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Pieces">
-      <UniqueIdentifier>{150851eb-1653-457d-bb96-029f5e4a5599}</UniqueIdentifier>
+    <Filter Include="Header Files\Engine\Pieces">
+      <UniqueIdentifier>{bf96f8ac-2e4b-4e03-b366-b3222f7afd5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{44cd1d48-a719-4b04-afc4-a21c3c857a3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Pieces">
+      <UniqueIdentifier>{0382bf06-776d-420f-afb8-398116171496}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pgn_hasher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\zobrist.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\piece.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\point.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\utilities.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\move.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\constants.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\board.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Headers\ai.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pieces\Headers\bishop.h">
+      <Filter>Header Files\Engine\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pieces\Headers\king.h">
+      <Filter>Header Files\Engine\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pieces\Headers\knight.h">
+      <Filter>Header Files\Engine\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pieces\Headers\pawn.h">
+      <Filter>Header Files\Engine\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pieces\Headers\queen.h">
+      <Filter>Header Files\Engine\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pieces\Headers\rook.h">
+      <Filter>Header Files\Engine\Pieces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pgn_hasher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ai.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\board.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\utilities.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\move.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\piece.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\point.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\utilities.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\zobrist.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Pieces\bishop.cpp">
-      <Filter>Source Files\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Pieces\king.cpp">
-      <Filter>Source Files\Pieces</Filter>
+      <Filter>Source Files\Engine\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Pieces\knight.cpp">
-      <Filter>Source Files\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Pieces\rook.cpp">
-      <Filter>Source Files\Pieces</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Pieces\queen.cpp">
-      <Filter>Source Files\Pieces</Filter>
+      <Filter>Source Files\Engine\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Pieces\pawn.cpp">
-      <Filter>Source Files\Pieces</Filter>
+      <Filter>Source Files\Engine\Pieces</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Classes\Headers\ai.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\board.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\move.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\piece.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\point.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Headers\zobrist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Pieces\Headers\bishop.h">
-      <Filter>Header Files\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Pieces\Headers\king.h">
-      <Filter>Header Files\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Pieces\Headers\knight.h">
-      <Filter>Header Files\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Pieces\Headers\pawn.h">
-      <Filter>Header Files\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Pieces\Headers\queen.h">
-      <Filter>Header Files\Pieces</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Pieces\Headers\rook.h">
-      <Filter>Header Files\Pieces</Filter>
-    </ClInclude>
+    <ClCompile Include="..\Classes\Pieces\rook.cpp">
+      <Filter>Source Files\Engine\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Pieces\queen.cpp">
+      <Filter>Source Files\Engine\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Pieces\king.cpp">
+      <Filter>Source Files\Engine\Pieces</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

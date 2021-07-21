@@ -1,20 +1,6 @@
-// pgn_hasher.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include "pgn_hasher.h"
 
-#include <cstdio>
-#include <iostream>
-#include <chrono>
-#include "Headers/board.h"
-#include "Headers/ai.h"
-#include "Headers/move.h"
-
-
-int main(int argc, char* argv[])
-{
-    Board board = Board();
-
-    if (argc > 1)
-        board.importPGN(argv[1], true);
-
-    return 0;
+void hashMoves(std::string moves) {
+	Board board = Board();
+	board.importPGN(moves, true);
 }
