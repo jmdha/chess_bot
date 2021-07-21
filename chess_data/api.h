@@ -19,7 +19,7 @@ public:
 		std::string password,
 		std::string schemaName,
 		std::string tableName);
-	bool incrementEntry(config_manager cManager, int hash, std::string move);
+	bool incrementEntry(int hash, std::string move);
 
 private:
 	std::string ip;
@@ -28,5 +28,7 @@ private:
 	std::string password;
 	std::string schemaName;
 	std::string tableName;
+
+	bool executeUpdateQuery(std::string query);
 };
 

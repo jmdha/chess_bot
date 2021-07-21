@@ -14,7 +14,15 @@ api::api(std::string ip,
 	this->tableName = tableName;
 }
 
-bool api::incrementEntry(config_manager cManager, int hash, std::string move) {
+bool api::incrementEntry(int hash, std::string move) {
+	std::string query = 
+		"INSERT INTO `" + this->tableName + "` (hash, move, count)"
+		"VALUES(" + std::to_string(hash) + ", '" + move + "', 1)"
+		"ON DUPLICATE KEY UPDATE `count` = `count` + 1";
+	executeUpdateQuery(query);
+}
+
+bool api::executeUpdateQuery(std::string query) {
 	try {
 		sql::Driver* driver;
 		sql::Connection* con;
@@ -30,11 +38,7 @@ bool api::incrementEntry(config_manager cManager, int hash, std::string move) {
 
 		stmt = con->createStatement();
 
-		rowsChanged = stmt->executeUpdate(
-			"INSERT INTO `" + this->tableName + "` (hash, move, count)"
-			"VALUES(" + std::to_string(hash) + ", '" + move + "', 1)"
-			"ON DUPLICATE KEY UPDATE `count` = `count` + 1"
-		);
+		rowsChanged = stmt->executeUpdate(query);
 
 		delete stmt;
 		delete con;
