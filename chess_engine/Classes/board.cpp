@@ -140,8 +140,8 @@ void Board::importPGN(std::string moves, bool exportMovePerHash)
 					inComment = false;
 			}
 
-
-			if (inComment)
+			// moves[i + 1] == '*' checks for non terminated games
+			if (inComment || moves[i + 1] == '*')
 				continue;
 
 			if (moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}' || moves[i - 1] == 'R' || moves[i - 1] == 'N' || moves[i - 1] == 'B' || moves[i - 1] == 'Q'))))
