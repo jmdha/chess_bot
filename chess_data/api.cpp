@@ -19,7 +19,7 @@ bool api::incrementEntry(int hash, std::string move) {
 		"INSERT INTO `" + this->tableName + "` (hash, move, count)"
 		"VALUES(" + std::to_string(hash) + ", '" + move + "', 1)"
 		"ON DUPLICATE KEY UPDATE `count` = `count` + 1";
-	executeUpdateQuery(query);
+	return executeUpdateQuery(query);
 }
 
 bool api::executeUpdateQuery(std::string query) {
@@ -45,6 +45,8 @@ bool api::executeUpdateQuery(std::string query) {
 
 		if (rowsChanged != 1)
 			throw std::exception("Duplicate rows");
+		else
+			return true;
 	}
 	catch (sql::SQLException& e) {
 		std::cout << "# ERR: SQLException in " << __FILE__;
@@ -52,8 +54,9 @@ bool api::executeUpdateQuery(std::string query) {
 		std::cout << "# ERR: " << e.what();
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		return false;
 	}
 	catch (std::exception& e) {
-
+		return false;
 	}
 }
