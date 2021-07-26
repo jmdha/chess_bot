@@ -12,7 +12,17 @@ if (result.error)
 
 function lichessStream(res) {
     let ui = new UI();
-    let instanceManager = new InstanceManager(new Api(process.env.BEARER_ID, process.env.BOT_ID), ui);
+    let instanceManager = new InstanceManager(
+        new Api(
+            process.env.BEARER_ID,
+            process.env.BOT_ID,
+            process.env.AI_Level,
+            process.env.CLOCK_LIMIT,
+            process.env.CLOCK_INCREMENT),
+        ui,
+        process.env.AUTO_CHALLENGE_AI == true,
+        process.env.VALID_TIME_CONTROLS,
+        process.env.ENGINE_PATH);
     res.on('data', function (chunk) {
         let data;
         try {
