@@ -1,13 +1,12 @@
 #ifndef Point_H
 #define Point_H
 
-class Point
-{
+class Point {
 
 public:
-    int x;
-    int y;
-    Point(int x, int y);
+	int x;
+	int y;
+	Point(int x, int y);
 
 private:
 };

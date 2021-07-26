@@ -4,8 +4,7 @@
 #include <random>
 #include <limits>
 
-Zobrist::Zobrist(Board* board)
-{
+Zobrist::Zobrist(Board* board) {
 	this->board = board;
 	/*
 	* code for generating initial zobrist
@@ -43,28 +42,21 @@ Zobrist::Zobrist(Board* board)
 	*/
 }
 
-unsigned long int Zobrist::getHash()
-{
+unsigned long int Zobrist::getHash() {
 	return this->currentHash;
 }
 
-void Zobrist::flipSquare(int x, int y, int index, int color)
-{
+void Zobrist::flipSquare(int x, int y, int index, int color) {
 	unsigned long int value = ZOBRISTVALUEBOARD[x][y][index][color];
 	this->currentHash = this->currentHash ^ value;
 }
 
-void Zobrist::initializeHash()
-{
+void Zobrist::initializeHash() {
 	this->currentHash = 0;
-	for (int y = 0; y < HEIGHT; y++)
-	{
-		for (int x = 0; x < WIDTH; x++)
-		{
-			for (int i = 0; i < 6; i++)
-			{
-				for (int j = 0; j < 2; j++)
-				{
+	for(int y = 0; y < HEIGHT; y++) 	{
+		for(int x = 0; x < WIDTH; x++) 		{
+			for(int i = 0; i < 6; i++) 			{
+				for(int j = 0; j < 2; j++) 				{
 					flipSquare(x, y, this->board->getPiece(x, y)->getIndex(), j);
 				}
 			}
@@ -72,16 +64,14 @@ void Zobrist::initializeHash()
 	}
 }
 
-void Zobrist::incrementCurrentHash()
-{
-	if (this->priorInstanceCount.find(this->getHash()) == this->priorInstanceCount.end())
+void Zobrist::incrementCurrentHash() {
+	if(this->priorInstanceCount.find(this->getHash()) == this->priorInstanceCount.end())
 		this->priorInstanceCount.emplace(this->getHash(), 1);
 	else
 		this->priorInstanceCount.at(this->getHash()) += 1;
 }
 
-void Zobrist::decrementCurrentHash()
-{
+void Zobrist::decrementCurrentHash() {
 	//if (this->priorInstanceCount.find(this->getHash()) != this->priorInstanceCount.end())
 	//{
 	this->priorInstanceCount.at(this->getHash()) -= 1;

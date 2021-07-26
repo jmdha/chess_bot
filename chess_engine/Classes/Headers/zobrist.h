@@ -7,24 +7,23 @@ class Board;
 #include "constants.h"
 #include "board.h"
 
-class Zobrist
-{
+class Zobrist {
 
 public:
-    std::unordered_map<unsigned long int, int> priorInstanceCount;
-    Zobrist(Board *board);
-    unsigned long int getHash();
-    void initializeHash();
-    void flipSquare(int x, int y, int index, int color);
-    void incrementCurrentHash();
-    void decrementCurrentHash();
-    
+	std::unordered_map<unsigned long int, int> priorInstanceCount;
+	Zobrist(Board* board);
+	unsigned long int getHash();
+	void initializeHash();
+	void flipSquare(int x, int y, int index, int color);
+	void incrementCurrentHash();
+	void decrementCurrentHash();
+
 
 private:
-    unsigned long int currentHash;
-    Board *board;
+	unsigned long int currentHash;
+	Board* board;
 
-    
+
 };
 
 #endif

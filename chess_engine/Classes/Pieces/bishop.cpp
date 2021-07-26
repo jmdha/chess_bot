@@ -1,13 +1,11 @@
 #include "Headers/bishop.h"
 
-Bishop::Bishop(Color color) : Piece(color)
-{
+Bishop::Bishop(Color color) : Piece(color) {
 	this->color = color;
 }
 
-PieceChar Bishop::getPieceChar()
-{
-	if (this->color == WHITE)
+PieceChar Bishop::getPieceChar() {
+	if(this->color == WHITE)
 		return BISHOPWHITE;
 	else
 		return BISHOPBLACK;
@@ -20,21 +18,19 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 	it = moves.begin();
 	std::vector<Move> tempMoveList;
 
-	for (int i = 0; i < 4; i++)
-	{
+	for(int i = 0; i < 4; i++) 	{
 
 		Direction dir = NORTHWEST;
-		switch (i)
-		{
-		case 0:
+		switch(i) 		{
+			case 0:
 			dir = NORTHEAST;
 			break;
 
-		case 1:
+			case 1:
 			dir = SOUTHWEST;
 			break;
 
-		case 2:
+			case 2:
 			dir = SOUTHEAST;
 			break;
 		}
@@ -50,27 +46,25 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 Move Bishop::getMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
-	for (int i = 0; i < 4; i++)
-	{
+	for(int i = 0; i < 4; i++) 	{
 
 		Direction dir = NORTHWEST;
-		switch (i)
-		{
-		case 0:
+		switch(i) 		{
+			case 0:
 			dir = NORTHEAST;
 			break;
 
-		case 1:
+			case 1:
 			dir = SOUTHWEST;
 			break;
 
-		case 2:
+			case 2:
 			dir = SOUTHEAST;
 			break;
 		}
 		moves = this->getPossibleMovesInDirection(board, dir, 8);
-		for (int i = 0; i < static_cast<int>(moves.size()); i++) {
-			if (moves[i].endX == endPos.x && moves[i].endY == endPos.y)
+		for(int i = 0; i < static_cast<int>(moves.size()); i++) {
+			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
 		}
 	}
@@ -88,28 +82,28 @@ int Bishop::getIndex() {
 bool Bishop::checkIfPosPossible(Board board, Point pos) {
 	int xDir;
 	int yDir;
-	if (x > pos.x)
+	if(x > pos.x)
 		xDir = -1;
-	else if (x < pos.x)
+	else if(x < pos.x)
 		xDir = 1;
 	else
 		return false;
-	if (y > pos.y)
+	if(y > pos.y)
 		yDir = -1;
-	else if (y < pos.y)
+	else if(y < pos.y)
 		yDir = 1;
 	else
 		return false;
 
-	for (int i = 1; i < 8; i++) {
+	for(int i = 1; i < 8; i++) {
 		int newX = x + i * xDir;
 		int newY = y + i * yDir;
-		if (pos.x == newX && pos.y == newY)
+		if(pos.x == newX && pos.y == newY)
 			return true;
-		else if (board.getPiece(newX, newY) != NULL)
+		else if(board.getPiece(newX, newY) != NULL)
 			return false;
 	}
-		
+
 
 	return false;
 }
