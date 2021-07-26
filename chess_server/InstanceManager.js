@@ -4,16 +4,21 @@ const UI = require(path.resolve('UI'));
 const EventEmitter = require('events');
 
 class InstanceManager extends EventEmitter {
-    constructor(api, ui) {
+    constructor(api, ui, autoChallengeAI) {
         super();
         this.api = api;
         this.ui = ui;
+        this.autoChallengeAI = autoChallengeAI;
         this.instances = [];
 
         this.on('instanceStateUpdate', () => {
             this.ui.display(this.instances);
         });
-        ui.display(this.instances);
+        if (autoChallengeAI) {
+            if (this.instances.length == 0)
+                api.challengeAI();
+        } else
+            ui.display(this.instances);
     }
 
     handleEvent(event) {
@@ -47,6 +52,9 @@ class InstanceManager extends EventEmitter {
             case 'gameFinish':
                 this.instances.pop(this.instances.filter(item => item.instanceID == event.game.id));
                 this.ui.display(this.instances);
+                if (this.autoChallengeAI)
+                    if (this.instances.length == 0)
+                        api.challengeAI();
                 break;
         }
     }
