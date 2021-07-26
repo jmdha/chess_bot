@@ -20,7 +20,8 @@ function lichessStream(res) {
             process.env.CLOCK_LIMIT,
             process.env.CLOCK_INCREMENT),
         ui,
-        process.env.AUTO_CHALLENGE_AI == true);
+        process.env.AUTO_CHALLENGE_AI == true,
+        process.env.ENGINE_PATH);
     res.on('data', function (chunk) {
         let data;
         try {

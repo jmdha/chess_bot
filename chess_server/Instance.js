@@ -2,10 +2,11 @@ const exec = require('child_process');
 const EventEmitter = require('events');
 
 class Instance {
-    constructor(api, instanceID, manager) {
+    constructor(api, instanceID, manager, enginePath) {
         this.api = api;
         this.instanceID = instanceID;
         this.manager = manager;
+        this.enginePath = enginePath;
         this.updateState('Init');
     }
 
@@ -49,7 +50,7 @@ class Instance {
 
     generateMove(instance, moves, callback) {
         this.updateState('Generating Move');
-        exec.exec('./chess_engine.out ' + "\"" + moves + "\"", (err, stdout) => {
+        exec.exec(this.enginePath + " \"" + moves + "\"", (err, stdout) => {
             callback(instance, err, stdout);
         });
     }
