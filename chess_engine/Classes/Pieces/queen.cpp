@@ -18,7 +18,7 @@ std::vector<Move> Queen::getPossibleMoves(Board board) {
 	it = moves.begin();
 	std::vector<Move> tempMoveList;
 
-	for(int i = 1; i <= 9; i++)     {
+	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
 		tempMoveList = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 8);
@@ -33,7 +33,7 @@ std::vector<Move> Queen::getPossibleMoves(Board board) {
 Move Queen::getMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
-	for(int i = 1; i <= 9; i++)     {
+	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
 		moves = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 8);

@@ -18,10 +18,10 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 	it = moves.begin();
 	std::vector<Move> tempMoveList;
 
-	for(int i = 0; i < 4; i++) 	{
+	for(int i = 0; i < 4; i++) {
 
 		Direction dir = NORTHWEST;
-		switch(i) 		{
+		switch(i) {
 			case 0:
 			dir = NORTHEAST;
 			break;
@@ -46,10 +46,10 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 Move Bishop::getMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
-	for(int i = 0; i < 4; i++) 	{
+	for(int i = 0; i < 4; i++) {
 
 		Direction dir = NORTHWEST;
-		switch(i) 		{
+		switch(i) {
 			case 0:
 			dir = NORTHEAST;
 			break;

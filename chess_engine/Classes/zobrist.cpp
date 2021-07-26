@@ -53,10 +53,10 @@ void Zobrist::flipSquare(int x, int y, int index, int color) {
 
 void Zobrist::initializeHash() {
 	this->currentHash = 0;
-	for(int y = 0; y < HEIGHT; y++) 	{
-		for(int x = 0; x < WIDTH; x++) 		{
-			for(int i = 0; i < 6; i++) 			{
-				for(int j = 0; j < 2; j++) 				{
+	for(int y = 0; y < HEIGHT; y++) {
+		for(int x = 0; x < WIDTH; x++) {
+			for(int i = 0; i < 6; i++) {
+				for(int j = 0; j < 2; j++) {
 					flipSquare(x, y, this->board->getPiece(x, y)->getIndex(), j);
 				}
 			}

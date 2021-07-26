@@ -22,7 +22,7 @@ Move::Move(std::string move) {
 	if(move[2] == ' ') {
 		this->endX = (int) move[3] - 97;
 		this->endY = move[4] - '0' - 1;
-	}     else {
+	} else {
 		this->endX = (int) move[2] - 97;
 		this->endY = move[3] - '0' - 1;
 	}

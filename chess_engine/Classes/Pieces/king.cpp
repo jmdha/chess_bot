@@ -18,7 +18,7 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 	it = moves.begin();
 	std::vector<Move> tempMoveList;
 
-	for(int i = 1; i <= 9; i++) 	{
+	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
 		tempMoveList = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 1);
@@ -66,7 +66,7 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 Move King::getMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
-	for(int i = 1; i <= 9; i++) 	{
+	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
 		moves = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 1);
@@ -114,7 +114,7 @@ bool King::getCastlingPossibility(Board board, CastlingDirection direction) {
 					return false;
 		}
 		return true;
-	} 	else {
+	} else {
 		for(int i = 0; i < pieceCount; i++) {
 			for(int x2 = 1; x2 <= 3; x2++)
 				if(pieces[i]->checkIfPosPossible(board, Point(x - x2, y)))

@@ -30,19 +30,19 @@ std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction dire
 	// Max moves is 7 as that is board width/height minus the piece
 	std::vector<Move> moves;
 
-	for(int i = 1; i <= length; i++)     {
+	for(int i = 1; i <= length; i++) {
 
 		Point endPoint = getNewEndPoint(Point(this->x, this->y), direction, i);
 
 		if(endPoint.x >= WIDTH || endPoint.x < 0 || endPoint.y >= HEIGHT || endPoint.y < 0)
 			break;
 
-		if(board.isSquareEmpty(endPoint.x, endPoint.y))         {
+		if(board.isSquareEmpty(endPoint.x, endPoint.y)) {
 			moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
-		}         else if(board.isSquareEnemy(this->color, endPoint.x, endPoint.y))         {
+		} else if(board.isSquareEnemy(this->color, endPoint.x, endPoint.y)) {
 			moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
 			break;
-		}         else
+		} else
 			break;
 	}
 	return moves;
@@ -53,28 +53,28 @@ std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction dire
 	// Max moves is 7 as that is board width/height minus the piece
 	std::vector<Move> moves;
 
-	for(int i = 1; i <= length; i++)     {
+	for(int i = 1; i <= length; i++) {
 
 		Point endPoint = getNewEndPoint(Point(this->x, this->y), direction, i);
 
 		if(endPoint.x >= WIDTH || endPoint.x < 0 || endPoint.y >= HEIGHT || endPoint.y < 0)
 			break;
 
-		if(!onlyCapture)         {
+		if(!onlyCapture) {
 			if(board.isSquareEmpty(endPoint.x, endPoint.y))
 				moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
 			else
 				break;
-		}         else if(board.isSquareEnemy(this->color, endPoint.x, endPoint.y))         {
+		} else if(board.isSquareEnemy(this->color, endPoint.x, endPoint.y)) {
 			moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
-		}         else
+		} else
 			break;
 	}
 	return moves;
 }
 
 Point Piece::getNewEndPoint(Point priorPos, Direction direction, int moveLength) {
-	switch(direction)     {
+	switch(direction) {
 		case NORTH:
 		return Point(priorPos.x, priorPos.y + moveLength);
 

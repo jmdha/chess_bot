@@ -31,7 +31,7 @@ std::vector<Move> Pawn::getPossibleMoves(Board board) {
 	// look if there are two moves i.e. it can both move one square forth and two
 	if(tempMoveList.size() == 2) {
 		tempMoveList[1].pawnDoubleMove = true;
-	} 	else if(tempMoveList.size() == 1) {
+	} else if(tempMoveList.size() == 1) {
 		if(tempMoveList[0].endY == ((this->color == WHITE) ? static_cast<int>(BACKROWBLACK) : static_cast<int>(BACKROWWHITE))) {
 			Move tempMove = tempMoveList[0];
 			for(int i = 0; i < 3; i++) {
@@ -105,7 +105,7 @@ std::vector<Move> Pawn::getPossibleMoves(Board board) {
 					tempMoveList[0].enPassantTake = true;
 				moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 				it = moves.begin();
-			} 			else if(board.enPassant == x + 1) {
+			} else if(board.enPassant == x + 1) {
 				tempMoveList = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHEAST : SOUTHEAST, 1, false);
 				if(tempMoveList.size() == 1)
 					tempMoveList[0].enPassantTake = true;
@@ -134,7 +134,7 @@ Move Pawn::getMoveIfPossible(Board board, Point endPos) {
 	// look if there are two moves i.e. it can both move one square forth and two
 	if(moves.size() == 2) {
 		moves[1].pawnDoubleMove = true;
-	} 	else if(moves.size() == 1) {
+	} else if(moves.size() == 1) {
 		if(moves[0].endY == ((this->color == WHITE) ? static_cast<int>(BACKROWBLACK) : static_cast<int>(BACKROWWHITE))) {
 			Move tempMove = moves[0];
 			for(int i = 0; i < 3; i++) {
@@ -213,7 +213,7 @@ Move Pawn::getMoveIfPossible(Board board, Point endPos) {
 				if(moves[0].endX == endPos.x && moves[0].endY == endPos.y)
 					return moves[0];
 			}
-		} 		else if(board.enPassant == x + 1) {
+		} else if(board.enPassant == x + 1) {
 			moves = this->getPossibleMovesInDirection(board, (dir == NORTH) ? NORTHEAST : SOUTHEAST, 1, false);
 			if(moves.size() == 1) {
 				moves[0].enPassantTake = true;
