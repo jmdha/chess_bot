@@ -2,11 +2,13 @@ const https = require('https');
 const qs = require('querystring');
 
 class Api {
-    
-    constructor(bearerID, botID, AILevel) {
+
+    constructor(bearerID, botID, AILevel, clockLimit, clockIncrement) {
         this.bearerID = bearerID;
         this.botID = botID;
         this.AILevel = AILevel;
+        this.clockLimit = clockLimit;
+        this.clockIncrement = clockIncrement;
         this.hostname = "lichess.org";
     }
 
@@ -24,8 +26,8 @@ class Api {
 
     challengeAI() {
         this.post(`/api/challenge/ai`, {
-            'clock.limit': '300',
-            'clock.increment': '5',
+            'clock.limit': this.clockLimit,
+            'clock.increment': this.clockIncrement,
             'level': this.AILevel
         });
     }

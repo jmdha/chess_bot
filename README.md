@@ -64,6 +64,12 @@ BOT_ID=...
 
 # whether it should challenge the AI when having no ongoing games, 1 = true, 0 = false
 AUTO_CHALLENGE_AI=0
+# the level of AI to challenge in above option, 1-8 - higher is more difficult
+AI_LEVEL=4
+# the initial amount of time on the clock
+CLOCK_LIMIT=300
+# how much time is added after each move
+CLOCK_INCREMENT=5
 ```
 Bearer ID is generated on lichess following their [API](https://lichess.org/api#operation/botAccountUpgrade) for a bot
 Bot ID is the name of the user on [lichess](https://lichess.org)
