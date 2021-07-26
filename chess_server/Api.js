@@ -3,9 +3,10 @@ const qs = require('querystring');
 
 class Api {
     
-    constructor(bearerID, botID) {
+    constructor(bearerID, botID, AILevel) {
         this.bearerID = bearerID;
         this.botID = botID;
+        this.AILevel = AILevel;
         this.hostname = "lichess.org";
     }
 
@@ -25,7 +26,7 @@ class Api {
         this.post(`/api/challenge/ai`, {
             'clock.limit': '300',
             'clock.increment': '5',
-            'level': '5'
+            'level': this.AILevel
         });
     }
 
