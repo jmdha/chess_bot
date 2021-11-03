@@ -14,12 +14,12 @@ int main(int argc, char* argv[]) {
 		board.importFakePGN(argv[1]);
 
 	int depth;
-	if(board.pieceCount[WHITE] < 3 || board.pieceCount[BLACK] < 3)
+	if (board.pieceCount[WHITE] < 3 || board.pieceCount[BLACK] < 3)
 		depth = 7;
-	else if(board.pieceCount[0] < 16)
+	else if (board.pieceCount[0] < 16)
 		depth = 5;
 	else
-		depth = 6;
+		depth = 4;
 
 
 	auto start = std::chrono::high_resolution_clock::now();

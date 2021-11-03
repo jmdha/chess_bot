@@ -1,6 +1,8 @@
 // Contains base stuff an ai needs e.g generating possible moves and such
 #include "Headers/ai.h"
 #include <iostream>
+#include <algorithm>
+#include <random>
 
 
 Move getValidMove(Board board, Point endPos, PieceIndex promotionType, PieceChar pieceChar) {
@@ -291,7 +293,8 @@ Move getBestMove(Board* board, int depth) {
 	return move;
 }
 
-
+std::random_device rd;
+std::mt19937 g(rd());
 
 Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves) {
 	(*totalMoves) += 1;
@@ -323,6 +326,8 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	for(int i = 0; i < static_cast<int>(moves.size()); i++)
 		moves[i].moveSizeBatch = static_cast<int>(moves.size());
 
+	
+	std::shuffle(moves.begin(), moves.end(), g);
 
 	if(static_cast<int>(moves.size()) == 0) {
 		if(board->isKingVulnerable(currentTurn))
