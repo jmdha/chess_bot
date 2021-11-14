@@ -1,0 +1,2 @@
+# Path is writte relative to CMakeLists.txt in parent folder
+include(tests/board/importFakePGNTest.txt)

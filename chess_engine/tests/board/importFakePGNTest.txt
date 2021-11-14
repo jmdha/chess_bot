@@ -1,0 +1,9 @@
+# Tests
+## GetBestMove
+add_executable(importFakePGNTest tests/board/importFakePGNTest.cpp ${sources})
+
+### Correct cases
+add_test(importFakePGNTest_StartPos importFakePGNTest 0 "" "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+add_test(importFakePGNTest_d2d4 importFakePGNTest 0 "d2d4" "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR")
+add_test(importFakePGNTest_Castling importFakePGNTest 0 "e2e4 e7e5 f1d3 d8f6 d1f3 f8d6 g1e2 g8e7 e1g1" "rnb1k2r/ppppnppp/3b1q2/4p3/4P3/3B1Q2/PPPPNPPP/RNB2RK1")
+add_test(importFakePGNTest_QueenPromotion importFakePGNTest 0 "a2a4 b7b6 a4a5 c7c6 a5b6 d8c7 b6c7 d7d6 c7b8" "rQb1kbnr/p3pppp/2pp4/8/8/8/1PPPPPPP/RNBQKBNR")
