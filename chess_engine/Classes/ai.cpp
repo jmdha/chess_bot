@@ -345,7 +345,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		board->doMove(&(moves[i]));
 
 		// Go deeper
-		if(depth == 1 && !doingHE && (moves[i].target != NULL || board->isKingVulnerable(currentTurn)))
+		if(depth == 1 && !doingHE && (moves[i].target != NULL || board->isKingVulnerable(currentTurn) || board->pieceCount[static_cast<int>(oppositeColor + 1)] == 1))
 			move = minimax(board, 4, !isMax, oppositeColor, a, b, true, totalMoves);
 		else {
 			if(doingHE && moves[i].target == NULL)
