@@ -289,6 +289,7 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int s
 
 Move getBestMove(Board* board, int depth) {
 	int totalMovesChecked = 0;
+	board->startTurn = board->turn;
 	Move move = minimax(board, depth, true, board->turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked);
 	return move;
 }
