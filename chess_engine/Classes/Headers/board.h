@@ -37,6 +37,7 @@ public:
 	Zobrist* zobrist;
 	int enPassant;
 	Color turn = WHITE;
+	Color startTurn;
 
 	Board();
 
