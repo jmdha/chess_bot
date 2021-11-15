@@ -290,14 +290,14 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int s
 Move getBestMove(Board* board, int depth) {
 	int totalMovesChecked = 0;
 	board->startTurn = board->turn;
-	Move move = minimax(board, depth, true, board->turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked);
+	Move move = minimax(board, depth, true, board->turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked, 0);
 	return move;
 }
 
 std::random_device rd;
 std::mt19937 g(rd());
 
-Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves) {
+Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves, int accDepth) {
 	(*totalMoves) += 1;
 	Move bestMove;
 	Color oppositeColor = ((currentTurn == WHITE) ? BLACK : WHITE);
@@ -307,6 +307,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	if(board->zobrist->priorInstanceCount.at(board->zobrist->getHash()) > 2) {
 		int multiplier = ((currentTurn == board->turn) ? 1 : -1);
 		bestMove.value = VALUEDRAW * multiplier;
+		bestMove.moveDepth = accDepth;
 		return bestMove;
 	}
 
@@ -316,6 +317,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		bestMove.value = VALUEINFINITE;
 	if(depth == 0 || !board->kingAlive[currentTurn] || !board->kingAlive[oppositeColor]) {
 		bestMove.value = board->evaluateBoard(board->turn);
+		bestMove.moveDepth = accDepth;
 		return bestMove;
 	}
 
@@ -326,9 +328,12 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 	for(int i = 0; i < static_cast<int>(moves.size()); i++)
 		moves[i].moveSizeBatch = static_cast<int>(moves.size());
+		
+
+		
 
 	
-	std::shuffle(moves.begin(), moves.end(), g);
+	//std::shuffle(moves.begin(), moves.end(), g);
 
 	if(static_cast<int>(moves.size()) == 0) {
 		if(board->isKingVulnerable(currentTurn))
@@ -338,6 +343,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 				bestMove.value = -VALUEMATE;
 		else
 			bestMove.value = VALUEDRAW;
+		bestMove.moveDepth = accDepth;
 		return bestMove;
 	}
 	for(int i = 0; i < static_cast<int>(moves.size()); i++) {
@@ -347,12 +353,12 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 		// Go deeper
 		if(depth == 1 && !doingHE && (moves[i].target != NULL || board->isKingVulnerable(currentTurn) || board->pieceCount[static_cast<int>(oppositeColor + 1)] == 1))
-			move = minimax(board, 4, !isMax, oppositeColor, a, b, true, totalMoves);
+			move = minimax(board, HEDEPTH, !isMax, oppositeColor, a, b, true, totalMoves, accDepth + 1);
 		else {
 			if(doingHE && moves[i].target == NULL)
-				move = minimax(board, 0, !isMax, oppositeColor, a, b, doingHE, totalMoves);
+				move = minimax(board, 0, !isMax, oppositeColor, a, b, doingHE, totalMoves, accDepth + 1);
 			else
-				move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, doingHE, totalMoves);
+				move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, doingHE, totalMoves, accDepth + 1);
 		}
 
 		board->undoMove(&(moves[i]));
@@ -361,15 +367,15 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		if(isMax && move.value > bestMove.value) {
 			bestMove = moves[i];
 			bestMove.value = move.value;
-			bestMove.moveDepth = depth;
+			bestMove.moveDepth = move.moveDepth;
 		} else if(!isMax && move.value < bestMove.value) {
 			bestMove = moves[i];
 			bestMove.value = move.value;
-			bestMove.moveDepth = depth;
-		} else if(move.value == bestMove.value && depth > bestMove.moveDepth) {
+			bestMove.moveDepth = move.moveDepth;
+		} else if(move.value == bestMove.value && move.moveDepth < bestMove.moveDepth) {
 			bestMove = moves[i];
 			bestMove.value = move.value;
-			bestMove.moveDepth = depth;
+			bestMove.moveDepth = move.moveDepth;
 		}
 
 

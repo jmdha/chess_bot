@@ -20,6 +20,6 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, int startRow, PieceChar pi
 std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int startCol, int startRow);
 
 Move getBestMove(Board* board, int depth);
-Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves);
+Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves, int accDepth);
 
 #endif

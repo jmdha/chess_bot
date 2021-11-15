@@ -23,7 +23,7 @@ public:
 	int priorEnPassant = -1;
 
 	// depth at which was found
-	int moveDepth = 0;
+	int moveDepth = -1;
 
 	Piece* target;
 	bool castling = false;
