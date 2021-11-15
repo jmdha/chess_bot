@@ -60,6 +60,32 @@ void Board::importFEN(std::string FEN) {
 	FEN.erase(0, 2);
 
 	// import king availibity
+	// Disable castling
+	for (int i = 0; i < 2; i++) {
+		castlingValid[i][0] = false;
+		castlingValid[i][1] = false;
+	}
+	// Enable the ones with flags
+	int i = 0;
+	while (i != FEN.length() && FEN[i] != ' ') {
+		switch (FEN[i])
+		{
+		case 'K':
+			castlingValid[static_cast<int>(WHITE)][static_cast<int>(RIGHT)] = true;
+			break;
+		case 'Q':
+			castlingValid[static_cast<int>(WHITE)][static_cast<int>(LEFT)] = true;
+			break;
+		case 'k':
+			castlingValid[static_cast<int>(BLACK)][static_cast<int>(RIGHT)] = true;
+			break;
+		case 'q':
+			castlingValid[static_cast<int>(BLACK)][static_cast<int>(LEFT)] = true;
+			break;
+		}
+	}
+	FEN.erase(0, i);
+
 
 	// import en-passant
 
