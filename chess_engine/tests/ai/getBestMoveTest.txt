@@ -5,3 +5,7 @@ add_executable(getBestMoveTest tests/ai/getBestMoveTest.cpp ${sources})
 ### Correct cases
 add_test(getBestMoveTest_CheckmateIn1WithDepth1 getBestMoveTest 0 "k7/8/1K6/8/8/8/8/2Q5" "c1c8" 1)
 add_test(getBestMoveTest_CheckmateIn1WithDepth2 getBestMoveTest 0 "k7/8/1K6/8/8/8/8/2Q5" "c1c8" 2)
+add_test(getBestMoveTest_CheckmateIn1WithDepth3 getBestMoveTest 0 "k7/8/1K6/8/8/8/8/2Q5" "c1c8" 3)
+add_test(getBestMoveTest_CheckmateIn1WithDepth4 getBestMoveTest 0 "k7/8/1K6/8/8/8/8/2Q5" "c1c8" 4)
+add_test(getBestMoveTest_CheckmateIn1WithDepth5 getBestMoveTest 0 "k7/8/1K6/8/8/8/8/2Q5" "c1c8" 5)
+add_test(getBestMoveTest_CheckmateIn1WithDepth6 getBestMoveTest 0 "k7/8/1K6/8/8/8/8/2Q5" "c1c8" 6)
