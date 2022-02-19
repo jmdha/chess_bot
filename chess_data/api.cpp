@@ -23,13 +23,16 @@ bool api::incrementEntry(int hash, std::string move) {
 }
 
 bool api::executeUpdateQuery(std::string query) {
+	/*
 	try {
+		
 		sql::Driver* driver;
 		sql::Connection* con;
 		sql::Statement* stmt;
 		int rowsChanged = 0;
 
 		driver = get_driver_instance();
+		
 		con = driver->connect("tcp://" + this->ip + ":" + this->port,
 			this->username,
 			this->password);
@@ -59,4 +62,5 @@ bool api::executeUpdateQuery(std::string query) {
 	catch (std::exception& e) {
 		return false;
 	}
+	*/
 }

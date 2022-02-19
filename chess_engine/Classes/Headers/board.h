@@ -13,6 +13,7 @@ class Move;
 
 #include <string>
 #include <vector>
+#include <list>
 #include "piece.h"
 #include "constants.h"
 #include "move.h"
@@ -62,6 +63,7 @@ public:
 
 private:
 	Piece* board[WIDTH][HEIGHT];
+	
 
 
 
