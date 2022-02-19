@@ -63,7 +63,7 @@ Move Rook::getMoveIfPossible(Board board, Point endPos) {
 			break;
 		}
 		moves = this->getPossibleMovesInDirection(board, dir, 8);
-		for(int i = 0; i < static_cast<int>(moves.size()); i++) {
+		for(int i = 0; i < (int) moves.size(); i++) {
 			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
 		}
@@ -73,11 +73,11 @@ Move Rook::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Rook::getValue() {
-	return static_cast<int>(Value::Rook) + ValueRookPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
+	return (int) Value::Rook + ValueRookPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Rook::getIndex() {
-	return static_cast<int>(PieceIndex::Rook);
+	return (int) PieceIndex::Rook;
 }
 
 bool Rook::checkIfPosPossible(Board board, Point pos) {

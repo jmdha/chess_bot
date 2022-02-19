@@ -65,11 +65,11 @@ Move Knight::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Knight::getValue() {
-	return static_cast<int>(Value::Knight) + ValueKnightPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
+	return (int) Value::Knight + ValueKnightPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Knight::getIndex() {
-	return static_cast<int>(PieceIndex::Knight);
+	return (int) PieceIndex::Knight;
 }
 
 bool Knight::checkIfPosPossible(Board board, Point pos) {

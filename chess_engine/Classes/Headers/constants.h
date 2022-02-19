@@ -8,22 +8,22 @@
 #define HEDEPTH 4
 
 // Colors has to be in the range 0-1 (used in zobrist init)
-enum class Color {
+enum class Color : int {
 	White,
 	Black
 };
 
-enum class EnPassantRow {
+enum class EnPassantRow : int {
 	Black = 3,
 	White = 4
 };
 
-enum class PawnRow {
+enum class PawnRow : int {
 	White = 1,
 	Black = 6
 };
 
-enum class BackRow {
+enum class BackRow : int {
 	White = 0,
 	Black = 7
 };
@@ -55,7 +55,7 @@ enum class PieceChar : char {
 	Blank = ' '
 };
 
-enum class PieceIndex {
+enum class PieceIndex : int {
 	Pawn,
 	Rook,
 	Knight,
@@ -66,7 +66,7 @@ enum class PieceIndex {
 };
 
 // Must be 1-9 - as the king/queen getpossiblemoves is dependent on it
-enum class Direction {
+enum class Direction : int {
 	North = 8,
 	South = 2,
 	East = 6,
@@ -77,7 +77,7 @@ enum class Direction {
 	SouthWest = 1
 };
 
-enum class CastlingDirection {
+enum class CastlingDirection : int {
 	Left = 0,
 	Right = 1
 };
@@ -91,7 +91,7 @@ enum class Value : int {
 	Knight = 320,
 	Bishop = 330,
 	Rook = 500,
-	Queen = 900,
+	Queen = 900
 };
 
 const int ValuePawnPos[WIDTH][HEIGHT] = {

@@ -21,7 +21,7 @@ std::vector<Move> Queen::getPossibleMoves(Board board) {
 	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
-		tempMoveList = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 8);
+		tempMoveList = this->getPossibleMovesInDirection(board, (Direction) i, 8);
 		moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 		it = moves.begin();
 	}
@@ -36,8 +36,8 @@ Move Queen::getMoveIfPossible(Board board, Point endPos) {
 	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
-		moves = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 8);
-		for(int i = 0; i < static_cast<int>(moves.size()); i++) {
+		moves = this->getPossibleMovesInDirection(board, (Direction) i, 8);
+		for(int i = 0; i < (int) moves.size(); i++) {
 			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
 		}
@@ -47,11 +47,11 @@ Move Queen::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Queen::getValue() {
-	return static_cast<int>(Value::Queen) + ValueQueenPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
+	return (int) Value::Queen + ValueQueenPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Queen::getIndex() {
-	return static_cast<int>(PieceIndex::Queen);
+	return (int) PieceIndex::Queen;
 }
 
 bool Queen::checkIfPosPossible(Board board, Point pos) {

@@ -21,12 +21,12 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
-		tempMoveList = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 1);
+		tempMoveList = this->getPossibleMovesInDirection(board, (Direction) i, 1);
 		moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 		it = moves.begin();
 	}
 
-	if(board.castlingValid[static_cast<int>(this->color)][0]) {
+	if(board.castlingValid[(int) this->color][0]) {
 		bool valid = true;
 		for(int i = this->x - 1; i > 0; i--) {
 			if(board.getPiece(i, this->y) != NULL) {
@@ -42,7 +42,7 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 			}
 		}
 	}
-	if(board.castlingValid[static_cast<int>(this->color)][1]) {
+	if(board.castlingValid[(int)this->color][1]) {
 		bool valid = true;
 		for(int i = this->x + 1; i < 7; i++) {
 			if(board.getPiece(i, this->y) != NULL) {
@@ -69,8 +69,8 @@ Move King::getMoveIfPossible(Board board, Point endPos) {
 	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
-		moves = this->getPossibleMovesInDirection(board, static_cast<Direction>(i), 1);
-		for(int i = 0; i < static_cast<int>(moves.size()); i++) {
+		moves = this->getPossibleMovesInDirection(board, (Direction) i, 1);
+		for(int i = 0; i < (int) moves.size(); i++) {
 			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
 		}
@@ -84,7 +84,7 @@ int King::getValue() {
 }
 
 int King::getIndex() {
-	return static_cast<int>(PieceIndex::King);
+	return (int) PieceIndex::King;
 }
 
 bool King::getCastlingPossibility(Board board, CastlingDirection direction) {
