@@ -1,6 +1,0 @@
-add_executable(depth1 Engines/depth1.cpp ${sources})
-add_executable(depth2 Engines/depth2.cpp ${sources})
-add_executable(depth3 Engines/depth3.cpp ${sources})
-add_executable(depth4 Engines/depth4.cpp ${sources})
-add_executable(depth5 Engines/depth5.cpp ${sources})
-add_executable(depth6 Engines/depth6.cpp ${sources})
