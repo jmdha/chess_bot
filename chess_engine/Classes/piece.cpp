@@ -6,7 +6,7 @@ Piece::Piece(Color color) {
 }
 
 PieceChar Piece::getPieceChar() {
-	return BLANK;
+	return PieceChar::Blank;
 }
 
 std::vector<Move> Piece::getPossibleMoves(Board board) {
@@ -75,28 +75,28 @@ std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction dire
 
 Point Piece::getNewEndPoint(Point priorPos, Direction direction, int moveLength) {
 	switch(direction) {
-		case NORTH:
+		case Direction::North:
 		return Point(priorPos.x, priorPos.y + moveLength);
 
-		case SOUTH:
+		case Direction::South:
 		return Point(priorPos.x, priorPos.y - moveLength);
 
-		case EAST:
+		case Direction::East:
 		return Point(priorPos.x + moveLength, priorPos.y);
 
-		case WEST:
+		case Direction::West:
 		return Point(priorPos.x - moveLength, priorPos.y);
 
-		case NORTHEAST:
+		case Direction::NorthEast:
 		return Point(priorPos.x + moveLength, priorPos.y + moveLength);
 
-		case NORTHWEST:
+		case Direction::NorthWest:
 		return Point(priorPos.x - moveLength, priorPos.y + moveLength);
 
-		case SOUTHEAST:
+		case Direction::SouthEast:
 		return Point(priorPos.x + moveLength, priorPos.y - moveLength);
 
-		case SOUTHWEST:
+		case Direction::SouthWest:
 		return Point(priorPos.x - moveLength, priorPos.y - moveLength);
 		default:
 		printf("Direction %i\n", (int) direction);

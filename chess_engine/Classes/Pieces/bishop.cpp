@@ -5,10 +5,10 @@ Bishop::Bishop(Color color) : Piece(color) {
 }
 
 PieceChar Bishop::getPieceChar() {
-	if(this->color == WHITE)
-		return BISHOPWHITE;
+	if(this->color == Color::White)
+		return PieceChar::BishopWhite;
 	else
-		return BISHOPBLACK;
+		return PieceChar::BishopBlack;
 }
 
 std::vector<Move> Bishop::getPossibleMoves(Board board) {
@@ -20,18 +20,18 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 
 	for(int i = 0; i < 4; i++) {
 
-		Direction dir = NORTHWEST;
+		Direction dir = Direction::NorthWest;
 		switch(i) {
 			case 0:
-			dir = NORTHEAST;
+			dir = Direction::NorthEast;
 			break;
 
 			case 1:
-			dir = SOUTHWEST;
+			dir = Direction::SouthWest;
 			break;
 
 			case 2:
-			dir = SOUTHEAST;
+			dir = Direction::SouthEast;
 			break;
 		}
 		tempMoveList = this->getPossibleMovesInDirection(board, dir, 8);
@@ -48,18 +48,18 @@ Move Bishop::getMoveIfPossible(Board board, Point endPos) {
 
 	for(int i = 0; i < 4; i++) {
 
-		Direction dir = NORTHWEST;
+		Direction dir = Direction::NorthWest;
 		switch(i) {
 			case 0:
-			dir = NORTHEAST;
+			dir = Direction::NorthEast;
 			break;
 
 			case 1:
-			dir = SOUTHWEST;
+			dir = Direction::SouthWest;
 			break;
 
 			case 2:
-			dir = SOUTHEAST;
+			dir = Direction::SouthEast;
 			break;
 		}
 		moves = this->getPossibleMovesInDirection(board, dir, 8);
@@ -72,11 +72,11 @@ Move Bishop::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Bishop::getValue() {
-	return VALUEBISHOP + VALUEBISHOPPOS[x][(this->color == WHITE) ? y : HEIGHT - 1];
+	return static_cast<int>(Value::Bishop) + ValueBishopPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Bishop::getIndex() {
-	return BISHOPINDEX;
+	return static_cast<int>(PieceIndex::Bishop);
 }
 
 bool Bishop::checkIfPosPossible(Board board, Point pos) {

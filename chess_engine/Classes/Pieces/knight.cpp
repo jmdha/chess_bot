@@ -5,10 +5,10 @@ Knight::Knight(Color color) : Piece(color) {
 }
 
 PieceChar Knight::getPieceChar() {
-	if(this->color == WHITE)
-		return KNIGHTWHITE;
+	if(this->color == Color::White)
+		return PieceChar::KnightWhite;
 	else
-		return KNIGHTBLACK;
+		return PieceChar::KnightBlack;
 }
 
 std::vector<Move> Knight::getPossibleMoves(Board board) {
@@ -65,11 +65,11 @@ Move Knight::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Knight::getValue() {
-	return VALUEKNIGHT + VALUEKNIGHTPOS[x][(this->color == WHITE) ? y : HEIGHT - 1];
+	return static_cast<int>(Value::Knight) + ValueKnightPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Knight::getIndex() {
-	return KNIGHTINDEX;
+	return static_cast<int>(PieceIndex::Knight);
 }
 
 bool Knight::checkIfPosPossible(Board board, Point pos) {

@@ -5,10 +5,10 @@ King::King(Color color) : Piece(color) {
 }
 
 PieceChar King::getPieceChar() {
-	if(this->color == WHITE)
-		return KINGWHITE;
+	if(this->color == Color::White)
+		return PieceChar::KingWhite;
 	else
-		return KINGBLACK;
+		return PieceChar::KingBlack;
 }
 
 std::vector<Move> King::getPossibleMoves(Board board) {
@@ -26,7 +26,7 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 		it = moves.begin();
 	}
 
-	if(board.castlingValid[this->color][0]) {
+	if(board.castlingValid[static_cast<int>(this->color)][0]) {
 		bool valid = true;
 		for(int i = this->x - 1; i > 0; i--) {
 			if(board.getPiece(i, this->y) != NULL) {
@@ -35,14 +35,14 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 			}
 		}
 		if(valid) {
-			if(getCastlingPossibility(board, LEFT)) {
+			if(getCastlingPossibility(board, CastlingDirection::Left)) {
 				Move move = Move(this->x, this->y, 2, this->y);
 				move.castling = true;
 				moves.push_back(move);
 			}
 		}
 	}
-	if(board.castlingValid[this->color][1]) {
+	if(board.castlingValid[static_cast<int>(this->color)][1]) {
 		bool valid = true;
 		for(int i = this->x + 1; i < 7; i++) {
 			if(board.getPiece(i, this->y) != NULL) {
@@ -51,7 +51,7 @@ std::vector<Move> King::getPossibleMoves(Board board) {
 			}
 		}
 		if(valid) {
-			if(getCastlingPossibility(board, RIGHT)) {
+			if(getCastlingPossibility(board, CastlingDirection::Right)) {
 				Move move = Move(this->x, this->y, 6, this->y);
 				move.castling = true;
 				moves.push_back(move);
@@ -80,11 +80,11 @@ Move King::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int King::getValue() {
-	return 0 + VALUEKINGPOSMID[x][(this->color == WHITE) ? y : HEIGHT - 1];
+	return 0 + ValueKingPosMid[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int King::getIndex() {
-	return KINGINDEX;
+	return static_cast<int>(PieceIndex::King);
 }
 
 bool King::getCastlingPossibility(Board board, CastlingDirection direction) {
@@ -106,8 +106,8 @@ bool King::getCastlingPossibility(Board board, CastlingDirection direction) {
 			return false;
 	}
 
-	// checkíng right
-	if(direction == RIGHT) {
+	// checkï¿½ng right
+	if(direction == CastlingDirection::Right) {
 		for(int i = 0; i < pieceCount; i++) {
 			for(int x2 = 1; x2 < 3; x2++)
 				if(pieces[i]->checkIfPosPossible(board, Point(x + x2, y)))

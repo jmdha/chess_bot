@@ -54,9 +54,9 @@ void Board::importFEN(std::string FEN) {
 		return;
 	// import turn
 	if(FEN[0] == 'w')
-		setTurn(WHITE);
+		setTurn(Color::White);
 	else
-		setTurn(BLACK);
+		setTurn(Color::Black);
 	FEN.erase(0, 2);
 
 	// import king availibity
@@ -71,16 +71,16 @@ void Board::importFEN(std::string FEN) {
 		switch (FEN[i])
 		{
 		case 'K':
-			castlingValid[static_cast<int>(WHITE)][static_cast<int>(RIGHT)] = true;
+			castlingValid[static_cast<int>(Color::White)][static_cast<int>(CastlingDirection::Right)] = true;
 			break;
 		case 'Q':
-			castlingValid[static_cast<int>(WHITE)][static_cast<int>(LEFT)] = true;
+			castlingValid[static_cast<int>(Color::White)][static_cast<int>(CastlingDirection::Left)] = true;
 			break;
 		case 'k':
-			castlingValid[static_cast<int>(BLACK)][static_cast<int>(RIGHT)] = true;
+			castlingValid[static_cast<int>(Color::Black)][static_cast<int>(CastlingDirection::Right)] = true;
 			break;
 		case 'q':
-			castlingValid[static_cast<int>(BLACK)][static_cast<int>(LEFT)] = true;
+			castlingValid[static_cast<int>(Color::Black)][static_cast<int>(CastlingDirection::Left)] = true;
 			break;
 		}
 	}
@@ -106,7 +106,7 @@ std::string Board::getFEN() {
 			else {
 				if(blankCounter != 0)
 					FEN.append(1, blankCounter + '0');
-				FEN.append(1, piece->getPieceChar());
+				FEN.append(1, static_cast<char>(piece->getPieceChar()));
 				blankCounter = 0;
 			}
 			if(x == 7 && piece == NULL && blankCounter != 0) {
@@ -118,7 +118,7 @@ std::string Board::getFEN() {
 	}
 
 	FEN.append(1, ' ');
-	if(turn == WHITE)
+	if(turn == Color::White)
 		FEN.append(1, 'w');
 	else
 		FEN.append(1, 'b');
@@ -167,8 +167,8 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 						// Normal move
 						char tempPieceChar = moves[i + 1];
 						if(isLowercase(tempPieceChar))
-							tempPieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
-						else if(turn == BLACK)
+							tempPieceChar = ((turn == Color::White) ? static_cast<char>(PieceChar::PawnWhite) : static_cast<char>(PieceChar::PawnBlack));
+						else if(turn == Color::Black)
 							tempPieceChar += 32;
 						PieceChar pieceChar = static_cast<PieceChar>(tempPieceChar);
 						if(moves[i + 4] != ' ' && moves[i + 4] != '+' && moves[i + 4] != '#' && moves[i + 4] != '?' && moves[i + 4] != '!' && moves.length() != i + 4) {
@@ -214,7 +214,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 
 					else {
 						//castle
-						int y = ((turn == WHITE) ? BACKROWWHITE : BACKROWBLACK);
+						int y = ((turn == Color::White) ? static_cast<int>(BackRow::White) : static_cast<int>(BackRow::Black));
 						int startX = 4;
 						int endX;
 						if(moves[i + 4] != '-')
@@ -225,7 +225,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 						move.castling = true;
 					}
 				} else {
-					PieceChar pieceChar = ((turn == WHITE) ? PAWNWHITE : PAWNBLACK);
+					PieceChar pieceChar = ((turn == Color::White) ? PieceChar::PawnWhite : PieceChar::PawnBlack);
 					// pawn move (not take)
 					if(moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!' || moves.length() <= i + 3) {
 						int col = getColumnAsNumber(moves[i + 1]);
@@ -284,26 +284,26 @@ void Board::importFakePGN(std::string moves) {
 		}
 		if(moves[i] == ' ' || i == static_cast<int>(moves.length()) - 1) {
 			Move* newMove = new Move(move);
-			if(getPiece(newMove->startX, newMove->startY)->getIndex() == KINGINDEX)
+			if(getPiece(newMove->startX, newMove->startY)->getIndex() == static_cast<int>(PieceIndex::King))
 				if(move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8")
 					newMove->castling = true;
 
 			// check pawn "stuff"
-			if(getPiece(newMove->startX, newMove->startY)->getIndex() == PAWNINDEX) {
+			if(getPiece(newMove->startX, newMove->startY)->getIndex() == static_cast<int>(PieceIndex::Pawn)) {
 				// if promotion
-				if(newMove->endY == BACKROWWHITE || newMove->endY == BACKROWBLACK) {
+				if(newMove->endY == static_cast<int>(BackRow::White) || newMove->endY == static_cast<int>(BackRow::Black)) {
 					// if promotion to something else
-					PieceIndex type = QUEENINDEX;
+					PieceIndex type = PieceIndex::Queen;
 					if(move.length() == 5) {
 						switch(move[4]) {
 							case 'r':
-							type = ROOKINDEX;
+							type = PieceIndex::Rook;
 							break;
 							case 'n':
-							type = KNIGHTINDEX;
+							type = PieceIndex::Knight;
 							break;
 							case 'b':
-							type = BISHOPINDEX;
+							type = PieceIndex::Bishop;
 							break;
 						}
 					}
@@ -349,31 +349,31 @@ bool Board::isSquareEmpty(int x, int y) {
 bool Board::isSquareEnemy(Color color, int x, int y) {
 	if(isSquareEmpty(x, y))
 		return false;
-	return getPiece(x, y)->color == ((color == WHITE) ? BLACK : WHITE);
+	return getPiece(x, y)->color == ((color == Color::White) ?Color::Black : Color::White);
 }
 
 void Board::setStartPos() {
 	clearBoard();
 	for(int x = 0; x < WIDTH; x++) {
-		placePiece(PAWNBLACK, x, PAWNROWBLACK);
-		placePiece(PAWNWHITE, x, PAWNROWWHITE);
+		placePiece(PieceChar::PawnBlack, x, static_cast<int>(PawnRow::Black));
+		placePiece(PieceChar::PawnWhite, x, static_cast<int>(PawnRow::White));
 	}
-	placePiece(ROOKWHITE, 0, BACKROWWHITE);
-	placePiece(ROOKWHITE, 7, BACKROWWHITE);
-	placePiece(ROOKBLACK, 0, BACKROWBLACK);
-	placePiece(ROOKBLACK, 7, BACKROWBLACK);
-	placePiece(KNIGHTWHITE, 1, BACKROWWHITE);
-	placePiece(KNIGHTWHITE, 6, BACKROWWHITE);
-	placePiece(KNIGHTBLACK, 1, BACKROWBLACK);
-	placePiece(KNIGHTBLACK, 6, BACKROWBLACK);
-	placePiece(BISHOPWHITE, 2, BACKROWWHITE);
-	placePiece(BISHOPWHITE, 5, BACKROWWHITE);
-	placePiece(BISHOPBLACK, 2, BACKROWBLACK);
-	placePiece(BISHOPBLACK, 5, BACKROWBLACK);
-	placePiece(KINGWHITE, 4, BACKROWWHITE);
-	placePiece(KINGBLACK, 4, BACKROWBLACK);
-	placePiece(QUEENWHITE, 3, BACKROWWHITE);
-	placePiece(QUEENBLACK, 3, BACKROWBLACK);
+	placePiece(PieceChar::RookWhite, 0, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::RookWhite, 7, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::RookBlack, 0, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::RookBlack, 7, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::KnightWhite, 1, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::KnightWhite, 6, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::KnightBlack, 1, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::KnightBlack, 6, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::BishopWhite, 2, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::BishopWhite, 5, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::BishopBlack, 2, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::BishopBlack, 5, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::KingWhite, 4, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::KingBlack, 4, static_cast<int>(BackRow::Black));
+	placePiece(PieceChar::QueenWhite, 3, static_cast<int>(BackRow::White));
+	placePiece(PieceChar::QueenBlack, 3, static_cast<int>(BackRow::Black));
 	zobrist->incrementCurrentHash();
 }
 
@@ -392,10 +392,10 @@ void Board::setTurn(Color turn) {
 }
 
 void Board::switchTurn() {
-	if(turn == WHITE)
-		turn = BLACK;
+	if(turn == Color::White)
+		turn =Color::Black;
 	else {
-		turn = WHITE;
+		turn = Color::White;
 		this->turnNumber++;
 	}
 }
@@ -406,11 +406,11 @@ void Board::placePiece(Piece* piece, int x, int y) {
 	piece->y = y;
 	this->zobrist->flipSquare(x, y, piece->getIndex(), static_cast<int>(piece->color));
 	pieceCount[0]++;
-	pieceCount[1 + piece->color]++;
-	if(piece->getIndex() == PAWNINDEX)
+	pieceCount[1 + static_cast<int>(piece->color)]++;
+	if(piece->getIndex() == static_cast<int>(PieceIndex::Pawn))
 		pawnsOnFile[x]++;
-	else if(piece->getIndex() == KINGINDEX)
-		kingPos[piece->color] = Point(piece->x, piece->y);
+	else if(piece->getIndex() == static_cast<int>(PieceIndex::King))
+		kingPos[static_cast<int>(piece->color)] = Point(piece->x, piece->y);
 }
 
 void Board::placePiece(PieceChar piece, int x, int y) {
@@ -426,7 +426,7 @@ void Board::removePiece(int x, int y) {
 		this->zobrist->flipSquare(x, y, index, color);
 		pieceCount[0]--;
 		pieceCount[1 + color]--;
-		if(piece->getIndex() == PAWNINDEX)
+		if(piece->getIndex() == static_cast<int>(PieceIndex::Pawn))
 			pawnsOnFile[x]--;
 	}
 
@@ -441,41 +441,41 @@ Piece* Board::getPiece(int x, int y) {
 
 Piece* Board::getPieceFromChar(PieceChar piece) {
 	switch(piece) {
-		case PAWNWHITE:
-		return new Pawn(WHITE);
+		case PieceChar::PawnWhite:
+		return new Pawn(Color::White);
 
-		case PAWNBLACK:
-		return new Pawn(BLACK);
+		case PieceChar::PawnBlack:
+		return new Pawn(Color::Black);
 
-		case ROOKWHITE:
-		return new Rook(WHITE);
+		case PieceChar::RookWhite:
+		return new Rook(Color::White);
 
-		case ROOKBLACK:
-		return new Rook(BLACK);
+		case PieceChar::RookBlack:
+		return new Rook(Color::Black);
 
-		case KNIGHTWHITE:
-		return new Knight(WHITE);
+		case PieceChar::KnightWhite:
+		return new Knight(Color::White);
 
-		case KNIGHTBLACK:
-		return new Knight(BLACK);
+		case PieceChar::KnightBlack:
+		return new Knight(Color::Black);
 
-		case BISHOPWHITE:
-		return new Bishop(WHITE);
+		case PieceChar::BishopWhite:
+		return new Bishop(Color::White);
 
-		case BISHOPBLACK:
-		return new Bishop(BLACK);
+		case PieceChar::BishopBlack:
+		return new Bishop(Color::Black);
 
-		case QUEENWHITE:
-		return new Queen(WHITE);
+		case PieceChar::QueenWhite:
+		return new Queen(Color::White);
 
-		case QUEENBLACK:
-		return new Queen(BLACK);
+		case PieceChar::QueenBlack:
+		return new Queen(Color::Black);
 
-		case KINGWHITE:
-		return new King(WHITE);
+		case PieceChar::KingWhite:
+		return new King(Color::White);
 
-		case KINGBLACK:
-		return new King(BLACK);
+		case PieceChar::KingBlack:
+		return new King(Color::Black);
 
 		default:
 		throw std::invalid_argument("Invalid direction " + (int) piece);
@@ -485,43 +485,43 @@ Piece* Board::getPieceFromChar(PieceChar piece) {
 PieceChar Board::getPieceCharFromChar(char piece) {
 	switch(piece) {
 		case 'P':
-		return PAWNWHITE;
+		return PieceChar::PawnWhite;
 
 		case 'p':
-		return PAWNBLACK;
+		return PieceChar::PawnBlack;
 
 		case 'R':
-		return ROOKWHITE;
+		return PieceChar::RookWhite;
 
 		case 'r':
-		return ROOKBLACK;
+		return PieceChar::RookBlack;
 
 		case 'N':
-		return KNIGHTWHITE;
+		return PieceChar::KnightWhite;
 
 		case 'n':
-		return KNIGHTBLACK;
+		return PieceChar::KnightBlack;
 
 		case 'B':
-		return BISHOPWHITE;
+		return PieceChar::BishopWhite;
 
 		case 'b':
-		return BISHOPBLACK;
+		return PieceChar::BishopBlack;
 
 		case 'Q':
-		return QUEENWHITE;
+		return PieceChar::QueenWhite;
 
 		case 'q':
-		return QUEENBLACK;
+		return PieceChar::QueenBlack;
 
 		case 'K':
-		return KINGWHITE;
+		return PieceChar::KingWhite;
 
 		case 'k':
-		return KINGBLACK;
+		return PieceChar::KingBlack;
 
 		default:
-		return BLANK;
+		return PieceChar::Blank;
 	}
 }
 
@@ -529,30 +529,30 @@ PieceIndex Board::getPieceIndexFromChar(char piece) {
 	switch(piece) {
 		case 'P':
 		case 'p':
-		return PAWNINDEX;
+		return PieceIndex::Pawn;
 
 		case 'R':
 		case 'r':
-		return ROOKINDEX;
+		return PieceIndex::Rook;
 
 		case 'N':
 		case 'n':
-		return KNIGHTINDEX;
+		return PieceIndex::Knight;
 
 		case 'B':
 		case 'b':
-		return BISHOPINDEX;
+		return PieceIndex::Bishop;
 
 		case 'Q':
 		case 'q':
-		return QUEENINDEX;
+		return PieceIndex::Queen;
 
 		case 'K':
 		case 'k':
-		return KINGINDEX;
+		return PieceIndex::King;
 
 		default:
-		return NONEINDEX;
+		return PieceIndex::Blank;
 	}
 }
 
@@ -581,13 +581,13 @@ void Board::doMove(Move* move) {
 		removePiece(move->endX, move->endY);
 		PieceChar capturedPiece = move->target->getPieceChar();
 
-		if(capturedPiece == KINGWHITE)
-			kingAlive[WHITE] = false;
-		else if(capturedPiece == KINGBLACK)
-			kingAlive[BLACK] = false;
+		if(capturedPiece == PieceChar::KingWhite)
+			kingAlive[static_cast<int>(Color::White)] = false;
+		else if(capturedPiece == PieceChar::KingBlack)
+			kingAlive[static_cast<int>(Color::Black)] = false;
 	}
 	Piece* piece = getPiece(move->startX, move->startY);
-	if(piece->getIndex() == KINGINDEX) {
+	if(piece->getIndex() == static_cast<int>(PieceIndex::King)) {
 		int side = static_cast<int>(piece->color);
 
 		for(int i = 0; i < 2; i++) {
@@ -615,7 +615,7 @@ void Board::doMove(Move* move) {
 
 
 		}
-	} else if(piece->getIndex() == ROOKINDEX) {
+	} else if(piece->getIndex() == static_cast<int>(PieceIndex::Rook)) {
 		int side = static_cast<int>(piece->color);
 		if(piece->x == 0 && castlingValid[side][0]) {
 			move->disallowedCastling[0] = true;
@@ -626,19 +626,19 @@ void Board::doMove(Move* move) {
 			move->disallowedCastling[1] = true;
 			castlingValid[side][1] = false;
 		}
-	} else if(piece->getIndex() == PAWNINDEX) {
+	} else if(piece->getIndex() == static_cast<int>(PieceIndex::Pawn)) {
 		if(move->promotion) {
 			switch(move->promotionType) {
-				case ROOKINDEX:
+				case PieceIndex::Rook:
 				piece = new Rook(piece->color);
 				break;
-				case KNIGHTINDEX:
+				case PieceIndex::Knight:
 				piece = new Knight(piece->color);
 				break;
-				case BISHOPINDEX:
+				case PieceIndex::Bishop:
 				piece = new Bishop(piece->color);
 				break;
-				case QUEENINDEX:
+				case PieceIndex::Queen:
 				default:
 				piece = new Queen(piece->color);
 				break;
@@ -646,7 +646,7 @@ void Board::doMove(Move* move) {
 			piece->x = move->endX;
 			piece->y = move->endY;
 		} else if(move->enPassantTake) {
-			int passedPawnYPosition = ((piece->color == WHITE) ? 4 : 3);
+			int passedPawnYPosition = ((piece->color == Color::White) ? 4 : 3);
 			move->setTarget(getPiece(move->endX, passedPawnYPosition));
 			removePiece(move->endX, passedPawnYPosition);
 		}
@@ -715,7 +715,7 @@ bool Board::isKingVulnerable(Color side) {
 	for(int y = 0; y < HEIGHT; y++) {
 		for(int x = 0; x < WIDTH; x++) {
 			if(isSquareEnemy(side, x, y)) {
-				if(getPiece(x, y)->checkIfPosPossible(*(this), kingPos[side]))
+				if(getPiece(x, y)->checkIfPosPossible(*(this), kingPos[static_cast<int>(side)]))
 					return true;
 			}
 		}

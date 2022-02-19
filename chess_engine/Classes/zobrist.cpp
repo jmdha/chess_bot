@@ -47,7 +47,7 @@ unsigned long int Zobrist::getHash() {
 }
 
 void Zobrist::flipSquare(int x, int y, int index, int color) {
-	unsigned long int value = ZOBRISTVALUEBOARD[x][y][index][color];
+	unsigned long int value = ZobristValueBoard[x][y][index][color];
 	this->currentHash = this->currentHash ^ value;
 }
 

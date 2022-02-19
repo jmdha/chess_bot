@@ -5,10 +5,10 @@ Queen::Queen(Color color) : Piece(color) {
 }
 
 PieceChar Queen::getPieceChar() {
-	if(this->color == WHITE)
-		return QUEENWHITE;
+	if(this->color == Color::White)
+		return PieceChar::QueenWhite;
 	else
-		return QUEENBLACK;
+		return PieceChar::QueenBlack;
 }
 
 std::vector<Move> Queen::getPossibleMoves(Board board) {
@@ -47,11 +47,11 @@ Move Queen::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Queen::getValue() {
-	return VALUEQUEEN + VALUEQUEENPOS[x][(this->color == WHITE) ? y : HEIGHT - 1];
+	return static_cast<int>(Value::Queen) + ValueQueenPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Queen::getIndex() {
-	return QUEENINDEX;
+	return static_cast<int>(PieceIndex::Queen);
 }
 
 bool Queen::checkIfPosPossible(Board board, Point pos) {

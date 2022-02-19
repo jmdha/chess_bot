@@ -21,13 +21,13 @@ void RunDefaultEngine(int depth, std::string importArg = "") {
 	if(move.startX == -1 || move.startY == -1) {
 		switch (move.value)
 		{
-		case VALUEDRAW:
+		case static_cast<int>(Value::Draw):
 			printf("draw\n%s\n", getStatString(move, duration.count(), depth, board.pieceCount[0]).c_str());
 			break;
-		case VALUEMATE:
+		case static_cast<int>(Value::Mate):
 			printf("win\n%s\n", getStatString(move, duration.count(), depth, board.pieceCount[0]).c_str());
 			break;
-		case -VALUEMATE:
+		case -static_cast<int>(Value::Mate):
 			printf("loss\n%s\n", getStatString(move, duration.count(), depth, board.pieceCount[0]).c_str());
 			break;
 		}

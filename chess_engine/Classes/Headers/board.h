@@ -36,7 +36,7 @@ public:
 	int pawnsOnFile[8] = {2};
 	Zobrist* zobrist;
 	int enPassant;
-	Color turn = WHITE;
+	Color turn = Color::White;
 	Color startTurn;
 
 	Board();

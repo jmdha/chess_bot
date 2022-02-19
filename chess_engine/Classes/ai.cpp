@@ -290,7 +290,7 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int s
 Move getBestMove(Board* board, int depth) {
 	int totalMovesChecked = 0;
 	board->startTurn = board->turn;
-	Move move = minimax(board, depth, true, board->turn, -VALUEINFINITE, VALUEINFINITE, false, &totalMovesChecked, 0);
+	Move move = minimax(board, depth, true, board->turn, -static_cast<int>(Value::Infinite), static_cast<int>(Value::Infinite), false, &totalMovesChecked, 0);
 	return move;
 }
 
@@ -300,22 +300,22 @@ std::mt19937 g(rd());
 Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves, int accDepth) {
 	(*totalMoves) += 1;
 	Move bestMove;
-	Color oppositeColor = ((currentTurn == WHITE) ? BLACK : WHITE);
+	Color oppositeColor = ((currentTurn == Color::White) ? Color::Black : Color::White);
 
 	// check if the position has occured more than 2 times
 	// this is to check for draw
 	if(board->zobrist->priorInstanceCount.at(board->zobrist->getHash()) > 2) {
 		int multiplier = ((currentTurn == board->turn) ? 1 : -1);
-		bestMove.value = VALUEDRAW * multiplier;
+		bestMove.value = static_cast<int>(Value::Draw) * multiplier;
 		bestMove.moveDepth = accDepth;
 		return bestMove;
 	}
 
 	if(isMax)
-		bestMove.value = -VALUEINFINITE;
+		bestMove.value = -static_cast<int>(Value::Infinite);
 	else
-		bestMove.value = VALUEINFINITE;
-	if(depth == 0 || !board->kingAlive[currentTurn] || !board->kingAlive[oppositeColor]) {
+		bestMove.value = static_cast<int>(Value::Infinite);
+	if(depth == 0 || !board->kingAlive[static_cast<int>(currentTurn)] || !board->kingAlive[static_cast<int>(oppositeColor)]) {
 		bestMove.value = board->evaluateBoard(board->turn);
 		bestMove.moveDepth = accDepth;
 		return bestMove;
@@ -338,11 +338,11 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 	if(static_cast<int>(moves.size()) == 0) {
 		if(board->isKingVulnerable(currentTurn))
 			if(board->turn != currentTurn)
-				bestMove.value = VALUEMATE;
+				bestMove.value = static_cast<int>(Value::Mate);
 			else
-				bestMove.value = -VALUEMATE;
+				bestMove.value = -static_cast<int>(Value::Mate);
 		else
-			bestMove.value = VALUEDRAW;
+			bestMove.value = static_cast<int>(Value::Draw);
 		bestMove.moveDepth = accDepth;
 		return bestMove;
 	}

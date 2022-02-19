@@ -5,10 +5,10 @@ Rook::Rook(Color color) : Piece(color) {
 }
 
 PieceChar Rook::getPieceChar() {
-	if(this->color == WHITE)
-		return ROOKWHITE;
+	if(this->color == Color::White)
+		return PieceChar::RookWhite;
 	else
-		return ROOKBLACK;
+		return PieceChar::RookBlack;
 }
 
 std::vector<Move> Rook::getPossibleMoves(Board board) {
@@ -20,18 +20,18 @@ std::vector<Move> Rook::getPossibleMoves(Board board) {
 
 	for(int i = 0; i < 4; i++) {
 
-		Direction dir = WEST;
+		Direction dir = Direction::West;
 		switch(i) {
 			case 0:
-			dir = NORTH;
+			dir = Direction::North;
 			break;
 
 			case 1:
-			dir = EAST;
+			dir = Direction::East;
 			break;
 
 			case 2:
-			dir = SOUTH;
+			dir = Direction::South;
 			break;
 		}
 		tempMoveList = this->getPossibleMovesInDirection(board, dir, 8);
@@ -48,18 +48,18 @@ Move Rook::getMoveIfPossible(Board board, Point endPos) {
 
 	for(int i = 0; i < 4; i++) {
 
-		Direction dir = WEST;
+		Direction dir = Direction::West;
 		switch(i) {
 			case 0:
-			dir = NORTH;
+			dir = Direction::North;
 			break;
 
 			case 1:
-			dir = EAST;
+			dir = Direction::East;
 			break;
 
 			case 2:
-			dir = SOUTH;
+			dir = Direction::South;
 			break;
 		}
 		moves = this->getPossibleMovesInDirection(board, dir, 8);
@@ -73,11 +73,11 @@ Move Rook::getMoveIfPossible(Board board, Point endPos) {
 }
 
 int Rook::getValue() {
-	return VALUEROOK + VALUEROOKPOS[x][(this->color == WHITE) ? y : HEIGHT - 1];
+	return static_cast<int>(Value::Rook) + ValueRookPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
 int Rook::getIndex() {
-	return ROOKINDEX;
+	return static_cast<int>(PieceIndex::Rook);
 }
 
 bool Rook::checkIfPosPossible(Board board, Point pos) {
