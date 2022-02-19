@@ -37,7 +37,7 @@ class Api {
     }
 
     sendMove(id, move) {
-        this.post(`/api/bot/game/${id}/move/${move}`);
+        this.post(`/api/bot/game/${encodeURI(id)}/move/${encodeURI(move)}`);
     }
 
     post(path, body) {

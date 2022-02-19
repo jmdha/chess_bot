@@ -42,7 +42,7 @@ class InstanceManager extends EventEmitter {
                 this.ui.display(this.instances);
                 if (this.autoChallengeAI)
                     if (this.instances.length == 0)
-                        api.challengeAI();
+                        this.api.challengeAI();
                 break;
         }
     }
