@@ -667,11 +667,13 @@ void Board::doMove(Move* move) {
 	removePiece(move->startX, move->startY);
 	placePiece(piece, move->endX, move->endY);
 	this->zobrist->incrementCurrentHash();
+	turnCount++;
 }
 
 // assumes valid move
 void Board::undoMove(Move* move) {
 	this->zobrist->decrementCurrentHash();
+	turnCount--;
 	Piece* piece = getPiece(move->endX, move->endY);
 
 	int side = (int) piece->color;

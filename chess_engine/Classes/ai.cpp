@@ -292,14 +292,19 @@ Move getBestMove(Board* board, int maxTime) {
 	board->startTurn = board->turn;
 
 	auto startTime = std::chrono::high_resolution_clock::now();
+	long long accTime = 0;
 
 	Move move;
 
 	for (int i = 1; i <= MAXDEPTH; i++) {
+		startTime = std::chrono::high_resolution_clock::now();
 		move = minimax(board, i, true, board->turn, -((int)Value::Infinite), (int)Value::Infinite, false, &totalMovesChecked, 0);
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count() > maxTime)
+		auto timeSpent = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
+		accTime += timeSpent;
+		auto estimatedTimeForNextMove = timeSpent * 20;
+		if (accTime + estimatedTimeForNextMove > maxTime / (20 + board->turnCount))
 			break;
 	}
 
