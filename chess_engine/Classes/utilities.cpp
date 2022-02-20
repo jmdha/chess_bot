@@ -25,9 +25,8 @@ bool isLowercase(char charToCheck) {
 		return true;
 }
 
-std::string getStatString(Move move, int64_t duration, int depth, int pieceCount) {
+std::string getStatString(Move move, int64_t duration, int pieceCount) {
 	std::string statString = "";
-	statString.append("Search depth: " + std::to_string(depth) + "\n");
 	statString.append("Piece count: " + std::to_string(pieceCount) + "\n");
 	statString.append("Time (ms): " + std::to_string(duration) + "\n");
 	statString.append("Total moves: " + std::to_string(move.totalMoves));

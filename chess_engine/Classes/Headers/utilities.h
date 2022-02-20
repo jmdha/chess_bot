@@ -12,6 +12,6 @@ int getRowAsNumber(char row);
 
 bool isLowercase(char charToCheck);
 
-std::string getStatString(Move move, int64_t duration, int depth, int pieceCount);
+std::string getStatString(Move move, int64_t duration, int pieceCount);
 
 #endif

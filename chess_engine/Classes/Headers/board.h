@@ -39,6 +39,7 @@ public:
 	int enPassant;
 	Color turn = Color::White;
 	Color startTurn;
+	int turnCount = 0;
 
 	Board();
 

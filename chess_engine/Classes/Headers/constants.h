@@ -5,6 +5,8 @@
 #define HEIGHT 8
 #define PIECECOUNT 6
 
+#define MAXDEPTH 10
+
 #define HEDEPTH 4
 
 // Colors has to be in the range 0-1 (used in zobrist init)

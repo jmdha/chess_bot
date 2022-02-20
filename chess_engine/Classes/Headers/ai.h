@@ -1,10 +1,12 @@
 #ifndef Ai_H
 #define Ai_H
 
+#include <vector>
+#include <chrono>
+
 #include "move.h"
 #include "point.h"
 #include "board.h"
-#include <vector>
 #include "constants.h"
 
 Move getValidMove(Board board, Point endPos, PieceIndex promotionType, PieceChar pieceChar);
@@ -19,7 +21,7 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int s
 std::vector<Move> getAllMovesOfPieceChar(Board board, int startRow, PieceChar pieceChar);
 std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int startCol, int startRow);
 
-Move getBestMove(Board* board, int depth);
+Move getBestMove(Board* board, int maxTime);
 Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int b, bool doingHE, int* totalMoves, int accDepth);
 
 #endif

@@ -287,11 +287,29 @@ std::vector<Move> getAllMovesOfPieceChar(Board board, PieceChar pieceChar, int s
 	return moves;
 }
 
-Move getBestMove(Board* board, int depth) {
+Move getBestMove(Board* board, int maxTime) {
 	int totalMovesChecked = 0;
 	board->startTurn = board->turn;
-	Move move = minimax(board, depth, true, board->turn, -((int) Value::Infinite), (int) Value::Infinite, false, &totalMovesChecked, 0);
+
+	auto startTime = std::chrono::high_resolution_clock::now();
+	long long accTime = 0;
+
+	Move move;
+
+	for (int i = 1; i <= MAXDEPTH; i++) {
+		startTime = std::chrono::high_resolution_clock::now();
+		move = minimax(board, i, true, board->turn, -((int)Value::Infinite), (int)Value::Infinite, false, &totalMovesChecked, 0);
+
+		auto currentTime = std::chrono::high_resolution_clock::now();
+		auto timeSpent = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
+		accTime += timeSpent;
+		auto estimatedTimeForNextMove = timeSpent * 20;
+		if (accTime + estimatedTimeForNextMove > maxTime / (20 + board->turnCount))
+			break;
+	}
+
 	return move;
+
 }
 
 std::random_device rd;
@@ -381,7 +399,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 			bestMove.moveDepth = move.moveDepth;
 		}
 
-
+		
 		if(isMax) {
 			a = std::max(move.value, a);
 			if(a >= b)
@@ -391,6 +409,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 			if(b <= a)
 				break;
 		}
+		
 
 
 
