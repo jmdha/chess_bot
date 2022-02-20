@@ -31,26 +31,26 @@ class Instance {
         switch (event.type) {
             case 'gameFull':
                 this.setInstanceColor(event.white.id == this.api.botID);
-                this.handleMove(event.state.moves);
+                this.handleMove(event.clock.initial, event.state.moves);
                 break;
             case 'gameState':
-                this.handleMove(event.moves);
+                this.handleMove(event.btime, event.moves);
                 break;
         }
     }
 
-    handleMove(moves) {
+    handleMove(time, moves) {
         if (!this.isInstanceColor(moves)) {
             this.updateState('Waiting for Opponent');
             return;
         }
         
-        this.generateMove(this, moves, this.playMove)
+        this.generateMove(this, time, moves, this.playMove)
     }
 
-    generateMove(instance, moves, callback) {
+    generateMove(instance, time, moves, callback) {
         this.updateState('Generating Move');
-        exec.exec(this.enginePath + " \"" + moves + "\"", (err, stdout) => {
+        exec.exec(this.enginePath + " \"" + time + "\"" + " \"" + moves + "\"", (err, stdout) => {
             callback(instance, err, stdout);
         });
     }
