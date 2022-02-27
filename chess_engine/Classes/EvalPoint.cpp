@@ -38,13 +38,6 @@ void EvalPoint::incrementCurrentHash()
 	instanceCount++;
 }
 
-void EvalPoint::incrementCurrentHash(int depth, int value)
-{
-	evalDepth = depth;
-	value = value;
-	incrementCurrentHash();
-}
-
 void EvalPoint::decrementCurrentHash()
 {
 	instanceCount--;

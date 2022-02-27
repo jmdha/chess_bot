@@ -47,17 +47,10 @@ void Zobrist::initializeHash() {
 
 void Zobrist::incrementCurrentHash()
 {
-	if (this->evalPoints.find(this->getHash()) == this->evalPoints.end())
+	if (this->evalPoints.find(this->getHash()) == this->evalPoints.end()) {
 		this->evalPoints.emplace(this->getHash(), EvalPoint());
-	else
-		this->evalPoints.at(this->getHash()).incrementCurrentHash();
-}
-
-void Zobrist::incrementCurrentHash(int depth, int value) {
-	if(this->evalPoints.find(this->getHash()) == this->evalPoints.end())
-		this->evalPoints.emplace(this->getHash(), EvalPoint(depth, value));
-	else
-		this->evalPoints.at(this->getHash()).incrementCurrentHash(depth, value);
+	}
+	this->evalPoints.at(this->getHash()).incrementCurrentHash();
 }
 
 void Zobrist::decrementCurrentHash() {

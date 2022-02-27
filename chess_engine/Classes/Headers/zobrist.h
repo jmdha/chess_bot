@@ -19,7 +19,6 @@ public:
 	void flipSquare(int x, int y, int index, int color);
 	void StoreEval(int depth, int value);
 	void incrementCurrentHash();
-	void incrementCurrentHash(int depth, int value);
 	void decrementCurrentHash();
 	void Clear();
 

@@ -10,7 +10,6 @@ public:
 	bool GetValue(int depth, int& value);
 	void StoreEval(int depth, int value);
 	void incrementCurrentHash();
-	void incrementCurrentHash(int depth, int value);
 	void decrementCurrentHash();
 
 private:
