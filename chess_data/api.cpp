@@ -63,4 +63,5 @@ bool api::executeUpdateQuery(std::string query) {
 		return false;
 	}
 	*/
+	return true;
 }

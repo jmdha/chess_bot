@@ -312,6 +312,11 @@ Move getBestMove(Board* board, int maxTime) {
 
 }
 
+Move generateMove(Board* board, int depth, int& totalMoves)
+{
+	return minimax(board, depth, true, board->turn, -((int)Value::Infinite), (int)Value::Infinite, false, &totalMoves, 0);
+}
+
 std::random_device rd;
 std::mt19937 g(rd());
 

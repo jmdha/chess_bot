@@ -7,7 +7,7 @@
 #include "config_manager.h"
 #include "constants.h"
 #include "pgn_reader.h"
-#include "pgn_hasher.h"
+//#include "pgn_hasher.h"
 
 api* API;
 
@@ -16,7 +16,7 @@ void callbackOnMatch(std::unordered_map<PGNLineInfo, std::string> matchInformati
 
 	auto old_buf = std::cout.rdbuf(ss.rdbuf());
 
-	hashMoves(matchInformation[PGNLineInfo::MOVES]);
+	//hashMoves(matchInformation[PGNLineInfo::MOVES]);
 
 	std::cout.rdbuf(old_buf);
 

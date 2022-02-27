@@ -1,3 +1,0 @@
-# Path is writte relative to CMakeLists.txt in parent folder
-include(tests/ai/getBestMoveTest.txt)
-include(tests/board/importFakePGNTest.txt)
