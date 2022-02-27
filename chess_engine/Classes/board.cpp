@@ -48,7 +48,6 @@ void Board::importFEN(std::string FEN) {
 	}
 
 	this->zobrist->incrementCurrentHash();
-	//this->zobrist->initializeHash();
 
 	if(FEN.length() == 0)
 		return;
@@ -128,7 +127,7 @@ std::string Board::getFEN() {
 
 void Board::importPGN(std::string moves, bool exportMovePerHash) {
 	this->turnNumber = 1;
-	this->zobrist->priorInstanceCount.clear();
+	this->zobrist->Clear();
 	this->zobrist->incrementCurrentHash();
 	Move move;
 	std::string moveString;
@@ -275,7 +274,7 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 
 void Board::importFakePGN(std::string moves) {
 	this->turnNumber = 1;
-	this->zobrist->priorInstanceCount.clear();
+	this->zobrist->Clear();
 	this->zobrist->incrementCurrentHash();
 	std::string move = "";
 	for(int i = 0; i < (int) moves.length(); i++) {

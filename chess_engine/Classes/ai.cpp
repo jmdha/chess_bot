@@ -304,7 +304,7 @@ Move getBestMove(Board* board, int maxTime) {
 		auto timeSpent = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
 		accTime += timeSpent;
 		auto estimatedTimeForNextMove = timeSpent * 20;
-		if (accTime + estimatedTimeForNextMove > maxTime / (20 + board->turnCount))
+		if (accTime + estimatedTimeForNextMove > maxTime / std::max(1, (20 - (32 - board->pieceCount[0]) ) ) )
 			break;
 	}
 
@@ -322,7 +322,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 	// check if the position has occured more than 2 times
 	// this is to check for draw
-	if(board->zobrist->priorInstanceCount.at(board->zobrist->getHash()) > 2) {
+	if(board->zobrist->GetCurrentInstanceCount() > 2) {
 		int multiplier = ((currentTurn == board->turn) ? 1 : -1);
 		bestMove.value = (int) Value::Draw * multiplier;
 		bestMove.moveDepth = accDepth;
@@ -339,18 +339,11 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 		return bestMove;
 	}
 
-
-
-
 	std::vector<Move> moves = getAllMoves(*board, currentTurn);
 
 	for(int i = 0; i < (int) moves.size(); i++)
 		moves[i].moveSizeBatch = (int) moves.size();
 		
-
-		
-
-	
 	//std::shuffle(moves.begin(), moves.end(), g);
 
 	if((int) moves.size() == 0) {
@@ -369,17 +362,22 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 
 		board->doMove(&(moves[i]));
 
-		// Go deeper
-		if(depth == 1 && !doingHE && 
-		(moves[i].target != NULL || 
-		board->isKingVulnerable(currentTurn) || 
-		board->pieceCount[(int) 0] < 8))
-			move = minimax(board, HEDEPTH, !isMax, oppositeColor, a, b, true, totalMoves, accDepth + 1);
-		else {
-			if(doingHE && moves[i].target == NULL)
-				move = minimax(board, 0, !isMax, oppositeColor, a, b, doingHE, totalMoves, accDepth + 1);
-			else
-				move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, doingHE, totalMoves, accDepth + 1);
+		// If the position has not already been evaluated
+		if (!board->zobrist->GetValue(depth, move.value)) {
+			// Go deeper
+			if (depth == 1 && !doingHE &&
+				(moves[i].target != NULL ||
+					board->isKingVulnerable(currentTurn) ||
+					board->pieceCount[(int)0] < 8))
+				move = minimax(board, HEDEPTH, !isMax, oppositeColor, a, b, true, totalMoves, accDepth + 1);
+			else {
+				if (doingHE && moves[i].target == NULL)
+					move = minimax(board, 0, !isMax, oppositeColor, a, b, doingHE, totalMoves, accDepth + 1);
+				else
+					move = minimax(board, depth - 1, !isMax, oppositeColor, a, b, doingHE, totalMoves, accDepth + 1);
+			}
+
+			 board->zobrist->StoreEval(depth, move.value);
 		}
 
 		board->undoMove(&(moves[i]));
@@ -409,6 +407,7 @@ Move minimax(Board* board, int depth, bool isMax, Color currentTurn, int a, int 
 			if(b <= a)
 				break;
 		}
+		
 		
 
 

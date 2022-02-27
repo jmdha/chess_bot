@@ -6,44 +6,20 @@
 
 Zobrist::Zobrist(Board* board) {
 	this->board = board;
-	/*
-	* code for generating initial zobrist
-	* has been replaced by a constant as it takes a long time to generate
-	std::mt19937 gen(0);
-	std::uniform_int_distribution<unsigned long int> distribution(0, ULONG_MAX);
-	for (int y = 0; y < HEIGHT; y++)
-	{
-		printf("{");
-		for (int x = 0; x < WIDTH; x++)
-		{
-			printf("{");
-			for (int i = 0; i < 6; i++)
-			{
-				printf("{");
-				for (int j = 0; j < 2; j++)
-				{
-					this->valueBoard[x][y][i][j] = distribution(gen);
-					printf("%lu", this->valueBoard[x][y][i][j]);
-					if (j == 0)
-						printf(", ");
-				}
-				printf("}");
-				if (i != 6 - 1)
-					printf(",");
-			}
-			printf("}");
-			if (x != 8 - 1)
-				printf(",");
-		}
-		printf("}");
-		if (y != 8 - 1)
-			printf(",");
-	}
-	*/
 }
 
 unsigned long int Zobrist::getHash() {
 	return this->currentHash;
+}
+
+int Zobrist::GetCurrentInstanceCount()
+{
+	return evalPoints.at(currentHash).GetInstanceCount();
+}
+
+bool Zobrist::GetValue(int depth, int& value)
+{
+	return evalPoints.at(currentHash).GetValue(depth, value);
 }
 
 void Zobrist::flipSquare(int x, int y, int index, int color) {
@@ -51,12 +27,17 @@ void Zobrist::flipSquare(int x, int y, int index, int color) {
 	this->currentHash = this->currentHash ^ value;
 }
 
+void Zobrist::StoreEval(int depth, int value)
+{
+	evalPoints.at(currentHash).StoreEval(depth, value);
+}
+
 void Zobrist::initializeHash() {
 	this->currentHash = 0;
-	for(int y = 0; y < HEIGHT; y++) {
-		for(int x = 0; x < WIDTH; x++) {
-			for(int i = 0; i < 6; i++) {
-				for(int j = 0; j < 2; j++) {
+	for (int y = 0; y < HEIGHT; y++) {
+		for (int x = 0; x < WIDTH; x++) {
+			for (int i = 0; i < 6; i++) {
+				for (int j = 0; j < 2; j++) {
 					flipSquare(x, y, this->board->getPiece(x, y)->getIndex(), j);
 				}
 			}
@@ -64,18 +45,26 @@ void Zobrist::initializeHash() {
 	}
 }
 
-void Zobrist::incrementCurrentHash() {
-	if(this->priorInstanceCount.find(this->getHash()) == this->priorInstanceCount.end())
-		this->priorInstanceCount.emplace(this->getHash(), 1);
+void Zobrist::incrementCurrentHash()
+{
+	if (this->evalPoints.find(this->getHash()) == this->evalPoints.end())
+		this->evalPoints.emplace(this->getHash(), EvalPoint());
 	else
-		this->priorInstanceCount.at(this->getHash()) += 1;
+		this->evalPoints.at(this->getHash()).incrementCurrentHash();
+}
+
+void Zobrist::incrementCurrentHash(int depth, int value) {
+	if(this->evalPoints.find(this->getHash()) == this->evalPoints.end())
+		this->evalPoints.emplace(this->getHash(), EvalPoint(depth, value));
+	else
+		this->evalPoints.at(this->getHash()).incrementCurrentHash(depth, value);
 }
 
 void Zobrist::decrementCurrentHash() {
-	//if (this->priorInstanceCount.find(this->getHash()) != this->priorInstanceCount.end())
-	//{
-	this->priorInstanceCount.at(this->getHash()) -= 1;
-	//if (this->priorInstanceCount.at(this->getHash()) == 0)
-		//this->priorInstanceCount.erase(this->getHash());
-	//}
+	this->evalPoints.at(this->getHash()).decrementCurrentHash();
+}
+
+void Zobrist::Clear()
+{
+	evalPoints.clear();
 }

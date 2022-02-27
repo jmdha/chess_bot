@@ -110,6 +110,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -140,11 +141,13 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chess_engine.cpp" />
     <ClCompile Include="Classes\ai.cpp" />
+    <ClCompile Include="Classes\EvalPoint.cpp" />
     <ClCompile Include="Classes\board.cpp" />
     <ClCompile Include="Classes\move.cpp" />
     <ClCompile Include="Classes\piece.cpp" />
@@ -160,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Headers\ai.h" />
+    <ClInclude Include="Classes\Headers\EvalPoint.h" />
     <ClInclude Include="Classes\Headers\board.h" />
     <ClInclude Include="Classes\Headers\constants.h" />
     <ClInclude Include="Classes\Headers\engine.h" />

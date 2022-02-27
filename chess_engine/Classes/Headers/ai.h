@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <chrono>
+#include <math.h>
 
 #include "move.h"
 #include "point.h"

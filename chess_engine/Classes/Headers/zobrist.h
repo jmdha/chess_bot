@@ -6,24 +6,28 @@ class Board;
 #include <unordered_map>
 #include "constants.h"
 #include "board.h"
+#include "EvalPoint.h"
 
 class Zobrist {
 
 public:
-	std::unordered_map<unsigned long int, int> priorInstanceCount;
 	Zobrist(Board* board);
 	unsigned long int getHash();
+	int GetCurrentInstanceCount();
+	bool GetValue(int depth, int& value);
 	void initializeHash();
 	void flipSquare(int x, int y, int index, int color);
+	void StoreEval(int depth, int value);
 	void incrementCurrentHash();
+	void incrementCurrentHash(int depth, int value);
 	void decrementCurrentHash();
+	void Clear();
 
 
 private:
 	unsigned long int currentHash;
+	std::unordered_map<unsigned long int, EvalPoint> evalPoints;
 	Board* board;
-
-
 };
 
 #endif
