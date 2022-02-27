@@ -7,7 +7,7 @@
 
 #define MAXDEPTH 10
 
-#define HEDEPTH 4
+#define HEDEPTH 1
 
 // Colors has to be in the range 0-1 (used in zobrist init)
 enum class Color : int {

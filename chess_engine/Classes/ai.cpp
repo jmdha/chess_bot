@@ -303,8 +303,9 @@ Move getBestMove(Board* board, int maxTime) {
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		auto timeSpent = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - startTime).count();
 		accTime += timeSpent;
-		auto estimatedTimeForNextMove = timeSpent * 20;
-		if (accTime + estimatedTimeForNextMove > maxTime / std::max(1, (20 - (32 - board->pieceCount[0]) ) ) )
+		auto estimatedTimeForNextMove = timeSpent * 40;
+		auto threshold = maxTime / 20;
+		if (accTime + estimatedTimeForNextMove > threshold)
 			break;
 	}
 

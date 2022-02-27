@@ -12,7 +12,6 @@ namespace chessenginetest
 	TEST_CLASS(GenerateMoveTest)
 	{
 	public:
-		
 		TEST_METHOD(ForceCheckmateIn1_Depth1)
 		{
             Board board = Board();
@@ -41,6 +40,36 @@ namespace chessenginetest
             Move move = generateMove(&board, 2, totalMoves);
 
             Assert::AreEqual("c1c8", move.getMoveAsPlainString().c_str());
+        }
+
+        TEST_METHOD(ForceCheckmateIn1_Depth1_2)
+        {
+            Board board = Board();
+            board.importFEN("7k/1p5P/1p2P3/3pP3/1rbP4/2n5/8/K7 b");
+            for (int i = 0; i < 2; i++)
+                for (int i2 = 0; i2 < 2; i2++)
+                    board.castlingValid[i][i2] = false;
+
+            int totalMoves = 0;
+
+            Move move = generateMove(&board, 1, totalMoves);
+
+            Assert::AreEqual("b4b1", move.getMoveAsPlainString().c_str());
+        }
+
+        TEST_METHOD(ForceCheckmateIn1_Depth2_2)
+        {
+            Board board = Board();
+            board.importFEN("7k/1p5P/1p2P3/3pP3/1rbP4/2n5/8/K7 b");
+            for (int i = 0; i < 2; i++)
+                for (int i2 = 0; i2 < 2; i2++)
+                    board.castlingValid[i][i2] = false;
+
+            int totalMoves = 0;
+
+            Move move = generateMove(&board, 2, totalMoves);
+
+            Assert::AreEqual("b4b1", move.getMoveAsPlainString().c_str());
         }
 
         TEST_METHOD(ForceCheckmateIn2_Depth2)

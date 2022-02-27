@@ -181,6 +181,24 @@
       <Project>{9116d00f-c875-4d11-ab35-766d5ed8e737}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\chess_engine\Classes\Headers\ai.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\board.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\constants.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\engine.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\EvalPoint.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\move.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\piece.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\point.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\utilities.h" />
+    <ClInclude Include="..\chess_engine\Classes\Headers\zobrist.h" />
+    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\bishop.h" />
+    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\king.h" />
+    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\knight.h" />
+    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\pawn.h" />
+    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\queen.h" />
+    <ClInclude Include="..\chess_engine\Classes\Pieces\Headers\rook.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
