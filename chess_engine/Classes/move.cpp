@@ -5,7 +5,7 @@ Move::Move() {
 	this->startY = -1;
 	this->endX = -1;
 	this->endY = -1;
-	setTarget(NULL);
+	SetTarget(NULL);
 }
 
 Move::Move(int startX, int startY, int endX, int endY) {
@@ -13,7 +13,7 @@ Move::Move(int startX, int startY, int endX, int endY) {
 	this->startY = startY;
 	this->endX = endX;
 	this->endY = endY;
-	setTarget(NULL);
+	SetTarget(NULL);
 }
 
 Move::Move(std::string move) {
@@ -29,10 +29,10 @@ Move::Move(std::string move) {
 
 
 
-	setTarget(NULL);
+	SetTarget(NULL);
 }
 
-std::string Move::getMoveAsString() {
+std::string Move::GetMoveAsString() {
 	if(castling) {
 		if(this->endX == 6)
 			return "O-O";
@@ -47,13 +47,13 @@ std::string Move::getMoveAsString() {
 }
 
 // Difference between this and getMoveAsString is that this prints all moves as a single piece moving from one square to another;
-std::string Move::getMoveAsPlainString() {
+std::string Move::GetMoveAsPlainString() {
 	return (char) (this->startX + 97)
 		+ std::to_string(this->startY + 1)
 		+ (char) (this->endX + 97)
 		+ std::to_string(this->endY + 1);
 }
 
-void Move::setTarget(Piece* target) {
+void Move::SetTarget(Piece* target) {
 	this->target = target;
 }

@@ -22,12 +22,12 @@
 #include "Headers/utilities.h"
 
 Board::Board() {
-	setStartPos();
+	SetStartPos();
 }
 
 // assumes correct FEN string
-void Board::importFEN(std::string FEN) {
-	clearBoard();
+void Board::ImportFEN(std::string FEN) {
+	ClearBoard();
 	this->turnNumber = 1;
 
 	// import position
@@ -39,7 +39,7 @@ void Board::importFEN(std::string FEN) {
 			if(isdigit(currentChar)) {
 				remainingSquares -= (int) currentChar - 48;
 			} else {
-				placePiece(getPieceCharFromChar(currentChar), WIDTH - remainingSquares, y);
+				PlacePiece(GetPieceCharFromChar(currentChar), WIDTH - remainingSquares, y);
 				remainingSquares--;
 			}
 			FEN.erase(0, 1);
@@ -47,15 +47,15 @@ void Board::importFEN(std::string FEN) {
 		FEN.erase(0, 1);
 	}
 
-	this->zobrist->incrementCurrentHash();
+	this->zobrist->IncrementCurrentHash();
 
 	if(FEN.length() == 0)
 		return;
 	// import turn
 	if(FEN[0] == 'w')
-		setTurn(Color::White);
+		SetTurn(Color::White);
 	else
-		setTurn(Color::Black);
+		SetTurn(Color::Black);
 	FEN.erase(0, 2);
 
 	// import king availibity
@@ -93,19 +93,19 @@ void Board::importFEN(std::string FEN) {
 	// import full move
 }
 
-std::string Board::getFEN() {
+std::string Board::GetFEN() {
 	std::string FEN = "";
 
 	for(int y = HEIGHT - 1; y >= 0; y--) {
 		int blankCounter = 0;
 		for(int x = 0; x < WIDTH; x++) {
-			Piece* piece = getPiece(x, y);
+			Piece* piece = GetPiece(x, y);
 			if(piece == NULL)
 				blankCounter++;
 			else {
 				if(blankCounter != 0)
 					FEN.append(1, blankCounter + '0');
-				FEN.append(1, (int) piece->getPieceChar());
+				FEN.append(1, (int) piece->GetPieceChar());
 				blankCounter = 0;
 			}
 			if(x == 7 && piece == NULL && blankCounter != 0) {
@@ -125,10 +125,10 @@ std::string Board::getFEN() {
 	return FEN;
 }
 
-void Board::importPGN(std::string moves, bool exportMovePerHash) {
+void Board::ImportPGN(std::string moves, bool exportMovePerHash) {
 	this->turnNumber = 1;
 	this->zobrist->Clear();
-	this->zobrist->incrementCurrentHash();
+	this->zobrist->IncrementCurrentHash();
 	Move move;
 	std::string moveString;
 	enPassant = -1;
@@ -155,17 +155,17 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 			if(inComment || moves[i + 1] == '*')
 				continue;
 
-			if(moves[i + 1] != '.' && !isNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((isNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}' || moves[i - 1] == 'R' || moves[i - 1] == 'N' || moves[i - 1] == 'B' || moves[i - 1] == 'Q')))) {
+			if(moves[i + 1] != '.' && !IsNumber(moves[i + 1]) && (moves[i - 1] == '.' || ((IsNumber(moves[i - 1]) || moves[i - 1] == 'O' || moves[i - 1] == '+' || moves[i - 1] == '#' || moves[i - 1] == '}' || moves[i - 1] == 'R' || moves[i - 1] == 'N' || moves[i - 1] == 'B' || moves[i - 1] == 'Q')))) {
 
 				// get move
-				if(!isNumber(moves[i + 2])
+				if(!IsNumber(moves[i + 2])
 
 
-				   || (!isLowercase(moves[i + 1]) && isNumber(moves[i + 2]))) {
+				   || (!IsLowercase(moves[i + 1]) && IsNumber(moves[i + 2]))) {
 					if(moves[i + 1] != 'O') {
 						// Normal move
 						char tempPieceChar = moves[i + 1];
-						if(isLowercase(tempPieceChar))
+						if(IsLowercase(tempPieceChar))
 							tempPieceChar = ((turn == Color::White) ? (int) PieceChar::PawnWhite : (int) PieceChar::PawnBlack);
 						else if(turn == Color::Black)
 							tempPieceChar += 32;
@@ -174,29 +174,29 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 							if(moves[i + 5] == ' ' || moves[i + 5] == '+' || moves[i + 5] == '#' || moves[i + 5] == '?' || moves[i + 5] == '!') {
 								if(moves[i + 2] == 'x') {
 									// if pawn take
-									if(isLowercase(moves[i + 1]))
-										move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]));
+									if(IsLowercase(moves[i + 1]))
+										move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, GetColumnAsNumber(moves[i + 1]));
 									else
-										move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
-								} else if(isNumber(moves[i + 2])) {
-									move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
+										move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar);
+								} else if(IsNumber(moves[i + 2])) {
+									move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), GetRowAsNumber(moves[i + 2]), pieceChar);
 								} else
-									move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
-							} else if(isNumber(moves[i + 2])) {
-								move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 2]), pieceChar);
+									move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, GetColumnAsNumber(moves[i + 2]));
+							} else if(IsNumber(moves[i + 2])) {
+								move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), GetRowAsNumber(moves[i + 2]), pieceChar);
 							} else {
 								// if pawn-promotion-capture(... a little unwieldly)
 								if(moves[i + 5] == '=')
-									move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, getColumnAsNumber(moves[i + 1]), getPieceIndexFromChar(moves[i + 6]));
+									move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), pieceChar, GetColumnAsNumber(moves[i + 1]), GetPieceIndexFromChar(moves[i + 6]));
 								else {
 									// this case happens when two pieces of the same type, can capture the same piece
 									if(moves[i + 3] == 'x')
-										move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, getColumnAsNumber(moves[i + 2]));
+										move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), pieceChar, GetColumnAsNumber(moves[i + 2]));
 									else {
 										if(moves[i + 4] == 'x')
-											move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 5]), moves[i + 6] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
+											move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 5]), moves[i + 6] - 49), GetRowAsNumber(moves[i + 3]), pieceChar, GetColumnAsNumber(moves[i + 2]));
 										else
-											move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), getRowAsNumber(moves[i + 3]), pieceChar, getColumnAsNumber(moves[i + 2]));
+											move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 4]), moves[i + 5] - 49), GetRowAsNumber(moves[i + 3]), pieceChar, GetColumnAsNumber(moves[i + 2]));
 									}
 
 								}
@@ -204,9 +204,9 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 							}
 						} else {
 							if(moves[i + 5] == '=')
-								move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), getPieceIndexFromChar(moves[i + 6]), pieceChar);
+								move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 3]), moves[i + 4] - 49), GetPieceIndexFromChar(moves[i + 6]), pieceChar);
 							else
-								move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
+								move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 2]), moves[i + 3] - 49), pieceChar);
 						}
 
 					}
@@ -227,13 +227,13 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 					PieceChar pieceChar = ((turn == Color::White) ? PieceChar::PawnWhite : PieceChar::PawnBlack);
 					// pawn move (not take)
 					if(moves[i + 3] == ' ' || moves[i + 3] == '+' || moves[i + 3] == '#' || moves[i + 3] == '?' || moves[i + 3] == '!' || moves.length() <= i + 3) {
-						int col = getColumnAsNumber(moves[i + 1]);
-						move = getValidMove(*this, Point(col, moves[i + 2] - 49), pieceChar, col);
+						int col = GetColumnAsNumber(moves[i + 1]);
+						move = GetValidMove(*this, Point(col, moves[i + 2] - 49), pieceChar, col);
 					}
 
 					// same but with promotion
 					else
-						move = getValidMove(*this, Point(getColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), getPieceIndexFromChar(moves[i + 4]), pieceChar);
+						move = GetValidMove(*this, Point(GetColumnAsNumber(moves[i + 1]), moves[i + 2] - 49), GetPieceIndexFromChar(moves[i + 4]), pieceChar);
 				}
 
 				if(exportMovePerHash) {
@@ -248,19 +248,19 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 				}
 
 				// commit move
-				commitMove(&move);
+				CommitMove(&move);
 				if(move.pawnDoubleMove)
 					enPassant = move.startX;
 				else
 					enPassant = -1;
 				//printBoard();
-				if(isNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
+				if(IsNumber(moves[i + 1]) && (moves[i + 2] == '/' || moves[i + 2] == '-'))
 					break;
-			} else if(isNumber(moves[i + 1])) {
+			} else if(IsNumber(moves[i + 1])) {
 				// if the following is a turn number
 				int t = i;
 				std::string turnString = "";
-				while(isNumber(moves[t += 1])) {
+				while(IsNumber(moves[t += 1])) {
 					turnString += moves[t];
 				}
 				int turnStringAsNumber = atoi(turnString.c_str());
@@ -272,10 +272,10 @@ void Board::importPGN(std::string moves, bool exportMovePerHash) {
 	}
 }
 
-void Board::importFakePGN(std::string moves) {
+void Board::ImportMoveSequence(std::string moves) {
 	this->turnNumber = 1;
 	this->zobrist->Clear();
-	this->zobrist->incrementCurrentHash();
+	this->zobrist->IncrementCurrentHash();
 	std::string move = "";
 	for(int i = 0; i < (int) moves.length(); i++) {
 		if(moves[i] != ' ') {
@@ -283,12 +283,12 @@ void Board::importFakePGN(std::string moves) {
 		}
 		if(moves[i] == ' ' || i == (int) moves.length() - 1) {
 			Move* newMove = new Move(move);
-			if(getPiece(newMove->startX, newMove->startY)->getIndex() == (int) PieceIndex::King)
+			if(GetPiece(newMove->startX, newMove->startY)->GetIndex() == (int) PieceIndex::King)
 				if(move == "e1g1" || move == "e1c1" || move == "e8g8" || move == "e8c8")
 					newMove->castling = true;
 
 			// check pawn "stuff"
-			if(getPiece(newMove->startX, newMove->startY)->getIndex() == (int) PieceIndex::Pawn) {
+			if(GetPiece(newMove->startX, newMove->startY)->GetIndex() == (int) PieceIndex::Pawn) {
 				// if promotion
 				if(newMove->endY == (int) BackRow::White || newMove->endY == (int) BackRow::Black) {
 					// if promotion to something else
@@ -314,12 +314,12 @@ void Board::importFakePGN(std::string moves) {
 				else if(abs(newMove->endY - newMove->startY) == 2)
 					newMove->pawnDoubleMove = true;
 				// en passant take
-				else if(newMove->startX != newMove->endX && isSquareEmpty(newMove->endX, newMove->endY))
+				else if(newMove->startX != newMove->endX && IsSquareEmpty(newMove->endX, newMove->endY))
 					newMove->enPassantTake = true;
 			}
 
 
-			commitMove(newMove);
+			CommitMove(newMove);
 			if(newMove->pawnDoubleMove)
 				enPassant = newMove->startX;
 			else
@@ -329,54 +329,54 @@ void Board::importFakePGN(std::string moves) {
 	}
 }
 
-void Board::printBoard() {
+void Board::PrintBoard() {
 	for(int y = HEIGHT - 1; y >= 0; y--) {
 		for(int x = 0; x < WIDTH; x++) {
-			if(isSquareEmpty(x, y))
+			if(IsSquareEmpty(x, y))
 				printf(".");
 			else
-				printf("%c", getPiece(x, y)->getPieceChar());
+				printf("%c", GetPiece(x, y)->GetPieceChar());
 		}
 		printf("\n");
 	}
 }
 
-bool Board::isSquareEmpty(int x, int y) {
-	return getPiece(x, y) == NULL;
+bool Board::IsSquareEmpty(int x, int y) {
+	return GetPiece(x, y) == NULL;
 }
 
-bool Board::isSquareEnemy(Color color, int x, int y) {
-	if(isSquareEmpty(x, y))
+bool Board::IsSquareEnemy(Color color, int x, int y) {
+	if(IsSquareEmpty(x, y))
 		return false;
-	return getPiece(x, y)->color == ((color == Color::White) ?Color::Black : Color::White);
+	return GetPiece(x, y)->color == ((color == Color::White) ?Color::Black : Color::White);
 }
 
-void Board::setStartPos() {
-	clearBoard();
+void Board::SetStartPos() {
+	ClearBoard();
 	for(int x = 0; x < WIDTH; x++) {
-		placePiece(PieceChar::PawnBlack, x, (int) PawnRow::Black);
-		placePiece(PieceChar::PawnWhite, x, (int) PawnRow::White);
+		PlacePiece(PieceChar::PawnBlack, x, (int) PawnRow::Black);
+		PlacePiece(PieceChar::PawnWhite, x, (int) PawnRow::White);
 	}
-	placePiece(PieceChar::RookWhite, 0, (int) BackRow::White);
-	placePiece(PieceChar::RookWhite, 7, (int) BackRow::White);
-	placePiece(PieceChar::RookBlack, 0, (int) BackRow::Black);
-	placePiece(PieceChar::RookBlack, 7, (int) BackRow::Black);
-	placePiece(PieceChar::KnightWhite, 1, (int) BackRow::White);
-	placePiece(PieceChar::KnightWhite, 6, (int) BackRow::White);
-	placePiece(PieceChar::KnightBlack, 1, (int) BackRow::Black);
-	placePiece(PieceChar::KnightBlack, 6, (int) BackRow::Black);
-	placePiece(PieceChar::BishopWhite, 2, (int) BackRow::White);
-	placePiece(PieceChar::BishopWhite, 5, (int) BackRow::White);
-	placePiece(PieceChar::BishopBlack, 2, (int) BackRow::Black);
-	placePiece(PieceChar::BishopBlack, 5, (int) BackRow::Black);
-	placePiece(PieceChar::KingWhite, 4, (int) BackRow::White);
-	placePiece(PieceChar::KingBlack, 4, (int) BackRow::Black);
-	placePiece(PieceChar::QueenWhite, 3, (int) BackRow::White);
-	placePiece(PieceChar::QueenBlack, 3, (int) BackRow::Black);
-	zobrist->incrementCurrentHash();
+	PlacePiece(PieceChar::RookWhite, 0, (int) BackRow::White);
+	PlacePiece(PieceChar::RookWhite, 7, (int) BackRow::White);
+	PlacePiece(PieceChar::RookBlack, 0, (int) BackRow::Black);
+	PlacePiece(PieceChar::RookBlack, 7, (int) BackRow::Black);
+	PlacePiece(PieceChar::KnightWhite, 1, (int) BackRow::White);
+	PlacePiece(PieceChar::KnightWhite, 6, (int) BackRow::White);
+	PlacePiece(PieceChar::KnightBlack, 1, (int) BackRow::Black);
+	PlacePiece(PieceChar::KnightBlack, 6, (int) BackRow::Black);
+	PlacePiece(PieceChar::BishopWhite, 2, (int) BackRow::White);
+	PlacePiece(PieceChar::BishopWhite, 5, (int) BackRow::White);
+	PlacePiece(PieceChar::BishopBlack, 2, (int) BackRow::Black);
+	PlacePiece(PieceChar::BishopBlack, 5, (int) BackRow::Black);
+	PlacePiece(PieceChar::KingWhite, 4, (int) BackRow::White);
+	PlacePiece(PieceChar::KingBlack, 4, (int) BackRow::Black);
+	PlacePiece(PieceChar::QueenWhite, 3, (int) BackRow::White);
+	PlacePiece(PieceChar::QueenBlack, 3, (int) BackRow::Black);
+	zobrist->IncrementCurrentHash();
 }
 
-void Board::clearBoard() {
+void Board::ClearBoard() {
 	for(int y = 0; y < HEIGHT; y++)
 		for(int x = 0; x < WIDTH; x++)
 			this->board[x][y] = NULL;
@@ -386,11 +386,11 @@ void Board::clearBoard() {
 		pawnsOnFile[x] = 0;
 }
 
-void Board::setTurn(Color turn) {
+void Board::SetTurn(Color turn) {
 	this->turn = turn;
 }
 
-void Board::switchTurn() {
+void Board::SwitchTurn() {
 	if(turn == Color::White)
 		turn =Color::Black;
 	else {
@@ -399,46 +399,46 @@ void Board::switchTurn() {
 	}
 }
 
-void Board::placePiece(Piece* piece, int x, int y) {
+void Board::PlacePiece(Piece* piece, int x, int y) {
 	board[x][y] = piece;
 	piece->x = x;
 	piece->y = y;
-	this->zobrist->flipSquare(x, y, piece->getIndex(), (int) piece->color);
+	this->zobrist->flipSquare(x, y, piece->GetIndex(), (int) piece->color);
 	pieceCount[0]++;
 	pieceCount[1 + (int) piece->color]++;
-	if(piece->getIndex() == (int) PieceIndex::Pawn)
+	if(piece->GetIndex() == (int) PieceIndex::Pawn)
 		pawnsOnFile[x]++;
-	else if(piece->getIndex() == (int) PieceIndex::King)
+	else if(piece->GetIndex() == (int) PieceIndex::King)
 		kingPos[(int) piece->color] = Point(piece->x, piece->y);
 }
 
-void Board::placePiece(PieceChar piece, int x, int y) {
-	placePiece(getPieceFromChar(piece), x, y);
+void Board::PlacePiece(PieceChar piece, int x, int y) {
+	PlacePiece(GetPieceFromChar(piece), x, y);
 }
 
-void Board::removePiece(int x, int y) {
-	Piece* piece = this->getPiece(x, y);
+void Board::RemovePiece(int x, int y) {
+	Piece* piece = this->GetPiece(x, y);
 
 	if(piece != NULL) {
-		int index = piece->getIndex();
+		int index = piece->GetIndex();
 		int color = (int) piece->color;
 		this->zobrist->flipSquare(x, y, index, color);
 		pieceCount[0]--;
 		pieceCount[1 + color]--;
-		if(piece->getIndex() == (int) PieceIndex::Pawn)
+		if(piece->GetIndex() == (int) PieceIndex::Pawn)
 			pawnsOnFile[x]--;
 	}
 
 	board[x][y] = NULL;
 }
 
-Piece* Board::getPiece(int x, int y) {
+Piece* Board::GetPiece(int x, int y) {
 	if(x < 0 || x > 7 || y < 0 || y > 7)
 		return nullptr;
 	return board[x][y];
 }
 
-Piece* Board::getPieceFromChar(PieceChar piece) {
+Piece* Board::GetPieceFromChar(PieceChar piece) {
 	switch(piece) {
 		case PieceChar::PawnWhite:
 		return new Pawn(Color::White);
@@ -481,7 +481,7 @@ Piece* Board::getPieceFromChar(PieceChar piece) {
 	}
 }
 
-PieceChar Board::getPieceCharFromChar(char piece) {
+PieceChar Board::GetPieceCharFromChar(char piece) {
 	switch(piece) {
 		case 'P':
 		return PieceChar::PawnWhite;
@@ -524,7 +524,7 @@ PieceChar Board::getPieceCharFromChar(char piece) {
 	}
 }
 
-PieceIndex Board::getPieceIndexFromChar(char piece) {
+PieceIndex Board::GetPieceIndexFromChar(char piece) {
 	switch(piece) {
 		case 'P':
 		case 'p':
@@ -559,7 +559,7 @@ int Board::GetPieceCount() {
 	int count = 0;
 	for(int x = 0; x < WIDTH; x++) {
 		for(int y = 0; y < HEIGHT; y++) {
-			if(!isSquareEmpty(x, y))
+			if(!IsSquareEmpty(x, y))
 				count++;
 		}
 	}
@@ -567,26 +567,26 @@ int Board::GetPieceCount() {
 }
 
 
-void Board::commitMove(Move* move) {
-	doMove(move);
-	switchTurn();
+void Board::CommitMove(Move* move) {
+	DoMove(move);
+	SwitchTurn();
 }
 
 // assumed valid move
-void Board::doMove(Move* move) {
-	move->setTarget(getPiece(move->endX, move->endY));
+void Board::DoMove(Move* move) {
+	move->SetTarget(GetPiece(move->endX, move->endY));
 	// Used for hashing
 	if(move->target != NULL) {
-		removePiece(move->endX, move->endY);
-		PieceChar capturedPiece = move->target->getPieceChar();
+		RemovePiece(move->endX, move->endY);
+		PieceChar capturedPiece = move->target->GetPieceChar();
 
 		if(capturedPiece == PieceChar::KingWhite)
 			kingAlive[(int) Color::White] = false;
 		else if(capturedPiece == PieceChar::KingBlack)
 			kingAlive[(int) Color::Black] = false;
 	}
-	Piece* piece = getPiece(move->startX, move->startY);
-	if(piece->getIndex() == (int) PieceIndex::King) {
+	Piece* piece = GetPiece(move->startX, move->startY);
+	if(piece->GetIndex() == (int) PieceIndex::King) {
 		int side = (int) piece->color;
 
 		for(int i = 0; i < 2; i++) {
@@ -607,14 +607,14 @@ void Board::doMove(Move* move) {
 				rookEndX = 5;
 			}
 
-			if(getPiece(rookStartX, piece->y) == NULL)
+			if(GetPiece(rookStartX, piece->y) == NULL)
 				move->castling = false;
 			else
-				doMove(new Move(rookStartX, piece->y, rookEndX, piece->y));
+				DoMove(new Move(rookStartX, piece->y, rookEndX, piece->y));
 
 
 		}
-	} else if(piece->getIndex() == (int) PieceIndex::Rook) {
+	} else if(piece->GetIndex() == (int) PieceIndex::Rook) {
 		int side = (int) piece->color;
 		if(piece->x == 0 && castlingValid[side][0]) {
 			move->disallowedCastling[0] = true;
@@ -625,7 +625,7 @@ void Board::doMove(Move* move) {
 			move->disallowedCastling[1] = true;
 			castlingValid[side][1] = false;
 		}
-	} else if(piece->getIndex() == (int) PieceIndex::Pawn) {
+	} else if(piece->GetIndex() == (int) PieceIndex::Pawn) {
 		if(move->promotion) {
 			switch(move->promotionType) {
 				case PieceIndex::Rook:
@@ -646,8 +646,8 @@ void Board::doMove(Move* move) {
 			piece->y = move->endY;
 		} else if(move->enPassantTake) {
 			int passedPawnYPosition = ((piece->color == Color::White) ? 4 : 3);
-			move->setTarget(getPiece(move->endX, passedPawnYPosition));
-			removePiece(move->endX, passedPawnYPosition);
+			move->SetTarget(GetPiece(move->endX, passedPawnYPosition));
+			RemovePiece(move->endX, passedPawnYPosition);
 		}
 
 		move->priorEnPassant = enPassant;
@@ -663,17 +663,17 @@ void Board::doMove(Move* move) {
 		move->firstMove = true;
 	}
 
-	removePiece(move->startX, move->startY);
-	placePiece(piece, move->endX, move->endY);
-	this->zobrist->incrementCurrentHash();
+	RemovePiece(move->startX, move->startY);
+	PlacePiece(piece, move->endX, move->endY);
+	this->zobrist->IncrementCurrentHash();
 	turnCount++;
 }
 
 // assumes valid move
-void Board::undoMove(Move* move) {
-	this->zobrist->decrementCurrentHash();
+void Board::UndoMove(Move* move) {
+	this->zobrist->DecrementCurrentHash();
 	turnCount--;
-	Piece* piece = getPiece(move->endX, move->endY);
+	Piece* piece = GetPiece(move->endX, move->endY);
 
 	int side = (int) piece->color;
 	for(int i = 0; i < 2; i++)
@@ -688,11 +688,11 @@ void Board::undoMove(Move* move) {
 		piece->x = move->startX;
 		piece->y = move->startX;
 	}
-	removePiece(move->endX, move->endY);
-	placePiece(piece, move->startX, move->startY);
+	RemovePiece(move->endX, move->endY);
+	PlacePiece(piece, move->startX, move->startY);
 	if(move->target != NULL) {
-		placePiece(move->target, move->target->x, move->target->y);
-		move->setTarget(NULL);
+		PlacePiece(move->target, move->target->x, move->target->y);
+		move->SetTarget(NULL);
 		for(int i = 0; i < 2; i++)
 			kingAlive[i] = true;
 	} else if(move->castling) {
@@ -706,17 +706,17 @@ void Board::undoMove(Move* move) {
 			rookEndX = 5;
 		}
 
-		undoMove(new Move(rookStartX, piece->y, rookEndX, piece->y));
+		UndoMove(new Move(rookStartX, piece->y, rookEndX, piece->y));
 	}
 	enPassant = move->priorEnPassant;
 }
 
-bool Board::isKingVulnerable(Color side) {
+bool Board::IsKingVulnerable(Color side) {
 	// See if enemy can attack
 	for(int y = 0; y < HEIGHT; y++) {
 		for(int x = 0; x < WIDTH; x++) {
-			if(isSquareEnemy(side, x, y)) {
-				if(getPiece(x, y)->checkIfPosPossible(*(this), kingPos[(int) side]))
+			if(IsSquareEnemy(side, x, y)) {
+				if(GetPiece(x, y)->CheckIfPosPossible(*(this), kingPos[(int) side]))
 					return true;
 			}
 		}
@@ -726,19 +726,19 @@ bool Board::isKingVulnerable(Color side) {
 }
 
 
-int Board::evaluateBoard() {
-	return evaluateBoard(this->turn);
+int Board::EvaluateBoard() {
+	return EvaluateBoard(this->turn);
 }
 
-int Board::evaluateBoard(Color side) {
+int Board::EvaluateBoard(Color side) {
 	int value = 0;
 
 	for(int y = 0; y < HEIGHT; y++) {
 		for(int x = 0; x < WIDTH; x++) {
-			if(!isSquareEmpty(x, y)) {
-				Piece* piece = getPiece(x, y);
+			if(!IsSquareEmpty(x, y)) {
+				Piece* piece = GetPiece(x, y);
 				int multiplier = ((piece->color == side) ? 1 : -1);
-				value += piece->getValue() * multiplier;
+				value += piece->GetValue() * multiplier;
 			}
 		}
 	}

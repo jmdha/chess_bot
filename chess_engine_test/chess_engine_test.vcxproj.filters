@@ -19,11 +19,11 @@
     <Filter Include="Ref\Pieces">
       <UniqueIdentifier>{f3523014-ae9a-493a-a1bb-b27d3462ae4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GenerateMoveTest">
+      <UniqueIdentifier>{b3af509f-39aa-4cc6-82ca-c9b9565601e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GetBestMoveTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\chess_engine\Classes\zobrist.cpp">
       <Filter>Ref</Filter>
     </ClCompile>
@@ -65,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\chess_engine\Classes\Pieces\rook.cpp">
       <Filter>Ref\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="GenerateMoveTest\ForceCheckmateSequence.cpp">
+      <Filter>Source Files\GenerateMoveTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

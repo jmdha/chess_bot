@@ -51,12 +51,12 @@ int main()
 	config_manager cfgManager = config_manager("config.txt");
 	cfgManager.read();
 	API = new api(
-		cfgManager.getValue("IP"),
-		cfgManager.getValue("PORT"),
-		cfgManager.getValue("USER_NAME"),
-		cfgManager.getValue("USER_PASSWORD"),
-		cfgManager.getValue("SCHEMA_NAME"),
-		cfgManager.getValue("TABLE_NAME")
+		cfgManager.GetValue("IP"),
+		cfgManager.GetValue("PORT"),
+		cfgManager.GetValue("USER_NAME"),
+		cfgManager.GetValue("USER_PASSWORD"),
+		cfgManager.GetValue("SCHEMA_NAME"),
+		cfgManager.GetValue("TABLE_NAME")
 	);
 	pgn_reader reader = pgn_reader();
 	reader.readFile("F:/Chess Data/lichess_db_standard_rated_2021-06.pgn", &callbackOnMatch);

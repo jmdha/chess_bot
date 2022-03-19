@@ -4,14 +4,14 @@ Knight::Knight(Color color) : Piece(color) {
 	this->color = color;
 }
 
-PieceChar Knight::getPieceChar() {
+PieceChar Knight::GetPieceChar() {
 	if(this->color == Color::White)
 		return PieceChar::KnightWhite;
 	else
 		return PieceChar::KnightBlack;
 }
 
-std::vector<Move> Knight::getPossibleMoves(Board board) {
+std::vector<Move> Knight::GetPossibleMoves(Board board) {
 	std::vector<Move> moves;
 
 	for(int i = 0; i < 2; i++) {
@@ -28,7 +28,7 @@ std::vector<Move> Knight::getPossibleMoves(Board board) {
 
 				if(endPoint.x >= WIDTH || endPoint.x < 0 || endPoint.y >= HEIGHT || endPoint.y < 0)
 					continue;
-				if(board.isSquareEmpty(endPoint.x, endPoint.y) || board.isSquareEnemy(this->color, endPoint.x, endPoint.y)) {
+				if(board.IsSquareEmpty(endPoint.x, endPoint.y) || board.IsSquareEnemy(this->color, endPoint.x, endPoint.y)) {
 					moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
 				}
 			}
@@ -38,7 +38,7 @@ std::vector<Move> Knight::getPossibleMoves(Board board) {
 	return moves;
 }
 
-Move Knight::getMoveIfPossible(Board board, Point endPos) {
+Move Knight::GetMoveIfPossible(Board board, Point endPos) {
 	for(int i = 0; i < 2; i++) {
 		for(int i2 = -1; i2 <= 1; i2 += 2) {
 			for(int i3 = -2; i3 <= 2; i3 += 4) {
@@ -53,7 +53,7 @@ Move Knight::getMoveIfPossible(Board board, Point endPos) {
 
 				if(endPoint.x >= WIDTH || endPoint.x < 0 || endPoint.y >= HEIGHT || endPoint.y < 0)
 					continue;
-				if(board.isSquareEmpty(endPoint.x, endPoint.y) || board.isSquareEnemy(this->color, endPoint.x, endPoint.y)) {
+				if(board.IsSquareEmpty(endPoint.x, endPoint.y) || board.IsSquareEnemy(this->color, endPoint.x, endPoint.y)) {
 					if(endPoint.x == endPos.x && endPoint.y == endPos.y)
 						return Move(this->x, this->y, endPoint.x, endPoint.y);
 				}
@@ -64,15 +64,15 @@ Move Knight::getMoveIfPossible(Board board, Point endPos) {
 	return Move(-1, -1, -1, -1);
 }
 
-int Knight::getValue() {
+int Knight::GetValue() {
 	return (int) Value::Knight + ValueKnightPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
-int Knight::getIndex() {
+int Knight::GetIndex() {
 	return (int) PieceIndex::Knight;
 }
 
-bool Knight::checkIfPosPossible(Board board, Point pos) {
+bool Knight::CheckIfPosPossible(Board board, Point pos) {
 	int xDir;
 	int yDir;
 	if(x < pos.x)

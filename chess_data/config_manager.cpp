@@ -16,7 +16,7 @@ void config_manager::read() {
 	}
 }
 
-std::string config_manager::getValue(std::string key) {
+std::string config_manager::GetValue(std::string key) {
 	return readValues[key];
 }
 

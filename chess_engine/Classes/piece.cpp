@@ -5,41 +5,41 @@ Piece::Piece(Color color) {
 	this->color = color;
 }
 
-PieceChar Piece::getPieceChar() {
+PieceChar Piece::GetPieceChar() {
 	return PieceChar::Blank;
 }
 
-std::vector<Move> Piece::getPossibleMoves(Board board) {
+std::vector<Move> Piece::GetPossibleMoves(Board board) {
 	return {};
 }
 
-Move Piece::getMoveIfPossible(Board board, Point endPos) {
+Move Piece::GetMoveIfPossible(Board board, Point endPos) {
 	return {};
 }
 
-int Piece::getValue() {
+int Piece::GetValue() {
 	return 0;
 }
 
-int Piece::getIndex() {
+int Piece::GetIndex() {
 	return 0;
 }
 
 // This asssumes either empty square or enemy piece is a valid end square
-std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction direction, int length) {
+std::vector<Move> Piece::GetPossibleMovesInDirection(Board board, Direction direction, int length) {
 	// Max moves is 7 as that is board width/height minus the piece
 	std::vector<Move> moves;
 
 	for(int i = 1; i <= length; i++) {
 
-		Point endPoint = getNewEndPoint(Point(this->x, this->y), direction, i);
+		Point endPoint = GetNewEndPoint(Point(this->x, this->y), direction, i);
 
 		if(endPoint.x >= WIDTH || endPoint.x < 0 || endPoint.y >= HEIGHT || endPoint.y < 0)
 			break;
 
-		if(board.isSquareEmpty(endPoint.x, endPoint.y)) {
+		if(board.IsSquareEmpty(endPoint.x, endPoint.y)) {
 			moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
-		} else if(board.isSquareEnemy(this->color, endPoint.x, endPoint.y)) {
+		} else if(board.IsSquareEnemy(this->color, endPoint.x, endPoint.y)) {
 			moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
 			break;
 		} else
@@ -49,23 +49,23 @@ std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction dire
 }
 
 // This asssumes either enemy piece is a valid end square
-std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction direction, int length, bool onlyCapture) {
+std::vector<Move> Piece::GetPossibleMovesInDirection(Board board, Direction direction, int length, bool onlyCapture) {
 	// Max moves is 7 as that is board width/height minus the piece
 	std::vector<Move> moves;
 
 	for(int i = 1; i <= length; i++) {
 
-		Point endPoint = getNewEndPoint(Point(this->x, this->y), direction, i);
+		Point endPoint = GetNewEndPoint(Point(this->x, this->y), direction, i);
 
 		if(endPoint.x >= WIDTH || endPoint.x < 0 || endPoint.y >= HEIGHT || endPoint.y < 0)
 			break;
 
 		if(!onlyCapture) {
-			if(board.isSquareEmpty(endPoint.x, endPoint.y))
+			if(board.IsSquareEmpty(endPoint.x, endPoint.y))
 				moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
 			else
 				break;
-		} else if(board.isSquareEnemy(this->color, endPoint.x, endPoint.y)) {
+		} else if(board.IsSquareEnemy(this->color, endPoint.x, endPoint.y)) {
 			moves.push_back(Move(this->x, this->y, endPoint.x, endPoint.y));
 		} else
 			break;
@@ -73,7 +73,7 @@ std::vector<Move> Piece::getPossibleMovesInDirection(Board board, Direction dire
 	return moves;
 }
 
-Point Piece::getNewEndPoint(Point priorPos, Direction direction, int moveLength) {
+Point Piece::GetNewEndPoint(Point priorPos, Direction direction, int moveLength) {
 	switch(direction) {
 		case Direction::North:
 		return Point(priorPos.x, priorPos.y + moveLength);
@@ -104,6 +104,6 @@ Point Piece::getNewEndPoint(Point priorPos, Direction direction, int moveLength)
 	}
 }
 
-bool Piece::checkIfPosPossible(Board board, Point pos) {
+bool Piece::CheckIfPosPossible(Board board, Point pos) {
 	return false;
 }

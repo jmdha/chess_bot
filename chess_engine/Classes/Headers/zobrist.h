@@ -18,8 +18,8 @@ public:
 	void initializeHash();
 	void flipSquare(int x, int y, int index, int color);
 	void StoreEval(int depth, int value);
-	void incrementCurrentHash();
-	void decrementCurrentHash();
+	void IncrementCurrentHash();
+	void DecrementCurrentHash();
 	void Clear();
 
 

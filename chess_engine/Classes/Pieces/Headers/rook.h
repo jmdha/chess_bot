@@ -7,12 +7,12 @@
 class Rook : public Piece {
 public:
 	Rook(Color color);
-	PieceChar getPieceChar();
-	std::vector<Move> getPossibleMoves(Board board);
-	Move getMoveIfPossible(Board board, Point endPos);
-	int getValue();
-	int getIndex();
-	bool checkIfPosPossible(Board board, Point pos);
+	PieceChar GetPieceChar();
+	std::vector<Move> GetPossibleMoves(Board board);
+	Move GetMoveIfPossible(Board board, Point endPos);
+	int GetValue();
+	int GetIndex();
+	bool CheckIfPosPossible(Board board, Point pos);
 
 private:
 

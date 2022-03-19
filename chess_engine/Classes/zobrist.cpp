@@ -38,23 +38,23 @@ void Zobrist::initializeHash() {
 		for (int x = 0; x < WIDTH; x++) {
 			for (int i = 0; i < 6; i++) {
 				for (int j = 0; j < 2; j++) {
-					flipSquare(x, y, this->board->getPiece(x, y)->getIndex(), j);
+					flipSquare(x, y, this->board->GetPiece(x, y)->GetIndex(), j);
 				}
 			}
 		}
 	}
 }
 
-void Zobrist::incrementCurrentHash()
+void Zobrist::IncrementCurrentHash()
 {
 	if (this->evalPoints.find(this->getHash()) == this->evalPoints.end()) {
 		this->evalPoints.emplace(this->getHash(), EvalPoint());
 	}
-	this->evalPoints.at(this->getHash()).incrementCurrentHash();
+	this->evalPoints.at(this->getHash()).IncrementCurrentHash();
 }
 
-void Zobrist::decrementCurrentHash() {
-	this->evalPoints.at(this->getHash()).decrementCurrentHash();
+void Zobrist::DecrementCurrentHash() {
+	this->evalPoints.at(this->getHash()).DecrementCurrentHash();
 }
 
 void Zobrist::Clear()

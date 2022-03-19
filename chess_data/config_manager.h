@@ -9,7 +9,7 @@ class config_manager
 public:
 	config_manager(std::string path);
 	void read();
-	std::string getValue(std::string key);
+	std::string GetValue(std::string key);
 
 private:
 	std::string path;

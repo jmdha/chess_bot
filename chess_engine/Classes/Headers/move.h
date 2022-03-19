@@ -38,9 +38,9 @@ public:
 	Move();
 	Move(int startX, int startY, int endX, int endY);
 	Move(std::string move);
-	std::string getMoveAsString();
-	std::string getMoveAsPlainString();
-	void setTarget(Piece* target);
+	std::string GetMoveAsString();
+	std::string GetMoveAsPlainString();
+	void SetTarget(Piece* target);
 private:
 };
 

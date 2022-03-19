@@ -43,24 +43,24 @@ public:
 
 	Board();
 
-	void setStartPos();
-	void clearBoard();
-	void importFEN(std::string FEN);
-	void importPGN(std::string moves, bool exportMovePerHash);
-	void importFakePGN(std::string moves);
-	void printBoard();
-	bool isSquareEmpty(int x, int y);
-	bool isSquareEnemy(Color color, int x, int y);
-	Piece* getPiece(int x, int y);
-	int evaluateBoard();
-	int evaluateBoard(Color side);
+	void SetStartPos();
+	void ClearBoard();
+	void ImportFEN(std::string FEN);
+	void ImportPGN(std::string moves, bool exportMovePerHash);
+	void ImportMoveSequence(std::string moves);
+	void PrintBoard();
+	bool IsSquareEmpty(int x, int y);
+	bool IsSquareEnemy(Color color, int x, int y);
+	Piece* GetPiece(int x, int y);
+	int EvaluateBoard();
+	int EvaluateBoard(Color side);
 	int GetPieceCount();
-	void commitMove(Move* move);
-	void doMove(Move* move);
-	void switchTurn();
-	std::string getFEN();
-	void undoMove(Move* move);
-	bool isKingVulnerable(Color side);
+	void CommitMove(Move* move);
+	void DoMove(Move* move);
+	void SwitchTurn();
+	std::string GetFEN();
+	void UndoMove(Move* move);
+	bool IsKingVulnerable(Color side);
 
 private:
 	Piece* board[WIDTH][HEIGHT];
@@ -68,17 +68,17 @@ private:
 
 
 
-	void setTurn(Color turn);
+	void SetTurn(Color turn);
 
-	void placePiece(Piece* piece, int x, int y);
-	void placePiece(PieceChar piece, int x, int y);
-	void removePiece(int x, int y);
+	void PlacePiece(Piece* piece, int x, int y);
+	void PlacePiece(PieceChar piece, int x, int y);
+	void RemovePiece(int x, int y);
 
 
 
-	Piece* getPieceFromChar(PieceChar piece);
-	PieceChar getPieceCharFromChar(char piece);
-	PieceIndex getPieceIndexFromChar(char piece);
+	Piece* GetPieceFromChar(PieceChar piece);
+	PieceChar GetPieceCharFromChar(char piece);
+	PieceIndex GetPieceIndexFromChar(char piece);
 
 };
 

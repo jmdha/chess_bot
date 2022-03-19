@@ -4,14 +4,14 @@ Rook::Rook(Color color) : Piece(color) {
 	this->color = color;
 }
 
-PieceChar Rook::getPieceChar() {
+PieceChar Rook::GetPieceChar() {
 	if(this->color == Color::White)
 		return PieceChar::RookWhite;
 	else
 		return PieceChar::RookBlack;
 }
 
-std::vector<Move> Rook::getPossibleMoves(Board board) {
+std::vector<Move> Rook::GetPossibleMoves(Board board) {
 	std::vector<Move> moves;
 
 	std::vector<Move>::iterator it;
@@ -34,7 +34,7 @@ std::vector<Move> Rook::getPossibleMoves(Board board) {
 			dir = Direction::South;
 			break;
 		}
-		tempMoveList = this->getPossibleMovesInDirection(board, dir, 8);
+		tempMoveList = this->GetPossibleMovesInDirection(board, dir, 8);
 		moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 		it = moves.begin();
 	}
@@ -43,7 +43,7 @@ std::vector<Move> Rook::getPossibleMoves(Board board) {
 }
 
 // does not check for castling
-Move Rook::getMoveIfPossible(Board board, Point endPos) {
+Move Rook::GetMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
 	for(int i = 0; i < 4; i++) {
@@ -62,7 +62,7 @@ Move Rook::getMoveIfPossible(Board board, Point endPos) {
 			dir = Direction::South;
 			break;
 		}
-		moves = this->getPossibleMovesInDirection(board, dir, 8);
+		moves = this->GetPossibleMovesInDirection(board, dir, 8);
 		for(int i = 0; i < (int) moves.size(); i++) {
 			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
@@ -72,15 +72,15 @@ Move Rook::getMoveIfPossible(Board board, Point endPos) {
 	return Move(-1, -1, -1, -1);
 }
 
-int Rook::getValue() {
+int Rook::GetValue() {
 	return (int) Value::Rook + ValueRookPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
-int Rook::getIndex() {
+int Rook::GetIndex() {
 	return (int) PieceIndex::Rook;
 }
 
-bool Rook::checkIfPosPossible(Board board, Point pos) {
+bool Rook::CheckIfPosPossible(Board board, Point pos) {
 	int xDir;
 	int yDir;
 	if(x > pos.x)
@@ -105,7 +105,7 @@ bool Rook::checkIfPosPossible(Board board, Point pos) {
 		int newY = y + i * yDir;
 		if(pos.x == newX && pos.y == newY)
 			return true;
-		else if(board.getPiece(newX, newY) != NULL)
+		else if(board.GetPiece(newX, newY) != NULL)
 			return false;
 	}
 

@@ -4,14 +4,14 @@ Queen::Queen(Color color) : Piece(color) {
 	this->color = color;
 }
 
-PieceChar Queen::getPieceChar() {
+PieceChar Queen::GetPieceChar() {
 	if(this->color == Color::White)
 		return PieceChar::QueenWhite;
 	else
 		return PieceChar::QueenBlack;
 }
 
-std::vector<Move> Queen::getPossibleMoves(Board board) {
+std::vector<Move> Queen::GetPossibleMoves(Board board) {
 	std::vector<Move> moves;
 
 	std::vector<Move>::iterator it;
@@ -21,7 +21,7 @@ std::vector<Move> Queen::getPossibleMoves(Board board) {
 	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
-		tempMoveList = this->getPossibleMovesInDirection(board, (Direction) i, 8);
+		tempMoveList = this->GetPossibleMovesInDirection(board, (Direction) i, 8);
 		moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 		it = moves.begin();
 	}
@@ -30,13 +30,13 @@ std::vector<Move> Queen::getPossibleMoves(Board board) {
 }
 
 // does not check for castling
-Move Queen::getMoveIfPossible(Board board, Point endPos) {
+Move Queen::GetMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
 	for(int i = 1; i <= 9; i++) {
 		if(i == 5)
 			continue;
-		moves = this->getPossibleMovesInDirection(board, (Direction) i, 8);
+		moves = this->GetPossibleMovesInDirection(board, (Direction) i, 8);
 		for(int i = 0; i < (int) moves.size(); i++) {
 			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
@@ -46,15 +46,15 @@ Move Queen::getMoveIfPossible(Board board, Point endPos) {
 	return Move(-1, -1, -1, -1);
 }
 
-int Queen::getValue() {
+int Queen::GetValue() {
 	return (int) Value::Queen + ValueQueenPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
-int Queen::getIndex() {
+int Queen::GetIndex() {
 	return (int) PieceIndex::Queen;
 }
 
-bool Queen::checkIfPosPossible(Board board, Point pos) {
+bool Queen::CheckIfPosPossible(Board board, Point pos) {
 	int xDir;
 	int yDir;
 	if(x > pos.x)
@@ -75,7 +75,7 @@ bool Queen::checkIfPosPossible(Board board, Point pos) {
 		int newY = y + i * yDir;
 		if(pos.x == newX && pos.y == newY)
 			return true;
-		else if(board.getPiece(newX, newY) != NULL)
+		else if(board.GetPiece(newX, newY) != NULL)
 			return false;
 	}
 

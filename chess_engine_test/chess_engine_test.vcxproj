@@ -174,7 +174,7 @@
     <ClCompile Include="..\chess_engine\Classes\point.cpp" />
     <ClCompile Include="..\chess_engine\Classes\utilities.cpp" />
     <ClCompile Include="..\chess_engine\Classes\zobrist.cpp" />
-    <ClCompile Include="GetBestMoveTest.cpp" />
+    <ClCompile Include="GenerateMoveTest\ForceCheckmateSequence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\chess_engine\chess_engine.vcxproj">

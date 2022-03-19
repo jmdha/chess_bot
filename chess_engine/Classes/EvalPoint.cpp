@@ -33,12 +33,12 @@ void EvalPoint::StoreEval(int depth, int value)
 	this->value = value;
 }
 
-void EvalPoint::incrementCurrentHash()
+void EvalPoint::IncrementCurrentHash()
 {
 	instanceCount++;
 }
 
-void EvalPoint::decrementCurrentHash()
+void EvalPoint::DecrementCurrentHash()
 {
 	instanceCount--;
 }

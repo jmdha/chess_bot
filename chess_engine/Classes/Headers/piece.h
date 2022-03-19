@@ -20,16 +20,16 @@ public:
 	bool hasMoved = false;
 
 	Piece(Color color);
-	virtual PieceChar getPieceChar();
-	virtual std::vector<Move> getPossibleMoves(Board board);
-	virtual Move getMoveIfPossible(Board board, Point endPos);
-	virtual int getValue();
-	virtual int getIndex();
-	std::vector<Move> getPossibleMovesInDirection(Board board, Direction direction, int length);
-	std::vector<Move> getPossibleMovesInDirection(Board board, Direction direction, int length, bool onlyCapture);
-	virtual bool checkIfPosPossible(Board board, Point pos);
+	virtual PieceChar GetPieceChar();
+	virtual std::vector<Move> GetPossibleMoves(Board board);
+	virtual Move GetMoveIfPossible(Board board, Point endPos);
+	virtual int GetValue();
+	virtual int GetIndex();
+	std::vector<Move> GetPossibleMovesInDirection(Board board, Direction direction, int length);
+	std::vector<Move> GetPossibleMovesInDirection(Board board, Direction direction, int length, bool onlyCapture);
+	virtual bool CheckIfPosPossible(Board board, Point pos);
 private:
-	Point getNewEndPoint(Point priorPos, Direction direction, int moveLength);
+	Point GetNewEndPoint(Point priorPos, Direction direction, int moveLength);
 
 
 };

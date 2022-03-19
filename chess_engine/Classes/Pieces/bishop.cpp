@@ -4,14 +4,14 @@ Bishop::Bishop(Color color) : Piece(color) {
 	this->color = color;
 }
 
-PieceChar Bishop::getPieceChar() {
+PieceChar Bishop::GetPieceChar() {
 	if(this->color == Color::White)
 		return PieceChar::BishopWhite;
 	else
 		return PieceChar::BishopBlack;
 }
 
-std::vector<Move> Bishop::getPossibleMoves(Board board) {
+std::vector<Move> Bishop::GetPossibleMoves(Board board) {
 	std::vector<Move> moves;
 
 	std::vector<Move>::iterator it;
@@ -34,7 +34,7 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 			dir = Direction::SouthEast;
 			break;
 		}
-		tempMoveList = this->getPossibleMovesInDirection(board, dir, 8);
+		tempMoveList = this->GetPossibleMovesInDirection(board, dir, 8);
 		moves.insert(it, tempMoveList.begin(), tempMoveList.end());
 		it = moves.begin();
 	}
@@ -43,7 +43,7 @@ std::vector<Move> Bishop::getPossibleMoves(Board board) {
 	return moves;
 }
 
-Move Bishop::getMoveIfPossible(Board board, Point endPos) {
+Move Bishop::GetMoveIfPossible(Board board, Point endPos) {
 	std::vector<Move> moves;
 
 	for(int i = 0; i < 4; i++) {
@@ -62,7 +62,7 @@ Move Bishop::getMoveIfPossible(Board board, Point endPos) {
 			dir = Direction::SouthEast;
 			break;
 		}
-		moves = this->getPossibleMovesInDirection(board, dir, 8);
+		moves = this->GetPossibleMovesInDirection(board, dir, 8);
 		for(int i = 0; i < static_cast<int>(moves.size()); i++) {
 			if(moves[i].endX == endPos.x && moves[i].endY == endPos.y)
 				return moves[i];
@@ -71,15 +71,15 @@ Move Bishop::getMoveIfPossible(Board board, Point endPos) {
 	return Move(-1, -1, -1, -1);
 }
 
-int Bishop::getValue() {
+int Bishop::GetValue() {
 	return static_cast<int>(Value::Bishop) + ValueBishopPos[x][(this->color == Color::White) ? y : HEIGHT - 1];
 }
 
-int Bishop::getIndex() {
+int Bishop::GetIndex() {
 	return static_cast<int>(PieceIndex::Bishop);
 }
 
-bool Bishop::checkIfPosPossible(Board board, Point pos) {
+bool Bishop::CheckIfPosPossible(Board board, Point pos) {
 	int xDir;
 	int yDir;
 	if(x > pos.x)
@@ -100,7 +100,7 @@ bool Bishop::checkIfPosPossible(Board board, Point pos) {
 		int newY = y + i * yDir;
 		if(pos.x == newX && pos.y == newY)
 			return true;
-		else if(board.getPiece(newX, newY) != NULL)
+		else if(board.GetPiece(newX, newY) != NULL)
 			return false;
 	}
 

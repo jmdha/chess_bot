@@ -4,14 +4,14 @@
 #include <string>
 #include "move.h"
 
-bool isNumber(char charToCheck);
+bool IsNumber(char charToCheck);
 
-int getColumnAsNumber(char column);
+int GetColumnAsNumber(char column);
 
-int getRowAsNumber(char row);
+int GetRowAsNumber(char row);
 
-bool isLowercase(char charToCheck);
+bool IsLowercase(char charToCheck);
 
-std::string getStatString(Move move, int64_t duration, int pieceCount);
+std::string GetStatString(Move move, int64_t duration, int pieceCount);
 
 #endif

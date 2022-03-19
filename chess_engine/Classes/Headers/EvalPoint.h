@@ -9,8 +9,8 @@ public:
 	int GetInstanceCount();
 	bool GetValue(int depth, int& value);
 	void StoreEval(int depth, int value);
-	void incrementCurrentHash();
-	void decrementCurrentHash();
+	void IncrementCurrentHash();
+	void DecrementCurrentHash();
 
 private:
 	int instanceCount = 0;
