@@ -136,7 +136,6 @@ void Board::ImportPGN(std::string moves, bool exportMovePerHash) {
 	bool nestedComment = false;
 	for(int i = 0; i < (int) moves.length(); i++) {
 		if(moves[i] == ' ') {
-			// da(you know... like char da -> charda -> charmander? I don't know man) is used for debugging | remove when finished
 			if(moves[i + 1] == '{' || moves[i + 1] == '(') {
 				if(inComment)
 					nestedComment = true;
