@@ -5,5 +5,13 @@
   "main": "app.js",
   "author": {
     "name": ""
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "dotenv": "^16.0.3",
+    "events": "^3.3.0",
+    "https": "^1.0.0",
+    "path": "^0.12.7",
+    "querystring": "^0.2.1"
   }
 }
