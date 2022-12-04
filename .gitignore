@@ -402,3 +402,5 @@ FodyWeavers.xsd
 
 # Cmake
 build/
+
+chess_engine
